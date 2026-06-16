@@ -1,0 +1,38 @@
+cff-version: 1.2.0
+message: "If you use this artefact, please cite both the paper and this software deposit."
+type: software
+title: "EnhancedBFT: Reproducibility Artefact"
+authors:
+  - family-names: Labib
+    given-names: Mohamed
+    affiliation: "Information Technology and Computer Science (ITCS), Nile University, Egypt"
+    orcid: "https://orcid.org/0009-0003-4580-8548"
+  - family-names: Aslan
+    given-names: Heba
+    affiliation: "Information Technology and Computer Science (ITCS), Nile University, Egypt"
+    orcid: "https://orcid.org/0000-0002-0821-5378"
+  - family-names: Arafa
+    given-names: Tamer
+    affiliation: "Information Technology and Computer Science (ITCS), Nile University, Egypt"
+    orcid: "https://orcid.org/0000-0001-9553-8265"
+keywords:
+  - Byzantine Fault Tolerance
+  - PBFT
+  - permissioned blockchain
+  - sharding
+  - pipelining
+  - distributed consensus
+  - RapidChain
+license: MIT
+preferred-citation:
+  type: article
+  title: "EnhancedBFT: Optimizing Byzantine Consensus for Blockchains via Sharding, Pipelining, and Fault-Adaptive Recovery"
+  authors:
+    - family-names: Labib
+      given-names: Mohamed
+    - family-names: Aslan
+      given-names: Heba
+    - family-names: Arafa
+      given-names: Tamer
+  year: 2026
+  notes: "Submitted; subtitle: A Same-Implementation Comparison Against RapidChain on Single-Shard Workloads"

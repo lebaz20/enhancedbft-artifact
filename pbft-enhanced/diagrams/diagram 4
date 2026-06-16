@@ -1,0 +1,36 @@
+title PBFT Message Flow
+autoNumber nested
+
+// Define actors with icons and colors for clarity
+Shard 1 [icon: k8s-cluster, color: green]
+Shard 2 [icon: k8s-cluster, color: green]
+Shard 3 [icon: k8s-cluster, color: green]
+CORE [icon: server, color: red]
+
+Shard 1 > CORE: Send Block 1 message at t1
+
+loop [label: Wait for 2f+1 BLOCK messages, icon: clock] {
+  CORE > CORE: Collect BLOCK messages
+}
+
+CORE > Shard 2: Broadcast Block 1 at t2
+CORE > Shard 3: Broadcast Block 1 at t2
+
+Shard 2 > CORE: Send Block 2 message at t1
+
+loop [label: Wait for 2f+1 BLOCK messages, icon: clock] {
+  CORE > CORE: Collect BLOCK messages
+}
+
+CORE > Shard 1: Broadcast Block 2 at t2
+CORE > Shard 3: Broadcast Block 2 at t2
+
+Shard 3 > CORE: Send Block 2 message at t1
+
+loop [label: Wait for 2f+1 BLOCK messages, icon: clock] {
+  CORE > CORE: Collect BLOCK messages
+}
+
+CORE > Shard 1: Broadcast Block 3 at t2
+CORE > Shard 2: Broadcast Block 3 at t2
+

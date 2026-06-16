@@ -1,0 +1,38 @@
+{
+  "title": "EnhancedBFT: Reproducibility Artefact",
+  "description": "Source code, configuration, and a representative 512-node AWS EKS run for the paper 'EnhancedBFT: Optimizing Byzantine Consensus for Blockchains via Sharding, Pipelining, and Fault-Adaptive Recovery — A Same-Implementation Comparison Against RapidChain on Single-Shard Workloads'. Contains the EnhancedBFT implementation, the RapidChain reimplementation that the paper audits row-by-row in Tables III and IV, and the run logs from which the percentile latencies and protocol-event counts in Section V are reproducible.",
+  "creators": [
+    {
+      "name": "Labib, Mohamed",
+      "affiliation": "Information Technology and Computer Science (ITCS), Nile University, Egypt",
+      "orcid": "0009-0003-4580-8548"
+    },
+    {
+      "name": "Aslan, Heba",
+      "affiliation": "Information Technology and Computer Science (ITCS), Nile University, Egypt",
+      "orcid": "0000-0002-0821-5378"
+    },
+    {
+      "name": "Arafa, Tamer",
+      "affiliation": "Information Technology and Computer Science (ITCS), Nile University, Egypt",
+      "orcid": "0000-0001-9553-8265"
+    }
+  ],
+  "keywords": [
+    "Byzantine Fault Tolerance",
+    "PBFT",
+    "Permissioned Blockchain",
+    "Sharding",
+    "Pipelining",
+    "Distributed Consensus",
+    "RapidChain"
+  ],
+  "license": "MIT",
+  "upload_type": "software",
+  "access_right": "open",
+  "communities": [
+    {
+      "identifier": "blockchain"
+    }
+  ]
+}

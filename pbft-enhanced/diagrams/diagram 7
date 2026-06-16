@@ -1,0 +1,32 @@
+title PBFT Message Flow
+autoNumber nested
+
+// Define actors with icons and colors for clarity
+Client [icon: user, color: blue]
+Shard 1 (Faulty or Overutilized) [icon: k8s-cluster, color: orange]
+Shard 2 [icon: k8s-cluster, color: orange]
+Shard 3 [icon: k8s-cluster, color: orange]
+CORE [icon: server, color: red]
+
+Client > Shard 1 (Faulty or Overutilized) : tx1
+Client > Shard 1 (Faulty or Overutilized) : tx2
+Client > Shard 1 (Faulty or Overutilized) : tx3
+
+CORE > Shard 1 (Faulty or Overutilized) : health check
+loop [label: "Collect shard status", icon: timer] {
+CORE > CORE: Collect status messages 
+}
+CORE > Shard 1 (Faulty or Overutilized) : config update
+
+Shard 1 (Faulty or Overutilized)  > Shard 3: tx1
+Shard 1 (Faulty or Overutilized)  > Shard 3: tx2
+Shard 1 (Faulty or Overutilized)  > Shard 3: tx3
+
+Shard 3 > CORE: Send new BLOCK
+
+loop [label: Wait for 2f+1 BLOCK messages, icon: clock] {
+  CORE > CORE: Collect BLOCK messages
+}
+
+CORE > Shard 1 (Faulty or Overutilized) : Broadcast new BLOCK
+CORE > Shard 2: Broadcast new BLOCK

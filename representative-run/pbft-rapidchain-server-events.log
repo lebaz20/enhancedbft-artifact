@@ -1,0 +1,27 @@
+[pod/p2p-server-10/p2p-server] [LOG] 5011 CREATED BLOCK 8fdc750fffc67b11cb7bb050251804dbc25a286bc2e9fe93e5ade6f9cebf90de txCount: 100
+[pod/p2p-server-10/p2p-server] [LOG] 5011 CREATED BLOCK 34743815d815c3002157e855eafed95607477a2c6cee8b4d8f564dda63a7f871 txCount: 100
+[pod/p2p-server-303/p2p-server] [LOG] 5304 REDISTRIBUTE shard=SUBSET29 unassigned=290 seenIndex=290 isCommittee=false isProposer=false isInactive=undefined
+[pod/p2p-server-303/p2p-server] [LOG] 5304 VIEW CHANGE VOTE (timeout) — proposing view 1
+[pod/p2p-server-10/p2p-server] [LOG] 5011 CREATED BLOCK 68643d6ae976f38d317c17f0db72889485f11c1291e1558f2e5860e0f96ccd4a txCount: 100
+[pod/p2p-server-347/p2p-server] [LOG] 5348 CREATED BLOCK 4a4b4949ae882c78a44905286b2e5348c6f1a81f45efe27537f56d046cc63cc3 txCount: 100
+[pod/p2p-server-85/p2p-server] [LOG] 5086 REDISTRIBUTE shard=SUBSET86 unassigned=210 seenIndex=210 isCommittee=false isProposer=false isInactive=undefined
+[pod/p2p-server-85/p2p-server] [LOG] 5086 VIEW CHANGE VOTE (timeout) — proposing view 1
+[pod/p2p-server-10/p2p-server] [LOG] 5011 CREATED BLOCK fefc78d3227500dbfe0162ec96d601d2c871fe13d7334624b5a84cb5d9663150 txCount: 100
+[pod/p2p-server-303/p2p-server] [LOG] 5304 REDISTRIBUTE shard=SUBSET29 unassigned=470 seenIndex=470 isCommittee=false isProposer=false isInactive=undefined
+[pod/p2p-server-441/p2p-server] [LOG] 5442 REDISTRIBUTE shard=SUBSET86 unassigned=150 seenIndex=150 isCommittee=false isProposer=false isInactive=undefined
+[pod/p2p-server-441/p2p-server] [LOG] 5442 VIEW CHANGE VOTE (timeout) — proposing view 1
+[pod/p2p-server-85/p2p-server] [LOG] 5086 REDISTRIBUTE shard=SUBSET86 unassigned=306 seenIndex=306 isCommittee=false isProposer=false isInactive=undefined
+[pod/p2p-server-303/p2p-server] [LOG] 5304 REDISTRIBUTE shard=SUBSET29 unassigned=511 seenIndex=511 isCommittee=false isProposer=false isInactive=undefined
+[pod/p2p-server-10/p2p-server] [LOG] 5011 CREATED BLOCK 69fac8268f17d3a07b2b3dd6fb3087600ab2e62cd877410e459dc6035c47cd36 txCount: 100
+[pod/p2p-server-309/p2p-server] [LOG] 5310 REDISTRIBUTE shard=SUBSET86 unassigned=102 seenIndex=102 isCommittee=false isProposer=false isInactive=undefined
+[pod/p2p-server-309/p2p-server] [LOG] 5310 VIEW CHANGE VOTE (timeout) — proposing view 1
+[pod/p2p-server-10/p2p-server] [LOG] 5011 CREATED BLOCK 9ded1913e0b2834ab59cd81692250ac35b54dab2a4f9535724bf330299bb137a txCount: 100
+[pod/p2p-server-303/p2p-server] [LOG] 5304 REDISTRIBUTE shard=SUBSET29 unassigned=511 seenIndex=511 isCommittee=false isProposer=false isInactive=undefined
+[pod/p2p-server-347/p2p-server] [LOG] 5348 CREATED BLOCK f0c761bd2562a3c57f452a9c9d39b17626ca1f7463c15bf10bca67e7ef93d6b6 txCount: 100
+[pod/p2p-server-347/p2p-server] [LOG] 5348 CREATED BLOCK 2f7e0a97040499309a5a9b69e039bd34e3b741f4ea9d0a6da94c9d40f4a3843e txCount: 100
+[pod/p2p-server-303/p2p-server] [LOG] 5304 REDISTRIBUTE shard=SUBSET29 unassigned=511 seenIndex=511 isCommittee=false isProposer=false isInactive=undefined
+[pod/p2p-server-314/p2p-server] [LOG] 5315 REDISTRIBUTE shard=SUBSET29 unassigned=50 seenIndex=50 isCommittee=false isProposer=false isInactive=undefined
+[pod/p2p-server-0/p2p-server] [LOG] 5001 REDISTRIBUTE shard=SUBSET29 unassigned=50 seenIndex=50 isCommittee=false isProposer=false isInactive=undefined
+[pod/p2p-server-303/p2p-server] [LOG] 5304 REDISTRIBUTE shard=SUBSET29 unassigned=511 seenIndex=511 isCommittee=false isProposer=false isInactive=undefined
+[pod/p2p-server-303/p2p-server] [LOG] 5304 REDISTRIBUTE shard=SUBSET29 unassigned=511 seenIndex=511 isCommittee=false isProposer=false isInactive=undefined
+[pod/p2p-server-303/p2p-server] [LOG] 5304 REDISTRIBUTE shard=SUBSET29 unassigned=511 seenIndex=511 isCommittee=false isProposer=false isInactive=undefined

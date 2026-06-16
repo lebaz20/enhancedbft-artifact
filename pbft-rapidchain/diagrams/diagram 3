@@ -1,0 +1,27 @@
+Block 1 [color: lightblue] {
+  PRE-PREPARE Block 1
+  PREPARE Block 1
+  COMMIT Block 1
+}
+
+Block 2 [color: orange] {
+  PRE-PREPARE Block 2
+  PREPARE Block 2
+  COMMIT Block 2
+}
+
+Block 3 [color: green] {
+  PRE-PREPARE Block 3
+  PREPARE Block 3
+  COMMIT Block 3
+}
+
+PRE-PREPARE Block 1 > PREPARE Block 1: t1
+PREPARE Block 1 > COMMIT Block 1: t2
+PRE-PREPARE Block 2 > PREPARE Block 2: t2
+PREPARE Block 2 > COMMIT Block 2: t3
+PRE-PREPARE Block 3 > PREPARE Block 3: t3
+PREPARE Block 3 > COMMIT Block 3: t4
+
+PRE-PREPARE Block 1 --> PRE-PREPARE Block 2: t1
+PREPARE Block 1 --> PRE-PREPARE Block 3: t2

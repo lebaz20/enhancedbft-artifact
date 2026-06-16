@@ -1,0 +1,59 @@
+title PBFT Message Flow
+autoNumber nested
+
+// Define actors with icons and colors for clarity
+Client 1 [icon: server, color: green]
+Client 2 [icon: server, color: green]
+Client 3 [icon: server, color: green]
+Client 4 [icon: server, color: green]
+Client 5 [icon: server, color: green]
+Client 6 [icon: server, color: green]
+Client 7 [icon: server, color: green]
+
+par [label: "T1", icon: timer] {
+Client 1 > Client 2: Chunk 1 out of 3
+Client 1 > Client 3: Chunk 1 out of 3
+}
+
+par [label: "T2", icon: timer] {
+Client 1 > Client 2: Chunk 2 out of 3
+Client 1 > Client 3: Chunk 2 out of 3
+}
+
+par [label: "T3", icon: timer] {
+Client 1 > Client 2: Chunk 3 out of 3
+Client 1 > Client 3: Chunk 3 out of 3
+}
+
+par [label: "T4", icon: timer] {
+Client 1 > Client 2: Chunk 2 out of 3
+Client 1 > Client 3: Chunk 2 out of 3
+}
+
+par [label: "T5", icon: timer] {
+Client 2 > Client 4: Chunk 1 out of 3
+Client 2 > Client 5: Chunk 1 out of 3
+Client 3 > Client 6: Chunk 1 out of 3
+Client 3 > Client 7: Chunk 1 out of 3
+}
+
+par [label: "T6", icon: timer] {
+Client 2 > Client 4: Chunk 2 out of 3
+Client 2 > Client 5: Chunk 2 out of 3
+Client 3 > Client 6: Chunk 2 out of 3
+Client 3 > Client 7: Chunk 2 out of 3
+}
+
+par [label: "T7", icon: timer] {
+Client 2 > Client 4: Chunk 3 out of 3
+Client 2 > Client 5: Chunk 3 out of 3
+Client 3 > Client 6: Chunk 3 out of 3
+Client 3 > Client 7: Chunk 3 out of 3
+}
+
+par [label: "T8", icon: timer] {
+Client 2 > Client 4: Chunk 2 out of 3
+Client 2 > Client 5: Chunk 2 out of 3
+Client 3 > Client 6: Chunk 2 out of 3
+Client 3 > Client 7: Chunk 2 out of 3
+}

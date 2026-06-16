@@ -1,0 +1,84 @@
+title PBFT Message Flow
+autoNumber nested
+
+// Define actors with icons and colors for clarity
+Client [icon: user, color: blue]
+Primary Node [icon: server, color: green]
+Replica 1 [icon: server, color: orange]
+Replica 2 [icon: server, color: orange]
+Replica 3 [icon: server, color: orange]
+CORE [icon: server, color: red]
+
+// Client initiates a request
+Client > Primary Node: Send operation request
+
+activate Client
+activate Primary Node
+
+// Primary Node processes and broadcasts PRE-PREPARE
+Primary Node > Primary Node: Validate request
+Primary Node > Replica 1: Broadcast PRE-PREPARE message
+Primary Node > Replica 2: Broadcast PRE-PREPARE message
+Primary Node > Replica 3: Broadcast PRE-PREPARE message
+
+par [label: PREPARE phase, icon: layers] {
+  // Each replica (including primary) sends PREPARE to all others
+  Primary Node > Replica 1: Send PREPARE message
+  Primary Node > Replica 2: Send PREPARE message
+  Primary Node > Replica 3: Send PREPARE message
+
+  Replica 1 > Primary Node: Send PREPARE message
+  Replica 1 > Replica 2: Send PREPARE message
+  Replica 1 > Replica 3: Send PREPARE message
+
+  Replica 2 > Primary Node: Send PREPARE message
+  Replica 2 > Replica 1: Send PREPARE message
+  Replica 2 > Replica 3: Send PREPARE message
+
+  Replica 3 > Primary Node: Send PREPARE message
+  Replica 3 > Replica 1: Send PREPARE message
+  Replica 3 > Replica 2: Send PREPARE message
+}
+
+// All nodes collect PREPARE messages
+loop [label: Wait for 2f+1 PREPARE messages, icon: clock] {
+  Replica 1 > Replica 1: Collect PREPARE messages
+  Replica 2 > Replica 2: Collect PREPARE messages
+  Replica 3 > Replica 3: Collect PREPARE messages
+  Primary Node > Primary Node: Collect PREPARE messages
+}
+
+// COMMIT phase
+par [label: COMMIT phase, icon: check-square] {
+  Primary Node > Replica 1: Send COMMIT message
+  Primary Node > Replica 2: Send COMMIT message
+  Primary Node > Replica 3: Send COMMIT message
+
+  Replica 1 > Primary Node: Send COMMIT message
+  Replica 1 > Replica 2: Send COMMIT message
+  Replica 1 > Replica 3: Send COMMIT message
+
+  Replica 2 > Primary Node: Send COMMIT message
+  Replica 2 > Replica 1: Send COMMIT message
+  Replica 2 > Replica 3: Send COMMIT message
+
+  Replica 3 > Primary Node: Send COMMIT message
+  Replica 3 > Replica 1: Send COMMIT message
+  Replica 3 > Replica 2: Send COMMIT message
+}
+
+// All nodes collect COMMIT messages
+loop [label: Wait for 2f+1 COMMIT messages, icon: clock] {
+  Replica 1 > Replica 1: Collect COMMIT messages
+  Replica 2 > Replica 2: Collect COMMIT messages
+  Replica 3 > Replica 3: Collect COMMIT messages
+  Primary Node > Primary Node: Collect COMMIT messages
+}
+
+// Nodes execute the operation and broa to core
+loop [label: Wait for 2f+1 BLOCK messages, icon: clock] {
+  CORE > CORE: Collect BLOCK messages
+}
+
+deactivate Client
+deactivate Primary Node

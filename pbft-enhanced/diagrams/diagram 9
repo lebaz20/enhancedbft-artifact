@@ -1,0 +1,44 @@
+title Kubernetes Cluster Config Generation and Communication Architecture
+
+Config Generator Node [icon: terminal, label: "Config Generator"]
+
+Kubernetes Cluster [icon: k8s-cluster] {
+  Client Nodes [icon: users] {
+    Client Node 1 [icon: k8s-pod]
+    Client Node 2 [icon: k8s-pod]Client Node 3 [icon: k8s-pod]
+    Client Node 4 [icon: k8s-pod]Client Node 5 [icon: k8s-pod]
+    Client Node 6 [icon: k8s-pod]
+    Client Node 7 [icon: k8s-pod]
+    Client Node 8 [icon: k8s-pod]
+    // Add more client nodes as needed
+  }
+  Core Node [icon: k8s-pod]
+}
+
+External Users [icon: users]
+
+// Connections
+Config Generator Node > Kubernetes Cluster: generate config
+
+// Client nodes communicate with each other via sockets
+Client Node 1 <--> Client Node 2: socket
+Client Node 1 <--> Client Node 3: socket
+Client Node 1 <--> Client Node 4: socket
+Client Node 2 <--> Client Node 3: socket
+Client Node 2 <--> Client Node 4: socket
+Client Node 3 <--> Client Node 4: socket
+
+
+Client Node 5 <--> Client Node 6: socket
+Client Node 5 <--> Client Node 7: socket
+Client Node 5 <--> Client Node 8: socket
+Client Node 6 <--> Client Node 7: socket
+Client Node 6 <--> Client Node 8: socket
+Client Node 7 <--> Client Node 8: socket
+
+// Client nodes communicate with external users via HTTP
+
+// (Optional) Client Nodes interact with Core Node internally
+External Users > Client Nodes: HTTP
+Client Nodes <> Core Node
+Client Nodes <> Core Node

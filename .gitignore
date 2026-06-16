@@ -1,0 +1,37 @@
+# Dependencies — install with `npm install` or `pnpm install`
+node_modules/
+**/node_modules/
+.pnpm-store/
+
+# Build / test artefacts
+coverage/
+**/coverage/
+dist/
+**/dist/
+
+# Runtime output not part of the canonical artefact
+**/temp/
+**/jmeter.log
+**/server.log
+**/jmeter_ports.csv
+**/pods-not-running-detail.txt
+
+# OS noise
+.DS_Store
+**/.DS_Store
+Thumbs.db
+
+# Editor noise
+.vscode/
+.idea/
+*.swp
+*~
+
+# Local environment overrides
+.env
+.env.local
+*.local.json
+
+# Compressed bundles built for release upload
+*.tar.gz
+*.zip

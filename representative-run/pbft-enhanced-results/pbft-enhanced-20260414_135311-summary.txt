@@ -1,0 +1,1556 @@
+PBFT-Enhanced Performance Test Results
+========================================
+Timestamp: 20260414_135311
+Configuration:
+  - Number of Nodes: 512
+  - Transaction Threshold: 100
+  - Faulty Nodes: 170
+  - CPU Limit: 0.2
+
+JMeter Configuration:
+  - Threads: 860
+  - Ramp-up: 5s
+  - Ramp-down: 30s
+  - Duration: 100s (active: 70s)
+  - Target Throughput: 86000 req/s
+
+Blockchain Statistics (By Shard):
+========================================
+Shard MERGED_1 (max across shard nodes):
+----------------------------------------
+  Normal Blocks Created: 11
+  Verification Blocks Created: 0
+  Normal Transactions in Blocks: 1081
+  Verification Transactions in Blocks: 0
+  Unassigned Transactions: 0
+  Verification Unassigned Transactions: 0
+
+Shard MERGED_10 (max across shard nodes):
+----------------------------------------
+  Normal Blocks Created: 8
+  Verification Blocks Created: 0
+  Normal Transactions in Blocks: 761
+  Verification Transactions in Blocks: 0
+  Unassigned Transactions: 0
+  Verification Unassigned Transactions: 0
+
+Shard MERGED_11 (max across shard nodes):
+----------------------------------------
+  Normal Blocks Created: 11
+  Verification Blocks Created: 0
+  Normal Transactions in Blocks: 1003
+  Verification Transactions in Blocks: 0
+  Unassigned Transactions: 0
+  Verification Unassigned Transactions: 0
+
+Shard MERGED_12 (max across shard nodes):
+----------------------------------------
+  Normal Blocks Created: 7
+  Verification Blocks Created: 0
+  Normal Transactions in Blocks: 680
+  Verification Transactions in Blocks: 0
+  Unassigned Transactions: 0
+  Verification Unassigned Transactions: 0
+
+Shard MERGED_13 (max across shard nodes):
+----------------------------------------
+  Normal Blocks Created: 8
+  Verification Blocks Created: 0
+  Normal Transactions in Blocks: 763
+  Verification Transactions in Blocks: 0
+  Unassigned Transactions: 0
+  Verification Unassigned Transactions: 0
+
+Shard MERGED_14 (max across shard nodes):
+----------------------------------------
+  Normal Blocks Created: 9
+  Verification Blocks Created: 0
+  Normal Transactions in Blocks: 880
+  Verification Transactions in Blocks: 0
+  Unassigned Transactions: 0
+  Verification Unassigned Transactions: 0
+
+Shard MERGED_15 (max across shard nodes):
+----------------------------------------
+  Normal Blocks Created: 8
+  Verification Blocks Created: 0
+  Normal Transactions in Blocks: 758
+  Verification Transactions in Blocks: 0
+  Unassigned Transactions: 0
+  Verification Unassigned Transactions: 0
+
+Shard MERGED_16 (max across shard nodes):
+----------------------------------------
+  Normal Blocks Created: 11
+  Verification Blocks Created: 0
+  Normal Transactions in Blocks: 1081
+  Verification Transactions in Blocks: 0
+  Unassigned Transactions: 0
+  Verification Unassigned Transactions: 0
+
+Shard MERGED_17 (max across shard nodes):
+----------------------------------------
+  Normal Blocks Created: 9
+  Verification Blocks Created: 0
+  Normal Transactions in Blocks: 881
+  Verification Transactions in Blocks: 0
+  Unassigned Transactions: 0
+  Verification Unassigned Transactions: 0
+
+Shard MERGED_18 (max across shard nodes):
+----------------------------------------
+  Normal Blocks Created: 8
+  Verification Blocks Created: 0
+  Normal Transactions in Blocks: 758
+  Verification Transactions in Blocks: 0
+  Unassigned Transactions: 0
+  Verification Unassigned Transactions: 0
+
+Shard MERGED_19 (max across shard nodes):
+----------------------------------------
+  Normal Blocks Created: 10
+  Verification Blocks Created: 0
+  Normal Transactions in Blocks: 964
+  Verification Transactions in Blocks: 0
+  Unassigned Transactions: 0
+  Verification Unassigned Transactions: 0
+
+Shard MERGED_2 (max across shard nodes):
+----------------------------------------
+  Normal Blocks Created: 5
+  Verification Blocks Created: 0
+  Normal Transactions in Blocks: 435
+  Verification Transactions in Blocks: 0
+  Unassigned Transactions: 0
+  Verification Unassigned Transactions: 0
+
+Shard MERGED_20 (max across shard nodes):
+----------------------------------------
+  Normal Blocks Created: 8
+  Verification Blocks Created: 0
+  Normal Transactions in Blocks: 800
+  Verification Transactions in Blocks: 0
+  Unassigned Transactions: 0
+  Verification Unassigned Transactions: 0
+
+Shard MERGED_21 (max across shard nodes):
+----------------------------------------
+  Normal Blocks Created: 12
+  Verification Blocks Created: 0
+  Normal Transactions in Blocks: 1123
+  Verification Transactions in Blocks: 0
+  Unassigned Transactions: 0
+  Verification Unassigned Transactions: 0
+
+Shard MERGED_22 (max across shard nodes):
+----------------------------------------
+  Normal Blocks Created: 9
+  Verification Blocks Created: 0
+  Normal Transactions in Blocks: 841
+  Verification Transactions in Blocks: 0
+  Unassigned Transactions: 0
+  Verification Unassigned Transactions: 0
+
+Shard MERGED_23 (max across shard nodes):
+----------------------------------------
+  Normal Blocks Created: 5
+  Verification Blocks Created: 0
+  Normal Transactions in Blocks: 478
+  Verification Transactions in Blocks: 0
+  Unassigned Transactions: 0
+  Verification Unassigned Transactions: 0
+
+Shard MERGED_24 (max across shard nodes):
+----------------------------------------
+  Normal Blocks Created: 5
+  Verification Blocks Created: 0
+  Normal Transactions in Blocks: 480
+  Verification Transactions in Blocks: 0
+  Unassigned Transactions: 0
+  Verification Unassigned Transactions: 0
+
+Shard MERGED_25 (max across shard nodes):
+----------------------------------------
+  Normal Blocks Created: 10
+  Verification Blocks Created: 0
+  Normal Transactions in Blocks: 959
+  Verification Transactions in Blocks: 0
+  Unassigned Transactions: 0
+  Verification Unassigned Transactions: 0
+
+Shard MERGED_26 (max across shard nodes):
+----------------------------------------
+  Normal Blocks Created: 10
+  Verification Blocks Created: 0
+  Normal Transactions in Blocks: 920
+  Verification Transactions in Blocks: 0
+  Unassigned Transactions: 0
+  Verification Unassigned Transactions: 0
+
+Shard MERGED_27 (max across shard nodes):
+----------------------------------------
+  Normal Blocks Created: 8
+  Verification Blocks Created: 0
+  Normal Transactions in Blocks: 761
+  Verification Transactions in Blocks: 0
+  Unassigned Transactions: 0
+  Verification Unassigned Transactions: 0
+
+Shard MERGED_28 (max across shard nodes):
+----------------------------------------
+  Normal Blocks Created: 9
+  Verification Blocks Created: 0
+  Normal Transactions in Blocks: 842
+  Verification Transactions in Blocks: 0
+  Unassigned Transactions: 0
+  Verification Unassigned Transactions: 0
+
+Shard MERGED_29 (max across shard nodes):
+----------------------------------------
+  Normal Blocks Created: 6
+  Verification Blocks Created: 0
+  Normal Transactions in Blocks: 563
+  Verification Transactions in Blocks: 0
+  Unassigned Transactions: 0
+  Verification Unassigned Transactions: 0
+
+Shard MERGED_3 (max across shard nodes):
+----------------------------------------
+  Normal Blocks Created: 10
+  Verification Blocks Created: 0
+  Normal Transactions in Blocks: 925
+  Verification Transactions in Blocks: 0
+  Unassigned Transactions: 0
+  Verification Unassigned Transactions: 0
+
+Shard MERGED_30 (max across shard nodes):
+----------------------------------------
+  Normal Blocks Created: 8
+  Verification Blocks Created: 0
+  Normal Transactions in Blocks: 758
+  Verification Transactions in Blocks: 0
+  Unassigned Transactions: 0
+  Verification Unassigned Transactions: 0
+
+Shard MERGED_31 (max across shard nodes):
+----------------------------------------
+  Normal Blocks Created: 11
+  Verification Blocks Created: 0
+  Normal Transactions in Blocks: 1038
+  Verification Transactions in Blocks: 0
+  Unassigned Transactions: 0
+  Verification Unassigned Transactions: 0
+
+Shard MERGED_32 (max across shard nodes):
+----------------------------------------
+  Normal Blocks Created: 9
+  Verification Blocks Created: 0
+  Normal Transactions in Blocks: 880
+  Verification Transactions in Blocks: 0
+  Unassigned Transactions: 0
+  Verification Unassigned Transactions: 0
+
+Shard MERGED_33 (max across shard nodes):
+----------------------------------------
+  Normal Blocks Created: 10
+  Verification Blocks Created: 0
+  Normal Transactions in Blocks: 994
+  Verification Transactions in Blocks: 0
+  Unassigned Transactions: 0
+  Verification Unassigned Transactions: 0
+
+Shard MERGED_34 (max across shard nodes):
+----------------------------------------
+  Normal Blocks Created: 13
+  Verification Blocks Created: 0
+  Normal Transactions in Blocks: 1242
+  Verification Transactions in Blocks: 0
+  Unassigned Transactions: 0
+  Verification Unassigned Transactions: 0
+
+Shard MERGED_35 (max across shard nodes):
+----------------------------------------
+  Normal Blocks Created: 7
+  Verification Blocks Created: 0
+  Normal Transactions in Blocks: 680
+  Verification Transactions in Blocks: 0
+  Unassigned Transactions: 0
+  Verification Unassigned Transactions: 0
+
+Shard MERGED_36 (max across shard nodes):
+----------------------------------------
+  Normal Blocks Created: 7
+  Verification Blocks Created: 0
+  Normal Transactions in Blocks: 674
+  Verification Transactions in Blocks: 0
+  Unassigned Transactions: 0
+  Verification Unassigned Transactions: 0
+
+Shard MERGED_37 (max across shard nodes):
+----------------------------------------
+  Normal Blocks Created: 10
+  Verification Blocks Created: 0
+  Normal Transactions in Blocks: 924
+  Verification Transactions in Blocks: 0
+  Unassigned Transactions: 0
+  Verification Unassigned Transactions: 0
+
+Shard MERGED_38 (max across shard nodes):
+----------------------------------------
+  Normal Blocks Created: 7
+  Verification Blocks Created: 0
+  Normal Transactions in Blocks: 644
+  Verification Transactions in Blocks: 0
+  Unassigned Transactions: 0
+  Verification Unassigned Transactions: 0
+
+Shard MERGED_39 (max across shard nodes):
+----------------------------------------
+  Normal Blocks Created: 11
+  Verification Blocks Created: 0
+  Normal Transactions in Blocks: 1041
+  Verification Transactions in Blocks: 0
+  Unassigned Transactions: 0
+  Verification Unassigned Transactions: 0
+
+Shard MERGED_4 (max across shard nodes):
+----------------------------------------
+  Normal Blocks Created: 12
+  Verification Blocks Created: 0
+  Normal Transactions in Blocks: 1120
+  Verification Transactions in Blocks: 0
+  Unassigned Transactions: 0
+  Verification Unassigned Transactions: 0
+
+Shard MERGED_40 (max across shard nodes):
+----------------------------------------
+  Normal Blocks Created: 9
+  Verification Blocks Created: 0
+  Normal Transactions in Blocks: 843
+  Verification Transactions in Blocks: 0
+  Unassigned Transactions: 0
+  Verification Unassigned Transactions: 0
+
+Shard MERGED_41 (max across shard nodes):
+----------------------------------------
+  Normal Blocks Created: 13
+  Verification Blocks Created: 0
+  Normal Transactions in Blocks: 1242
+  Verification Transactions in Blocks: 0
+  Unassigned Transactions: 0
+  Verification Unassigned Transactions: 0
+
+Shard MERGED_42 (max across shard nodes):
+----------------------------------------
+  Normal Blocks Created: 6
+  Verification Blocks Created: 0
+  Normal Transactions in Blocks: 521
+  Verification Transactions in Blocks: 0
+  Unassigned Transactions: 0
+  Verification Unassigned Transactions: 0
+
+Shard MERGED_5 (max across shard nodes):
+----------------------------------------
+  Normal Blocks Created: 7
+  Verification Blocks Created: 0
+  Normal Transactions in Blocks: 645
+  Verification Transactions in Blocks: 0
+  Unassigned Transactions: 0
+  Verification Unassigned Transactions: 0
+
+Shard MERGED_6 (max across shard nodes):
+----------------------------------------
+  Normal Blocks Created: 7
+  Verification Blocks Created: 0
+  Normal Transactions in Blocks: 603
+  Verification Transactions in Blocks: 0
+  Unassigned Transactions: 0
+  Verification Unassigned Transactions: 0
+
+Shard MERGED_7 (max across shard nodes):
+----------------------------------------
+  Normal Blocks Created: 9
+  Verification Blocks Created: 0
+  Normal Transactions in Blocks: 802
+  Verification Transactions in Blocks: 0
+  Unassigned Transactions: 0
+  Verification Unassigned Transactions: 0
+
+Shard MERGED_8 (max across shard nodes):
+----------------------------------------
+  Normal Blocks Created: 7
+  Verification Blocks Created: 0
+  Normal Transactions in Blocks: 681
+  Verification Transactions in Blocks: 0
+  Unassigned Transactions: 0
+  Verification Unassigned Transactions: 0
+
+Shard MERGED_9 (max across shard nodes):
+----------------------------------------
+  Normal Blocks Created: 10
+  Verification Blocks Created: 0
+  Normal Transactions in Blocks: 1000
+  Verification Transactions in Blocks: 0
+  Unassigned Transactions: 0
+  Verification Unassigned Transactions: 0
+
+Shard SUBSET1 (max across shard nodes):
+----------------------------------------
+  Normal Blocks Created: 0
+  Verification Blocks Created: 0
+  Normal Transactions in Blocks: 0
+  Verification Transactions in Blocks: 0
+  Unassigned Transactions: 0
+  Verification Unassigned Transactions: 0
+
+Shard SUBSET10 (max across shard nodes):
+----------------------------------------
+  Normal Blocks Created: 0
+  Verification Blocks Created: 0
+  Normal Transactions in Blocks: 0
+  Verification Transactions in Blocks: 0
+  Unassigned Transactions: 0
+  Verification Unassigned Transactions: 0
+
+Shard SUBSET100 (max across shard nodes):
+----------------------------------------
+  Normal Blocks Created: 10
+  Verification Blocks Created: 0
+  Normal Transactions in Blocks: 521
+  Verification Transactions in Blocks: 0
+  Unassigned Transactions: 0
+  Verification Unassigned Transactions: 0
+
+Shard SUBSET101 (max across shard nodes):
+----------------------------------------
+  Normal Blocks Created: 19
+  Verification Blocks Created: 0
+  Normal Transactions in Blocks: 1495
+  Verification Transactions in Blocks: 0
+  Unassigned Transactions: 0
+  Verification Unassigned Transactions: 0
+
+Shard SUBSET102 (max across shard nodes):
+----------------------------------------
+  Normal Blocks Created: 8
+  Verification Blocks Created: 0
+  Normal Transactions in Blocks: 676
+  Verification Transactions in Blocks: 0
+  Unassigned Transactions: 28
+  Verification Unassigned Transactions: 0
+
+Shard SUBSET103 (max across shard nodes):
+----------------------------------------
+  Normal Blocks Created: 7
+  Verification Blocks Created: 0
+  Normal Transactions in Blocks: 680
+  Verification Transactions in Blocks: 0
+  Unassigned Transactions: 0
+  Verification Unassigned Transactions: 0
+
+Shard SUBSET104 (max across shard nodes):
+----------------------------------------
+  Normal Blocks Created: 9
+  Verification Blocks Created: 0
+  Normal Transactions in Blocks: 827
+  Verification Transactions in Blocks: 0
+  Unassigned Transactions: 0
+  Verification Unassigned Transactions: 0
+
+Shard SUBSET105 (max across shard nodes):
+----------------------------------------
+  Normal Blocks Created: 13
+  Verification Blocks Created: 0
+  Normal Transactions in Blocks: 1260
+  Verification Transactions in Blocks: 0
+  Unassigned Transactions: 21
+  Verification Unassigned Transactions: 0
+
+Shard SUBSET106 (max across shard nodes):
+----------------------------------------
+  Normal Blocks Created: 15
+  Verification Blocks Created: 0
+  Normal Transactions in Blocks: 1500
+  Verification Transactions in Blocks: 0
+  Unassigned Transactions: 164
+  Verification Unassigned Transactions: 0
+
+Shard SUBSET107 (max across shard nodes):
+----------------------------------------
+  Normal Blocks Created: 6
+  Verification Blocks Created: 0
+  Normal Transactions in Blocks: 560
+  Verification Transactions in Blocks: 0
+  Unassigned Transactions: 0
+  Verification Unassigned Transactions: 0
+
+Shard SUBSET108 (max across shard nodes):
+----------------------------------------
+  Normal Blocks Created: 10
+  Verification Blocks Created: 0
+  Normal Transactions in Blocks: 920
+  Verification Transactions in Blocks: 0
+  Unassigned Transactions: 0
+  Verification Unassigned Transactions: 0
+
+Shard SUBSET109 (max across shard nodes):
+----------------------------------------
+  Normal Blocks Created: 1
+  Verification Blocks Created: 0
+  Normal Transactions in Blocks: 100
+  Verification Transactions in Blocks: 0
+  Unassigned Transactions: 660
+  Verification Unassigned Transactions: 0
+
+Shard SUBSET11 (max across shard nodes):
+----------------------------------------
+  Normal Blocks Created: 0
+  Verification Blocks Created: 0
+  Normal Transactions in Blocks: 0
+  Verification Transactions in Blocks: 0
+  Unassigned Transactions: 0
+  Verification Unassigned Transactions: 0
+
+Shard SUBSET110 (max across shard nodes):
+----------------------------------------
+  Normal Blocks Created: 9
+  Verification Blocks Created: 0
+  Normal Transactions in Blocks: 796
+  Verification Transactions in Blocks: 0
+  Unassigned Transactions: 0
+  Verification Unassigned Transactions: 0
+
+Shard SUBSET111 (max across shard nodes):
+----------------------------------------
+  Normal Blocks Created: 3
+  Verification Blocks Created: 0
+  Normal Transactions in Blocks: 300
+  Verification Transactions in Blocks: 0
+  Unassigned Transactions: 621
+  Verification Unassigned Transactions: 0
+
+Shard SUBSET112 (max across shard nodes):
+----------------------------------------
+  Normal Blocks Created: 14
+  Verification Blocks Created: 0
+  Normal Transactions in Blocks: 1203
+  Verification Transactions in Blocks: 0
+  Unassigned Transactions: 0
+  Verification Unassigned Transactions: 0
+
+Shard SUBSET113 (max across shard nodes):
+----------------------------------------
+  Normal Blocks Created: 9
+  Verification Blocks Created: 0
+  Normal Transactions in Blocks: 880
+  Verification Transactions in Blocks: 0
+  Unassigned Transactions: 0
+  Verification Unassigned Transactions: 0
+
+Shard SUBSET114 (max across shard nodes):
+----------------------------------------
+  Normal Blocks Created: 8
+  Verification Blocks Created: 0
+  Normal Transactions in Blocks: 762
+  Verification Transactions in Blocks: 0
+  Unassigned Transactions: 0
+  Verification Unassigned Transactions: 0
+
+Shard SUBSET115 (max across shard nodes):
+----------------------------------------
+  Normal Blocks Created: 8
+  Verification Blocks Created: 0
+  Normal Transactions in Blocks: 765
+  Verification Transactions in Blocks: 0
+  Unassigned Transactions: 0
+  Verification Unassigned Transactions: 0
+
+Shard SUBSET116 (max across shard nodes):
+----------------------------------------
+  Normal Blocks Created: 7
+  Verification Blocks Created: 0
+  Normal Transactions in Blocks: 637
+  Verification Transactions in Blocks: 0
+  Unassigned Transactions: 0
+  Verification Unassigned Transactions: 0
+
+Shard SUBSET117 (max across shard nodes):
+----------------------------------------
+  Normal Blocks Created: 10
+  Verification Blocks Created: 0
+  Normal Transactions in Blocks: 922
+  Verification Transactions in Blocks: 0
+  Unassigned Transactions: 0
+  Verification Unassigned Transactions: 0
+
+Shard SUBSET118 (max across shard nodes):
+----------------------------------------
+  Normal Blocks Created: 6
+  Verification Blocks Created: 0
+  Normal Transactions in Blocks: 600
+  Verification Transactions in Blocks: 0
+  Unassigned Transactions: 438
+  Verification Unassigned Transactions: 0
+
+Shard SUBSET119 (max across shard nodes):
+----------------------------------------
+  Normal Blocks Created: 10
+  Verification Blocks Created: 0
+  Normal Transactions in Blocks: 925
+  Verification Transactions in Blocks: 0
+  Unassigned Transactions: 0
+  Verification Unassigned Transactions: 0
+
+Shard SUBSET12 (max across shard nodes):
+----------------------------------------
+  Normal Blocks Created: 0
+  Verification Blocks Created: 0
+  Normal Transactions in Blocks: 0
+  Verification Transactions in Blocks: 0
+  Unassigned Transactions: 0
+  Verification Unassigned Transactions: 0
+
+Shard SUBSET120 (max across shard nodes):
+----------------------------------------
+  Normal Blocks Created: 11
+  Verification Blocks Created: 0
+  Normal Transactions in Blocks: 1081
+  Verification Transactions in Blocks: 0
+  Unassigned Transactions: 0
+  Verification Unassigned Transactions: 0
+
+Shard SUBSET121 (max across shard nodes):
+----------------------------------------
+  Normal Blocks Created: 17
+  Verification Blocks Created: 0
+  Normal Transactions in Blocks: 1480
+  Verification Transactions in Blocks: 0
+  Unassigned Transactions: 0
+  Verification Unassigned Transactions: 0
+
+Shard SUBSET122 (max across shard nodes):
+----------------------------------------
+  Normal Blocks Created: 10
+  Verification Blocks Created: 0
+  Normal Transactions in Blocks: 963
+  Verification Transactions in Blocks: 0
+  Unassigned Transactions: 0
+  Verification Unassigned Transactions: 0
+
+Shard SUBSET123 (max across shard nodes):
+----------------------------------------
+  Normal Blocks Created: 13
+  Verification Blocks Created: 0
+  Normal Transactions in Blocks: 1204
+  Verification Transactions in Blocks: 0
+  Unassigned Transactions: 0
+  Verification Unassigned Transactions: 0
+
+Shard SUBSET124 (max across shard nodes):
+----------------------------------------
+  Normal Blocks Created: 9
+  Verification Blocks Created: 0
+  Normal Transactions in Blocks: 754
+  Verification Transactions in Blocks: 0
+  Unassigned Transactions: 0
+  Verification Unassigned Transactions: 0
+
+Shard SUBSET125 (max across shard nodes):
+----------------------------------------
+  Normal Blocks Created: 7
+  Verification Blocks Created: 0
+  Normal Transactions in Blocks: 606
+  Verification Transactions in Blocks: 0
+  Unassigned Transactions: 0
+  Verification Unassigned Transactions: 0
+
+Shard SUBSET126 (max across shard nodes):
+----------------------------------------
+  Normal Blocks Created: 9
+  Verification Blocks Created: 0
+  Normal Transactions in Blocks: 842
+  Verification Transactions in Blocks: 0
+  Unassigned Transactions: 0
+  Verification Unassigned Transactions: 0
+
+Shard SUBSET127 (max across shard nodes):
+----------------------------------------
+  Normal Blocks Created: 10
+  Verification Blocks Created: 0
+  Normal Transactions in Blocks: 924
+  Verification Transactions in Blocks: 0
+  Unassigned Transactions: 0
+  Verification Unassigned Transactions: 0
+
+Shard SUBSET128 (max across shard nodes):
+----------------------------------------
+  Normal Blocks Created: 11
+  Verification Blocks Created: 0
+  Normal Transactions in Blocks: 1100
+  Verification Transactions in Blocks: 0
+  Unassigned Transactions: 282
+  Verification Unassigned Transactions: 0
+
+Shard SUBSET13 (max across shard nodes):
+----------------------------------------
+  Normal Blocks Created: 0
+  Verification Blocks Created: 0
+  Normal Transactions in Blocks: 0
+  Verification Transactions in Blocks: 0
+  Unassigned Transactions: 0
+  Verification Unassigned Transactions: 0
+
+Shard SUBSET14 (max across shard nodes):
+----------------------------------------
+  Normal Blocks Created: 0
+  Verification Blocks Created: 0
+  Normal Transactions in Blocks: 0
+  Verification Transactions in Blocks: 0
+  Unassigned Transactions: 0
+  Verification Unassigned Transactions: 0
+
+Shard SUBSET15 (max across shard nodes):
+----------------------------------------
+  Normal Blocks Created: 0
+  Verification Blocks Created: 0
+  Normal Transactions in Blocks: 0
+  Verification Transactions in Blocks: 0
+  Unassigned Transactions: 0
+  Verification Unassigned Transactions: 0
+
+Shard SUBSET16 (max across shard nodes):
+----------------------------------------
+  Normal Blocks Created: 0
+  Verification Blocks Created: 0
+  Normal Transactions in Blocks: 0
+  Verification Transactions in Blocks: 0
+  Unassigned Transactions: 0
+  Verification Unassigned Transactions: 0
+
+Shard SUBSET17 (max across shard nodes):
+----------------------------------------
+  Normal Blocks Created: 0
+  Verification Blocks Created: 0
+  Normal Transactions in Blocks: 0
+  Verification Transactions in Blocks: 0
+  Unassigned Transactions: 0
+  Verification Unassigned Transactions: 0
+
+Shard SUBSET18 (max across shard nodes):
+----------------------------------------
+  Normal Blocks Created: 0
+  Verification Blocks Created: 0
+  Normal Transactions in Blocks: 0
+  Verification Transactions in Blocks: 0
+  Unassigned Transactions: 0
+  Verification Unassigned Transactions: 0
+
+Shard SUBSET19 (max across shard nodes):
+----------------------------------------
+  Normal Blocks Created: 0
+  Verification Blocks Created: 0
+  Normal Transactions in Blocks: 0
+  Verification Transactions in Blocks: 0
+  Unassigned Transactions: 0
+  Verification Unassigned Transactions: 0
+
+Shard SUBSET2 (max across shard nodes):
+----------------------------------------
+  Normal Blocks Created: 0
+  Verification Blocks Created: 0
+  Normal Transactions in Blocks: 0
+  Verification Transactions in Blocks: 0
+  Unassigned Transactions: 0
+  Verification Unassigned Transactions: 0
+
+Shard SUBSET20 (max across shard nodes):
+----------------------------------------
+  Normal Blocks Created: 0
+  Verification Blocks Created: 0
+  Normal Transactions in Blocks: 0
+  Verification Transactions in Blocks: 0
+  Unassigned Transactions: 0
+  Verification Unassigned Transactions: 0
+
+Shard SUBSET21 (max across shard nodes):
+----------------------------------------
+  Normal Blocks Created: 0
+  Verification Blocks Created: 0
+  Normal Transactions in Blocks: 0
+  Verification Transactions in Blocks: 0
+  Unassigned Transactions: 0
+  Verification Unassigned Transactions: 0
+
+Shard SUBSET22 (max across shard nodes):
+----------------------------------------
+  Normal Blocks Created: 0
+  Verification Blocks Created: 0
+  Normal Transactions in Blocks: 0
+  Verification Transactions in Blocks: 0
+  Unassigned Transactions: 0
+  Verification Unassigned Transactions: 0
+
+Shard SUBSET23 (max across shard nodes):
+----------------------------------------
+  Normal Blocks Created: 0
+  Verification Blocks Created: 0
+  Normal Transactions in Blocks: 0
+  Verification Transactions in Blocks: 0
+  Unassigned Transactions: 0
+  Verification Unassigned Transactions: 0
+
+Shard SUBSET24 (max across shard nodes):
+----------------------------------------
+  Normal Blocks Created: 0
+  Verification Blocks Created: 0
+  Normal Transactions in Blocks: 0
+  Verification Transactions in Blocks: 0
+  Unassigned Transactions: 0
+  Verification Unassigned Transactions: 0
+
+Shard SUBSET25 (max across shard nodes):
+----------------------------------------
+  Normal Blocks Created: 0
+  Verification Blocks Created: 0
+  Normal Transactions in Blocks: 0
+  Verification Transactions in Blocks: 0
+  Unassigned Transactions: 0
+  Verification Unassigned Transactions: 0
+
+Shard SUBSET26 (max across shard nodes):
+----------------------------------------
+  Normal Blocks Created: 0
+  Verification Blocks Created: 0
+  Normal Transactions in Blocks: 0
+  Verification Transactions in Blocks: 0
+  Unassigned Transactions: 0
+  Verification Unassigned Transactions: 0
+
+Shard SUBSET27 (max across shard nodes):
+----------------------------------------
+  Normal Blocks Created: 0
+  Verification Blocks Created: 0
+  Normal Transactions in Blocks: 0
+  Verification Transactions in Blocks: 0
+  Unassigned Transactions: 0
+  Verification Unassigned Transactions: 0
+
+Shard SUBSET28 (max across shard nodes):
+----------------------------------------
+  Normal Blocks Created: 0
+  Verification Blocks Created: 0
+  Normal Transactions in Blocks: 0
+  Verification Transactions in Blocks: 0
+  Unassigned Transactions: 0
+  Verification Unassigned Transactions: 0
+
+Shard SUBSET29 (max across shard nodes):
+----------------------------------------
+  Normal Blocks Created: 0
+  Verification Blocks Created: 0
+  Normal Transactions in Blocks: 0
+  Verification Transactions in Blocks: 0
+  Unassigned Transactions: 0
+  Verification Unassigned Transactions: 0
+
+Shard SUBSET3 (max across shard nodes):
+----------------------------------------
+  Normal Blocks Created: 0
+  Verification Blocks Created: 0
+  Normal Transactions in Blocks: 0
+  Verification Transactions in Blocks: 0
+  Unassigned Transactions: 0
+  Verification Unassigned Transactions: 0
+
+Shard SUBSET30 (max across shard nodes):
+----------------------------------------
+  Normal Blocks Created: 0
+  Verification Blocks Created: 0
+  Normal Transactions in Blocks: 0
+  Verification Transactions in Blocks: 0
+  Unassigned Transactions: 0
+  Verification Unassigned Transactions: 0
+
+Shard SUBSET31 (max across shard nodes):
+----------------------------------------
+  Normal Blocks Created: 0
+  Verification Blocks Created: 0
+  Normal Transactions in Blocks: 0
+  Verification Transactions in Blocks: 0
+  Unassigned Transactions: 0
+  Verification Unassigned Transactions: 0
+
+Shard SUBSET32 (max across shard nodes):
+----------------------------------------
+  Normal Blocks Created: 0
+  Verification Blocks Created: 0
+  Normal Transactions in Blocks: 0
+  Verification Transactions in Blocks: 0
+  Unassigned Transactions: 0
+  Verification Unassigned Transactions: 0
+
+Shard SUBSET33 (max across shard nodes):
+----------------------------------------
+  Normal Blocks Created: 0
+  Verification Blocks Created: 0
+  Normal Transactions in Blocks: 0
+  Verification Transactions in Blocks: 0
+  Unassigned Transactions: 0
+  Verification Unassigned Transactions: 0
+
+Shard SUBSET34 (max across shard nodes):
+----------------------------------------
+  Normal Blocks Created: 0
+  Verification Blocks Created: 0
+  Normal Transactions in Blocks: 0
+  Verification Transactions in Blocks: 0
+  Unassigned Transactions: 0
+  Verification Unassigned Transactions: 0
+
+Shard SUBSET35 (max across shard nodes):
+----------------------------------------
+  Normal Blocks Created: 0
+  Verification Blocks Created: 0
+  Normal Transactions in Blocks: 0
+  Verification Transactions in Blocks: 0
+  Unassigned Transactions: 0
+  Verification Unassigned Transactions: 0
+
+Shard SUBSET36 (max across shard nodes):
+----------------------------------------
+  Normal Blocks Created: 0
+  Verification Blocks Created: 0
+  Normal Transactions in Blocks: 0
+  Verification Transactions in Blocks: 0
+  Unassigned Transactions: 0
+  Verification Unassigned Transactions: 0
+
+Shard SUBSET37 (max across shard nodes):
+----------------------------------------
+  Normal Blocks Created: 0
+  Verification Blocks Created: 0
+  Normal Transactions in Blocks: 0
+  Verification Transactions in Blocks: 0
+  Unassigned Transactions: 0
+  Verification Unassigned Transactions: 0
+
+Shard SUBSET38 (max across shard nodes):
+----------------------------------------
+  Normal Blocks Created: 0
+  Verification Blocks Created: 0
+  Normal Transactions in Blocks: 0
+  Verification Transactions in Blocks: 0
+  Unassigned Transactions: 0
+  Verification Unassigned Transactions: 0
+
+Shard SUBSET39 (max across shard nodes):
+----------------------------------------
+  Normal Blocks Created: 0
+  Verification Blocks Created: 0
+  Normal Transactions in Blocks: 0
+  Verification Transactions in Blocks: 0
+  Unassigned Transactions: 0
+  Verification Unassigned Transactions: 0
+
+Shard SUBSET4 (max across shard nodes):
+----------------------------------------
+  Normal Blocks Created: 0
+  Verification Blocks Created: 0
+  Normal Transactions in Blocks: 0
+  Verification Transactions in Blocks: 0
+  Unassigned Transactions: 0
+  Verification Unassigned Transactions: 0
+
+Shard SUBSET40 (max across shard nodes):
+----------------------------------------
+  Normal Blocks Created: 0
+  Verification Blocks Created: 0
+  Normal Transactions in Blocks: 0
+  Verification Transactions in Blocks: 0
+  Unassigned Transactions: 0
+  Verification Unassigned Transactions: 0
+
+Shard SUBSET41 (max across shard nodes):
+----------------------------------------
+  Normal Blocks Created: 0
+  Verification Blocks Created: 0
+  Normal Transactions in Blocks: 0
+  Verification Transactions in Blocks: 0
+  Unassigned Transactions: 0
+  Verification Unassigned Transactions: 0
+
+Shard SUBSET42 (max across shard nodes):
+----------------------------------------
+  Normal Blocks Created: 0
+  Verification Blocks Created: 0
+  Normal Transactions in Blocks: 0
+  Verification Transactions in Blocks: 0
+  Unassigned Transactions: 0
+  Verification Unassigned Transactions: 0
+
+Shard SUBSET43 (max across shard nodes):
+----------------------------------------
+  Normal Blocks Created: 0
+  Verification Blocks Created: 0
+  Normal Transactions in Blocks: 0
+  Verification Transactions in Blocks: 0
+  Unassigned Transactions: 0
+  Verification Unassigned Transactions: 0
+
+Shard SUBSET44 (max across shard nodes):
+----------------------------------------
+  Normal Blocks Created: 0
+  Verification Blocks Created: 0
+  Normal Transactions in Blocks: 0
+  Verification Transactions in Blocks: 0
+  Unassigned Transactions: 0
+  Verification Unassigned Transactions: 0
+
+Shard SUBSET45 (max across shard nodes):
+----------------------------------------
+  Normal Blocks Created: 0
+  Verification Blocks Created: 0
+  Normal Transactions in Blocks: 0
+  Verification Transactions in Blocks: 0
+  Unassigned Transactions: 0
+  Verification Unassigned Transactions: 0
+
+Shard SUBSET46 (max across shard nodes):
+----------------------------------------
+  Normal Blocks Created: 0
+  Verification Blocks Created: 0
+  Normal Transactions in Blocks: 0
+  Verification Transactions in Blocks: 0
+  Unassigned Transactions: 0
+  Verification Unassigned Transactions: 0
+
+Shard SUBSET47 (max across shard nodes):
+----------------------------------------
+  Normal Blocks Created: 0
+  Verification Blocks Created: 0
+  Normal Transactions in Blocks: 0
+  Verification Transactions in Blocks: 0
+  Unassigned Transactions: 0
+  Verification Unassigned Transactions: 0
+
+Shard SUBSET48 (max across shard nodes):
+----------------------------------------
+  Normal Blocks Created: 0
+  Verification Blocks Created: 0
+  Normal Transactions in Blocks: 0
+  Verification Transactions in Blocks: 0
+  Unassigned Transactions: 0
+  Verification Unassigned Transactions: 0
+
+Shard SUBSET49 (max across shard nodes):
+----------------------------------------
+  Normal Blocks Created: 0
+  Verification Blocks Created: 0
+  Normal Transactions in Blocks: 0
+  Verification Transactions in Blocks: 0
+  Unassigned Transactions: 0
+  Verification Unassigned Transactions: 0
+
+Shard SUBSET5 (max across shard nodes):
+----------------------------------------
+  Normal Blocks Created: 0
+  Verification Blocks Created: 0
+  Normal Transactions in Blocks: 0
+  Verification Transactions in Blocks: 0
+  Unassigned Transactions: 0
+  Verification Unassigned Transactions: 0
+
+Shard SUBSET50 (max across shard nodes):
+----------------------------------------
+  Normal Blocks Created: 0
+  Verification Blocks Created: 0
+  Normal Transactions in Blocks: 0
+  Verification Transactions in Blocks: 0
+  Unassigned Transactions: 0
+  Verification Unassigned Transactions: 0
+
+Shard SUBSET51 (max across shard nodes):
+----------------------------------------
+  Normal Blocks Created: 0
+  Verification Blocks Created: 0
+  Normal Transactions in Blocks: 0
+  Verification Transactions in Blocks: 0
+  Unassigned Transactions: 0
+  Verification Unassigned Transactions: 0
+
+Shard SUBSET52 (max across shard nodes):
+----------------------------------------
+  Normal Blocks Created: 0
+  Verification Blocks Created: 0
+  Normal Transactions in Blocks: 0
+  Verification Transactions in Blocks: 0
+  Unassigned Transactions: 0
+  Verification Unassigned Transactions: 0
+
+Shard SUBSET53 (max across shard nodes):
+----------------------------------------
+  Normal Blocks Created: 0
+  Verification Blocks Created: 0
+  Normal Transactions in Blocks: 0
+  Verification Transactions in Blocks: 0
+  Unassigned Transactions: 0
+  Verification Unassigned Transactions: 0
+
+Shard SUBSET54 (max across shard nodes):
+----------------------------------------
+  Normal Blocks Created: 0
+  Verification Blocks Created: 0
+  Normal Transactions in Blocks: 0
+  Verification Transactions in Blocks: 0
+  Unassigned Transactions: 0
+  Verification Unassigned Transactions: 0
+
+Shard SUBSET55 (max across shard nodes):
+----------------------------------------
+  Normal Blocks Created: 0
+  Verification Blocks Created: 0
+  Normal Transactions in Blocks: 0
+  Verification Transactions in Blocks: 0
+  Unassigned Transactions: 0
+  Verification Unassigned Transactions: 0
+
+Shard SUBSET56 (max across shard nodes):
+----------------------------------------
+  Normal Blocks Created: 0
+  Verification Blocks Created: 0
+  Normal Transactions in Blocks: 0
+  Verification Transactions in Blocks: 0
+  Unassigned Transactions: 0
+  Verification Unassigned Transactions: 0
+
+Shard SUBSET57 (max across shard nodes):
+----------------------------------------
+  Normal Blocks Created: 0
+  Verification Blocks Created: 0
+  Normal Transactions in Blocks: 0
+  Verification Transactions in Blocks: 0
+  Unassigned Transactions: 0
+  Verification Unassigned Transactions: 0
+
+Shard SUBSET58 (max across shard nodes):
+----------------------------------------
+  Normal Blocks Created: 0
+  Verification Blocks Created: 0
+  Normal Transactions in Blocks: 0
+  Verification Transactions in Blocks: 0
+  Unassigned Transactions: 0
+  Verification Unassigned Transactions: 0
+
+Shard SUBSET59 (max across shard nodes):
+----------------------------------------
+  Normal Blocks Created: 0
+  Verification Blocks Created: 0
+  Normal Transactions in Blocks: 0
+  Verification Transactions in Blocks: 0
+  Unassigned Transactions: 0
+  Verification Unassigned Transactions: 0
+
+Shard SUBSET6 (max across shard nodes):
+----------------------------------------
+  Normal Blocks Created: 0
+  Verification Blocks Created: 0
+  Normal Transactions in Blocks: 0
+  Verification Transactions in Blocks: 0
+  Unassigned Transactions: 0
+  Verification Unassigned Transactions: 0
+
+Shard SUBSET60 (max across shard nodes):
+----------------------------------------
+  Normal Blocks Created: 0
+  Verification Blocks Created: 0
+  Normal Transactions in Blocks: 0
+  Verification Transactions in Blocks: 0
+  Unassigned Transactions: 0
+  Verification Unassigned Transactions: 0
+
+Shard SUBSET61 (max across shard nodes):
+----------------------------------------
+  Normal Blocks Created: 0
+  Verification Blocks Created: 0
+  Normal Transactions in Blocks: 0
+  Verification Transactions in Blocks: 0
+  Unassigned Transactions: 0
+  Verification Unassigned Transactions: 0
+
+Shard SUBSET62 (max across shard nodes):
+----------------------------------------
+  Normal Blocks Created: 0
+  Verification Blocks Created: 0
+  Normal Transactions in Blocks: 0
+  Verification Transactions in Blocks: 0
+  Unassigned Transactions: 0
+  Verification Unassigned Transactions: 0
+
+Shard SUBSET63 (max across shard nodes):
+----------------------------------------
+  Normal Blocks Created: 0
+  Verification Blocks Created: 0
+  Normal Transactions in Blocks: 0
+  Verification Transactions in Blocks: 0
+  Unassigned Transactions: 0
+  Verification Unassigned Transactions: 0
+
+Shard SUBSET64 (max across shard nodes):
+----------------------------------------
+  Normal Blocks Created: 0
+  Verification Blocks Created: 0
+  Normal Transactions in Blocks: 0
+  Verification Transactions in Blocks: 0
+  Unassigned Transactions: 0
+  Verification Unassigned Transactions: 0
+
+Shard SUBSET65 (max across shard nodes):
+----------------------------------------
+  Normal Blocks Created: 0
+  Verification Blocks Created: 0
+  Normal Transactions in Blocks: 0
+  Verification Transactions in Blocks: 0
+  Unassigned Transactions: 0
+  Verification Unassigned Transactions: 0
+
+Shard SUBSET66 (max across shard nodes):
+----------------------------------------
+  Normal Blocks Created: 0
+  Verification Blocks Created: 0
+  Normal Transactions in Blocks: 0
+  Verification Transactions in Blocks: 0
+  Unassigned Transactions: 0
+  Verification Unassigned Transactions: 0
+
+Shard SUBSET67 (max across shard nodes):
+----------------------------------------
+  Normal Blocks Created: 0
+  Verification Blocks Created: 0
+  Normal Transactions in Blocks: 0
+  Verification Transactions in Blocks: 0
+  Unassigned Transactions: 0
+  Verification Unassigned Transactions: 0
+
+Shard SUBSET68 (max across shard nodes):
+----------------------------------------
+  Normal Blocks Created: 0
+  Verification Blocks Created: 0
+  Normal Transactions in Blocks: 0
+  Verification Transactions in Blocks: 0
+  Unassigned Transactions: 0
+  Verification Unassigned Transactions: 0
+
+Shard SUBSET69 (max across shard nodes):
+----------------------------------------
+  Normal Blocks Created: 0
+  Verification Blocks Created: 0
+  Normal Transactions in Blocks: 0
+  Verification Transactions in Blocks: 0
+  Unassigned Transactions: 0
+  Verification Unassigned Transactions: 0
+
+Shard SUBSET7 (max across shard nodes):
+----------------------------------------
+  Normal Blocks Created: 0
+  Verification Blocks Created: 0
+  Normal Transactions in Blocks: 0
+  Verification Transactions in Blocks: 0
+  Unassigned Transactions: 0
+  Verification Unassigned Transactions: 0
+
+Shard SUBSET70 (max across shard nodes):
+----------------------------------------
+  Normal Blocks Created: 0
+  Verification Blocks Created: 0
+  Normal Transactions in Blocks: 0
+  Verification Transactions in Blocks: 0
+  Unassigned Transactions: 0
+  Verification Unassigned Transactions: 0
+
+Shard SUBSET71 (max across shard nodes):
+----------------------------------------
+  Normal Blocks Created: 0
+  Verification Blocks Created: 0
+  Normal Transactions in Blocks: 0
+  Verification Transactions in Blocks: 0
+  Unassigned Transactions: 0
+  Verification Unassigned Transactions: 0
+
+Shard SUBSET72 (max across shard nodes):
+----------------------------------------
+  Normal Blocks Created: 0
+  Verification Blocks Created: 0
+  Normal Transactions in Blocks: 0
+  Verification Transactions in Blocks: 0
+  Unassigned Transactions: 0
+  Verification Unassigned Transactions: 0
+
+Shard SUBSET73 (max across shard nodes):
+----------------------------------------
+  Normal Blocks Created: 0
+  Verification Blocks Created: 0
+  Normal Transactions in Blocks: 0
+  Verification Transactions in Blocks: 0
+  Unassigned Transactions: 0
+  Verification Unassigned Transactions: 0
+
+Shard SUBSET74 (max across shard nodes):
+----------------------------------------
+  Normal Blocks Created: 0
+  Verification Blocks Created: 0
+  Normal Transactions in Blocks: 0
+  Verification Transactions in Blocks: 0
+  Unassigned Transactions: 0
+  Verification Unassigned Transactions: 0
+
+Shard SUBSET75 (max across shard nodes):
+----------------------------------------
+  Normal Blocks Created: 0
+  Verification Blocks Created: 0
+  Normal Transactions in Blocks: 0
+  Verification Transactions in Blocks: 0
+  Unassigned Transactions: 0
+  Verification Unassigned Transactions: 0
+
+Shard SUBSET76 (max across shard nodes):
+----------------------------------------
+  Normal Blocks Created: 0
+  Verification Blocks Created: 0
+  Normal Transactions in Blocks: 0
+  Verification Transactions in Blocks: 0
+  Unassigned Transactions: 0
+  Verification Unassigned Transactions: 0
+
+Shard SUBSET77 (max across shard nodes):
+----------------------------------------
+  Normal Blocks Created: 0
+  Verification Blocks Created: 0
+  Normal Transactions in Blocks: 0
+  Verification Transactions in Blocks: 0
+  Unassigned Transactions: 0
+  Verification Unassigned Transactions: 0
+
+Shard SUBSET79 (max across shard nodes):
+----------------------------------------
+  Normal Blocks Created: 0
+  Verification Blocks Created: 0
+  Normal Transactions in Blocks: 0
+  Verification Transactions in Blocks: 0
+  Unassigned Transactions: 0
+  Verification Unassigned Transactions: 0
+
+Shard SUBSET8 (max across shard nodes):
+----------------------------------------
+  Normal Blocks Created: 0
+  Verification Blocks Created: 0
+  Normal Transactions in Blocks: 0
+  Verification Transactions in Blocks: 0
+  Unassigned Transactions: 0
+  Verification Unassigned Transactions: 0
+
+Shard SUBSET80 (max across shard nodes):
+----------------------------------------
+  Normal Blocks Created: 0
+  Verification Blocks Created: 0
+  Normal Transactions in Blocks: 0
+  Verification Transactions in Blocks: 0
+  Unassigned Transactions: 0
+  Verification Unassigned Transactions: 0
+
+Shard SUBSET81 (max across shard nodes):
+----------------------------------------
+  Normal Blocks Created: 0
+  Verification Blocks Created: 0
+  Normal Transactions in Blocks: 0
+  Verification Transactions in Blocks: 0
+  Unassigned Transactions: 0
+  Verification Unassigned Transactions: 0
+
+Shard SUBSET82 (max across shard nodes):
+----------------------------------------
+  Normal Blocks Created: 0
+  Verification Blocks Created: 0
+  Normal Transactions in Blocks: 0
+  Verification Transactions in Blocks: 0
+  Unassigned Transactions: 0
+  Verification Unassigned Transactions: 0
+
+Shard SUBSET83 (max across shard nodes):
+----------------------------------------
+  Normal Blocks Created: 0
+  Verification Blocks Created: 0
+  Normal Transactions in Blocks: 0
+  Verification Transactions in Blocks: 0
+  Unassigned Transactions: 0
+  Verification Unassigned Transactions: 0
+
+Shard SUBSET84 (max across shard nodes):
+----------------------------------------
+  Normal Blocks Created: 0
+  Verification Blocks Created: 0
+  Normal Transactions in Blocks: 0
+  Verification Transactions in Blocks: 0
+  Unassigned Transactions: 0
+  Verification Unassigned Transactions: 0
+
+Shard SUBSET85 (max across shard nodes):
+----------------------------------------
+  Normal Blocks Created: 0
+  Verification Blocks Created: 0
+  Normal Transactions in Blocks: 0
+  Verification Transactions in Blocks: 0
+  Unassigned Transactions: 0
+  Verification Unassigned Transactions: 0
+
+Shard SUBSET86 (max across shard nodes):
+----------------------------------------
+  Normal Blocks Created: 10
+  Verification Blocks Created: 0
+  Normal Transactions in Blocks: 965
+  Verification Transactions in Blocks: 0
+  Unassigned Transactions: 0
+  Verification Unassigned Transactions: 0
+
+Shard SUBSET87 (max across shard nodes):
+----------------------------------------
+  Normal Blocks Created: 13
+  Verification Blocks Created: 0
+  Normal Transactions in Blocks: 1205
+  Verification Transactions in Blocks: 0
+  Unassigned Transactions: 0
+  Verification Unassigned Transactions: 0
+
+Shard SUBSET88 (max across shard nodes):
+----------------------------------------
+  Normal Blocks Created: 12
+  Verification Blocks Created: 0
+  Normal Transactions in Blocks: 1120
+  Verification Transactions in Blocks: 0
+  Unassigned Transactions: 0
+  Verification Unassigned Transactions: 0
+
+Shard SUBSET89 (max across shard nodes):
+----------------------------------------
+  Normal Blocks Created: 10
+  Verification Blocks Created: 0
+  Normal Transactions in Blocks: 901
+  Verification Transactions in Blocks: 0
+  Unassigned Transactions: 0
+  Verification Unassigned Transactions: 0
+
+Shard SUBSET9 (max across shard nodes):
+----------------------------------------
+  Normal Blocks Created: 0
+  Verification Blocks Created: 0
+  Normal Transactions in Blocks: 0
+  Verification Transactions in Blocks: 0
+  Unassigned Transactions: 0
+  Verification Unassigned Transactions: 0
+
+Shard SUBSET90 (max across shard nodes):
+----------------------------------------
+  Normal Blocks Created: 12
+  Verification Blocks Created: 0
+  Normal Transactions in Blocks: 1200
+  Verification Transactions in Blocks: 0
+  Unassigned Transactions: 136
+  Verification Unassigned Transactions: 0
+
+Shard SUBSET91 (max across shard nodes):
+----------------------------------------
+  Normal Blocks Created: 11
+  Verification Blocks Created: 0
+  Normal Transactions in Blocks: 1040
+  Verification Transactions in Blocks: 0
+  Unassigned Transactions: 0
+  Verification Unassigned Transactions: 0
+
+Shard SUBSET92 (max across shard nodes):
+----------------------------------------
+  Normal Blocks Created: 4
+  Verification Blocks Created: 0
+  Normal Transactions in Blocks: 360
+  Verification Transactions in Blocks: 0
+  Unassigned Transactions: 0
+  Verification Unassigned Transactions: 0
+
+Shard SUBSET93 (max across shard nodes):
+----------------------------------------
+  Normal Blocks Created: 11
+  Verification Blocks Created: 0
+  Normal Transactions in Blocks: 940
+  Verification Transactions in Blocks: 0
+  Unassigned Transactions: 0
+  Verification Unassigned Transactions: 0
+
+Shard SUBSET94 (max across shard nodes):
+----------------------------------------
+  Normal Blocks Created: 10
+  Verification Blocks Created: 0
+  Normal Transactions in Blocks: 959
+  Verification Transactions in Blocks: 0
+  Unassigned Transactions: 0
+  Verification Unassigned Transactions: 0
+
+Shard SUBSET95 (max across shard nodes):
+----------------------------------------
+  Normal Blocks Created: 9
+  Verification Blocks Created: 0
+  Normal Transactions in Blocks: 762
+  Verification Transactions in Blocks: 0
+  Unassigned Transactions: 0
+  Verification Unassigned Transactions: 0
+
+Shard SUBSET96 (max across shard nodes):
+----------------------------------------
+  Normal Blocks Created: 12
+  Verification Blocks Created: 0
+  Normal Transactions in Blocks: 1122
+  Verification Transactions in Blocks: 0
+  Unassigned Transactions: 0
+  Verification Unassigned Transactions: 0
+
+Shard SUBSET97 (max across shard nodes):
+----------------------------------------
+  Normal Blocks Created: 0
+  Verification Blocks Created: 0
+  Normal Transactions in Blocks: 0
+  Verification Transactions in Blocks: 0
+  Unassigned Transactions: 800
+  Verification Unassigned Transactions: 0
+
+Shard SUBSET98 (max across shard nodes):
+----------------------------------------
+  Normal Blocks Created: 0
+  Verification Blocks Created: 0
+  Normal Transactions in Blocks: 0
+  Verification Transactions in Blocks: 0
+  Unassigned Transactions: 800
+  Verification Unassigned Transactions: 0
+
+Shard SUBSET99 (max across shard nodes):
+----------------------------------------
+  Normal Blocks Created: 9
+  Verification Blocks Created: 0
+  Normal Transactions in Blocks: 802
+  Verification Transactions in Blocks: 0
+  Unassigned Transactions: 0
+  Verification Unassigned Transactions: 0
+
+========================================
+TOTAL (All Shards):
+========================================
+Total Normal Blocks Created: 772
+Total Transactions in Blocks: 71728
+Total Verification Transactions in Blocks: 0
+Total Unassigned Transactions: 3950
+Total Verification Unassigned Transactions: 0
+Nodes Responded: 340
+Nodes Total: 512
+WARNING: 172 node(s) did not respond
+
+UNASSIGNED TRANSACTION REASONS:
+  - Transaction pool not full (threshold: 100)
+  - Consensus not reached for pending blocks
+  - Block creation in progress
+  - Test duration ended before block finalization

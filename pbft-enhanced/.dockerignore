@@ -1,0 +1,10 @@
+node_modules
+performance-results
+coverage
+*.log
+*.jtl
+temp
+__tests__
+.nyc_output
+server.log
+config.persisted.*.json

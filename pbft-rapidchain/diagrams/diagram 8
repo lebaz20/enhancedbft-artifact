@@ -1,0 +1,33 @@
+title PBFT Message Flow
+autoNumber nested
+
+// Define actors with icons and colors for clarity
+Client [icon: user, color: blue]
+Node 1 [icon: server, color: orange]
+Node 2 [icon: server, color: orange]
+Node 3 [icon: server, color: orange]
+Node 4 [icon: server, color: orange]
+
+Client > Node 2 : tx1
+
+par [label: Broadcast tx]  {
+Node 2 > Node 1 : tx1
+Node 2 > Node 3 : tx1
+Node 2 > Node 4 : tx1
+}
+
+Node 1 > Node 1: Try to propose a BLOCK
+
+par [label: Wait for proposed BLOCK messages, icon: clock]  {
+Node 2 > Node 2: Wait
+Node 3 > Node 3 : Wait
+Node 4 > Node 4 : Wait
+}
+
+Node 3 > Node 3: Try to propose a BLOCK
+
+par [label: Broadcast proposed BLOCK messages, icon: clock]  {
+Node 3 > Node 1: Send proposed BLOCK
+Node 3 > Node 2 : Send proposed BLOCK
+Node 3 > Node 4 : Send proposed BLOCK
+}
