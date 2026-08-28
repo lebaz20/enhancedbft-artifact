@@ -87,6 +87,7 @@ export NUMBER_OF_FAULTY_NODES=${NUMBER_OF_FAULTY_NODES:-85}
 export NUMBER_OF_NODES_PER_SHARD=${NUMBER_OF_NODES_PER_SHARD:-4}
 export SHOULD_REDIRECT_FROM_FAULTY_NODES=${SHOULD_REDIRECT_FROM_FAULTY_NODES:-0}
 export ENABLE_SHARD_MERGE=${ENABLE_SHARD_MERGE:-0}
+export ENABLE_PIPELINING=${ENABLE_PIPELINING:-1}
 export CPU_LIMIT=${CPU_LIMIT:-0.2}
 # POD_MEMORY_MIB: overrides prepare-config.js default of 256 MiB per pod.
 # Auto-set by NPS-aware block below when NPS >= 8; explicit env var always wins.

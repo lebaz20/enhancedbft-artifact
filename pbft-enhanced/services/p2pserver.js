@@ -5,7 +5,7 @@ const logger = require('../utils/logger')
 const TIMEOUTS = require('../constants/timeouts')
 
 const config = require('../config')
-const { SUBSET_INDEX, IS_FAULTY, VERIFICATION_SOURCE_SUBSETS } = config.get()
+const { SUBSET_INDEX, IS_FAULTY, VERIFICATION_SOURCE_SUBSETS, ENABLE_PIPELINING } = config.get()
 
 const P2P_PORT = process.env.P2P_PORT || 5001
 
@@ -57,6 +57,10 @@ class P2pserver {
     // _blockProposedAt[hash]: Date.now() when this node broadcast PRE_PREPARE for a block.
     // Used to measure actual PBFT round time (PRE_PREPARE → NEW BLOCK ADDED TO CHAIN).
     this._blockProposedAt = {}
+    // After a view change or shard merge the first pipelined block must build on
+    // the committed chain tip (depth-1 recovery), not on a stale inflight hash.
+    // Once that first block commits, depth-5 resumes.
+    this._pipelineRecovering = false
     // Adaptive timeout: exponentially-smoothed average of actual PBFT round times.
     // The block creation timeout (= view-change timer) is set to max(1000, 2 × _avgRoundMs)
     // so small networks (16-64 nodes, ~0.5-2s rounds) get 1-2s view-change rotation
@@ -512,6 +516,7 @@ class P2pserver {
           this._blockCreationTimeout = null
           this._viewOffset = 0
           this._inactivityViewRotated = false
+          this._pipelineRecovering = false  // first clean commit: resume depth-5
           this._poolWasFullThisEpoch = false
           this._viewChangeVotes = new Map()
           this.broadcastBlockToCore(result)
@@ -610,6 +615,13 @@ class P2pserver {
       // cascade where all honest nodes immediately vote for view N+1 before the
       // new honest proposer at view N can distribute its block (~500 ms IDA delay).
       this._inactivityViewRotated = false
+      // Depth-1 recovery only when there are stale inflight blocks to abandon.
+      // A silent faulty proposer never puts anything inflight, so the pipeline
+      // is already clean — entering recovery mode unnecessarily keeps A at depth-1
+      // through the entire faulty-proposer skip, destroying its pipeline advantage.
+      if (this.transactionPool.getInflightBlocks().length > 0) {
+        this._pipelineRecovering = true
+      }
       // Return all TX that are assigned to the abandoned block back to the
       // unassigned pool immediately — new proposer can pick them up at once
       // instead of waiting up to 30 s for the safety-reassignment timers.
@@ -638,6 +650,9 @@ class P2pserver {
     }
     this._viewOffset = targetView
     this._inactivityViewRotated = false
+    if (this.transactionPool.getInflightBlocks().length > 0) {
+      this._pipelineRecovering = true
+    }
     this.transactionPool.releaseAssigned()
     logger.log(P2P_PORT, `NEW VIEW (catch-up) shard=${SUBSET_INDEX} — jumping to view ${targetView}`)
     this.initiateBlockCreation(P2P_PORT, false)
@@ -777,9 +792,17 @@ class P2pserver {
     this._viewChangeVotes = new Map()
     this._seenNewViews = new Set()
     this._blockProposedAt = {}
+    this._pipelineRecovering = true
     if (this._blockCreationTimeout) {
       clearTimeout(this._blockCreationTimeout)
       this._blockCreationTimeout = null
+    }
+    // Flush pipeline only for nodes joining from a dead shard — not for the live
+    // receiving shard, which would abort its own healthy inflight blocks.
+    // SUBSET_INDEX is the module-level const (original shard at startup) and is
+    // not mutated by config.set above, so this check is stable.
+    if (SUBSET_INDEX !== mergedShardIndex) {
+      this.transactionPool.flushInflightBlocks()
     }
     // Update verification ring so merged shards verify each other.
     if (verificationSourceSubsets) {
@@ -1024,7 +1047,7 @@ class P2pserver {
     // through N+4 are already being proposed and voted on.  Raised from 3 to 5
     // to match RapidChain's deeper pipeline and better hide consensus latency
     // at all network sizes.
-    return inflightBlocks.length <= 5
+    return (ENABLE_PIPELINING && !this._pipelineRecovering) ? inflightBlocks.length <= 5 : inflightBlocks.length === 0
   }
 
   // Adaptive reassignment timeout: max(15s, 3 × avgRoundMs), capped at 60s.
@@ -1226,7 +1249,7 @@ class P2pserver {
       const proposerObject = this.blockchain.getProposer(undefined, viewOffset)
       const inflightBlocks = _inflightHashes // reuse — no second Object.keys allocation
       const isProposer = proposerObject.proposer === this.wallet.getPublicKey()
-      const canCreateBlock = isProposer && readyToPropose && inflightBlocks.length <= 5
+      const canCreateBlock = isProposer && readyToPropose && ((ENABLE_PIPELINING && !this._pipelineRecovering) ? inflightBlocks.length <= 5 : inflightBlocks.length === 0)
       // Check if the elected proposer is already a known-faulty peer (isFaulty set at
       // connection time or via transaction relay). If so, vote to skip immediately
       // instead of waiting 10 s for the timeout — eliminates per-rotation stall.

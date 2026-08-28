@@ -106,6 +106,32 @@ class TransactionPool {
     return inflightBlocks
   }
 
+  // Move all inflight-block transactions back to unassigned and cancel their
+  // reassignment timers.  Called on shard merge so stale pipeline slots don't
+  // cascade into view-change storms on the fresh merged-shard chain.
+  flushInflightBlocks() {
+    const hashes = Object.keys(this.transactions).filter((k) => k !== 'unassigned')
+    for (const hash of hashes) {
+      if (this.reassignmentTimers[hash]) {
+        clearTimeout(this.reassignmentTimers[hash])
+        delete this.reassignmentTimers[hash]
+      }
+      const uncommitted = (this.transactions[hash] || []).filter(
+        (item) => !this.committedTxIds.has(item.id)
+      )
+      this.transactions.unassigned = [...this.transactions.unassigned, ...uncommitted]
+      delete this.transactions[hash]
+      delete this.transactionsCreatedAt[hash]
+    }
+    const seenIds = new Set()
+    this.transactions.unassigned = this.transactions.unassigned.filter(
+      (item) => seenIds.size < seenIds.add(item.id).size
+    )
+    this._verificationUnassignedCount = this.transactions.unassigned.filter(
+      (tx) => tx._type === 'verification'
+    ).length
+  }
+
   // returns true if transaction pool is full
   // else returns false
   // Reads TRANSACTION_THRESHOLD live so the adaptive block-size logic in

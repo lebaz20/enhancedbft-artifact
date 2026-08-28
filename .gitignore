@@ -15,6 +15,7 @@ dist/
 **/server.log
 **/jmeter_ports.csv
 **/pods-not-running-detail.txt
+**/performance-results/
 
 # OS noise
 .DS_Store

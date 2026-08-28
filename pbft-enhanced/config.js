@@ -72,6 +72,7 @@ function loadConfig() {
 
   const SHOULD_REDIRECT_FROM_FAULTY_NODES = process.env.SHOULD_REDIRECT_FROM_FAULTY_NODES === 'true'
   const ENABLE_SHARD_MERGE = process.env.ENABLE_SHARD_MERGE === 'true'
+  const ENABLE_PIPELINING = process.env.ENABLE_PIPELINING !== '0'
   const IS_FAULTY = process.env.IS_FAULTY === 'true'
 
   // Minimum number of positive votes required for the message/block to be valid
@@ -123,6 +124,7 @@ function loadConfig() {
     IS_FAULTY,
     SHOULD_REDIRECT_FROM_FAULTY_NODES,
     ENABLE_SHARD_MERGE,
+    ENABLE_PIPELINING,
     DEFAULT_TTL,
     VERIFICATION_SOURCE_SUBSETS
   }
