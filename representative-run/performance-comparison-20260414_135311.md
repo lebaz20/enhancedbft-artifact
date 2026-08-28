@@ -130,33 +130,26 @@ See the Detailed Comparison and Effective TX Rate rows above for the run-specifi
 
 ### PBFT-RapidChain
 
-**Strengths:**
-- 60 ms average HTTP response time
-- 12.93% drain rate (share of submitted transactions confirmed on-chain)
-- Architecture designed for horizontal scaling via sharding
-
 **Characteristics:**
 - Two-level consensus: each shard runs PBFT internally, then a committee shard validates batches of shard blocks (`BLOCK_THRESHOLD`)
 - The committee layer creates a second pipeline stage; if too few shard blocks accumulate, the committee does not trigger and txs stall
-- `getTotal()` counts all pending client transactions (unassigned + inflight blocks not yet committed), so the drain rate correctly penalises TXs stuck in dead-shard inflight blocks
-- Non-proposer redistribution workaround (re-broadcasts txs every 10 s) causes O(n²) bandwidth growth and timing races on proposer rotation
-- Best for larger networks (>16 nodes) that need cross-shard coordination
+- At 512 nodes the committee becomes a serial bottleneck: only 12.93% of submitted transactions were confirmed (7.35 tx/s effective rate)
+- 60 ms HTTP response time reflects immediate queueing without upfront consensus validation — not blockchain throughput
 
 ---
 
 ## Recommendation
 
-**🏆 Winner: PBFT-RapidChain**
+**🏆 Winner: PBFT-Enhanced**
 
-For 512 nodes, PBFT-RapidChain performs better overall:
-- Higher Effective TX Rate (7.35 vs 230.16 tx/s) after correcting for input volume
-- 60 ms vs 343 ms average response time
-- Architecture ready for horizontal scaling beyond this node count
+At 512 nodes, PBFT-Enhanced decisively outperforms RapidChain on every blockchain metric:
+- **31× higher Effective TX Rate** (230.16 vs 7.35 tx/s)
+- **97.22% vs 12.93% drain rate** — Enhanced confirms nearly all submitted transactions; RapidChain leaves 87% unconfirmed
+- **772 vs 124 blocks committed** — Enhanced's distributed verification ring keeps all shards producing blocks while RapidChain's committee serialises cross-shard finality
 
-**When RapidChain becomes the right choice:**
-- Networks exceeding 32+ nodes where O(n²) PBFT message complexity becomes a bottleneck
-- Multi-shard deployments where cross-shard coordination is required
-- After fixing: (i) `getTotal()` to include committee pool, (ii) the drain detection logic, and (iii) the committee threshold to fire on partial batches
+RapidChain's lower HTTP response time (60 ms vs 343 ms) reflects its design of acknowledging transactions immediately before consensus, not faster blockchain processing. Under the Effective TX Rate metric — which corrects for this input-volume difference — Enhanced wins by 31×.
+
+The gap is architectural: RapidChain's global committee processes cross-shard blocks serially, creating an O(n/k) bottleneck that grows with scale. Enhanced's verification ring distributes this work across all shards at O(1) per shard, and its shard-merge protocol recovers honest-node capacity from Byzantine-disabled shards.
 
 ---
 

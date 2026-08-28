@@ -24,16 +24,27 @@ class TransactionPool {
     this._verificationUnassignedCount = 0
   }
 
-  // pushes transactions in the list
+  // pushes transactions in the list; silently drops when the unassigned pool
+  // would exceed MAX_POOL_DEPTH to prevent memory explosion on broken shards
+  // where blocks never commit and gossip fills the pool indefinitely.
   addTransaction(transaction) {
     if (!transaction || !transaction.id) {
       throw new Error('Invalid transaction: transaction and transaction.id are required')
     }
+    const MAX_POOL_DEPTH = config.get().TRANSACTION_THRESHOLD * 20
+    if (this.transactions.unassigned.length >= MAX_POOL_DEPTH) return
     this.transactions.unassigned.push(transaction)
     this.transactionIds.add(transaction.id)
     if (transaction._type === 'verification') this._verificationUnassignedCount++
 
     RateUtility.updateRatePerMin(this.ratePerMin, transaction.createdAt)
+  }
+
+  // True when the pool is at absolute capacity — callers should drop the TX
+  // without verifying or gossiping, but must NOT mark it seen in transactionIds
+  // so it can re-enter the pool once a block commit drains space.
+  isAtMaxDepth() {
+    return this.transactions.unassigned.length >= config.get().TRANSACTION_THRESHOLD * 20
   }
 
   // assign block transactions to the block via block hash

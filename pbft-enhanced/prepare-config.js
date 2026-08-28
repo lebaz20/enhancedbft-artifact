@@ -125,7 +125,16 @@ nodesSubsets.forEach((nodesSubset, subsetIndex) => {
       VERIFICATION_SOURCE_SUBSETS: JSON.stringify(verificationSourceSubsets),
       CORE: `ws://core-server:${coreServerPort}`,
       CPU_LIMIT,
-      DEFAULT_TTL
+      DEFAULT_TTL,
+      // Propagate NODE_OPTIONS from the invoking shell into the pod so we can
+      // tune V8 heap without changing the Dockerfile. Empty string == unset.
+      // Used to pass --max-old-space-size at NPS=100 where the default heap
+      // limit collides with the pod memory limit and triggers OOMKill.
+      NODE_OPTIONS: process.env.NODE_OPTIONS || '',
+      // STRICT_BLOCK_THRESHOLD=1 disables enhanced's sub-threshold fast-paths so
+      // it only proposes when the pool reaches TRANSACTION_THRESHOLD — matches
+      // RapidChain's fire-only-when-full policy for apples-to-apples benchmarks.
+      STRICT_BLOCK_THRESHOLD: process.env.STRICT_BLOCK_THRESHOLD || '0'
     }
 
     if (index > 0) {
@@ -155,7 +164,22 @@ environmentArray.sort((a, b) => a.HTTP_PORT - b.HTTP_PORT)
 
 fs.writeFileSync(environmentFile, yaml.dump(environmentArray))
 
-const memory = '256Mi'
+// Memory scales with NPS: 256Mi handles a 4-node shard, but at NPS=100 the
+// P2P mesh + PBFT vote pools + inflight-block state exceed that limit and
+// pods OOMKill under load. journal-comparison.sh sets POD_MEMORY_MIB when
+// scaling per NPS; falls back to 256Mi for small standalone runs.
+const memory = `${process.env.POD_MEMORY_MIB || 256}Mi`
+// Enhanced's core-server coordinates shard-merge decisions across shards.
+// Core-server targets the control-plane node via nodeAffinity (Exists on the
+// node-role.kubernetes.io/control-plane label) with tolerations for the common
+// NoSchedule taint. Cap 2048 MiB fits on a c6i.large (4 GiB) master alongside
+// k3s, OS, and JMeter. NODE_OPTIONS pins V8's heap ceiling to 80% of the cap.
+const _corePodMib = Math.min(
+  2048,
+  Math.max(512, Number(process.env.POD_MEMORY_MIB || 256))
+)
+const coreMemory = `${_corePodMib}Mi`
+const coreNodeOptions = `--max-old-space-size=${Math.floor(_corePodMib * 0.8)}`
 const cpu = `${Number(CPU_LIMIT) * 1000}m`
 // Build array of individual k8s resources (pods + services).
 // Written as multi-document YAML (--- separators) instead of a single kind:List
@@ -168,11 +192,38 @@ const k8sItems = [
       kind: 'Pod',
       metadata: {
         name: `p2p-server-${index}`,
-        labels: { app: 'p2p-server', domain: 'blockchain' }
+        // See rapidchain prepare-config.js for the rationale: per-pod
+        // `pod-index` label narrows the headless-Service selector so DNS for
+        // p2p-server-N resolves only to pod N's endpoint. Required on
+        // multi-EC2 hostNetwork clusters.
+        labels: { app: 'p2p-server', domain: 'blockchain', 'pod-index': String(index) }
       },
       spec: {
         ...(process.env.USE_HOST_NETWORK === 'true'
           ? { hostNetwork: true, dnsPolicy: 'ClusterFirstWithHostNet' }
+          : {}),
+        // Spread pods 1-per-node on multi-EC2 clusters. When enabled, kube-scheduler
+        // refuses to place two p2p-server pods on the same node — required so each
+        // pod gets its dedicated t3.small worker instead of piling up on whichever
+        // node has spare CPU. Off by default (single-EC2 clusters intentionally
+        // pack many pods per host).
+        ...(process.env.SPREAD_PODS_ACROSS_NODES === 'true'
+          ? {
+              affinity: {
+                podAntiAffinity: {
+                  requiredDuringSchedulingIgnoredDuringExecution: [
+                    {
+                      labelSelector: {
+                        matchExpressions: [
+                          { key: 'app', operator: 'In', values: ['p2p-server'] }
+                        ]
+                      },
+                      topologyKey: 'kubernetes.io/hostname'
+                    }
+                  ]
+                }
+              }
+            }
           : {}),
         containers: [
           {
@@ -226,7 +277,8 @@ const k8sItems = [
       spec: {
         clusterIP: 'None',
         selector: {
-          app: 'p2p-server'
+          app: 'p2p-server',
+          'pod-index': String(index)
         },
         ports: [
           {
@@ -255,6 +307,22 @@ const k8sItems = [
       labels: { app: 'core-server', domain: 'blockchain' }
     },
     spec: {
+      tolerations: [
+        { key: 'node-role.kubernetes.io/control-plane', operator: 'Exists', effect: 'NoSchedule' },
+        { key: 'node-role.kubernetes.io/master', operator: 'Exists', effect: 'NoSchedule' }
+      ],
+      affinity: {
+        nodeAffinity: {
+          requiredDuringSchedulingIgnoredDuringExecution: {
+            nodeSelectorTerms: [{
+              matchExpressions: [{
+                key: 'node-role.kubernetes.io/control-plane',
+                operator: 'Exists'
+              }]
+            }]
+          }
+        }
+      },
       ...(process.env.USE_HOST_NETWORK === 'true'
         ? { hostNetwork: true, dnsPolicy: 'ClusterFirstWithHostNet' }
         : {}),
@@ -265,7 +333,7 @@ const k8sItems = [
           imagePullPolicy: 'Never',
           resources: {
             limits: {
-              memory,
+              memory: coreMemory,
               cpu
             }
           },
@@ -281,6 +349,10 @@ const k8sItems = [
             {
               name: 'ENABLE_SHARD_MERGE',
               value: String(ENABLE_SHARD_MERGE)
+            },
+            {
+              name: 'NODE_OPTIONS',
+              value: coreNodeOptions
             }
           ],
           ports: [{ containerPort: coreServerPort }]

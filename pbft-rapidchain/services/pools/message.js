@@ -30,14 +30,14 @@ class MessagePool {
   addMessage(message, isCommittee = false) {
     if (isCommittee) {
       if (!(message.blockHash in this.committeeList)) {
-        return;
+        this.committeeList[message.blockHash] = []
       }
-      this.committeeList[message.blockHash].push(message);
+      this.committeeList[message.blockHash].push(message)
     } else {
       if (!(message.blockHash in this.list)) {
-        return;
+        this.list[message.blockHash] = []
       }
-      this.list[message.blockHash].push(message);
+      this.list[message.blockHash].push(message)
     }
   }
 

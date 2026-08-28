@@ -274,7 +274,13 @@ class Blockchain {
     // TODO: track failed consensus attempts
     // } else if (!currentShardBlocksRate || currentShardTransactionsRate > currentShardProcessedTransactionsPeakRate * 2) {
     if (nonFaultyNodesCount < MIN_APPROVALS) {
-      shardStatus = SHARD_STATUS.faulty
+      // Distinguish startup (mesh still forming, no block ever committed) from
+      // a real quorum loss after the shard has proven it can commit. Chain
+      // always starts with a genesis block, so length > 1 means at least one
+      // PBFT round has succeeded on this shard.
+      const shardChain = this.chain[SUBSET_INDEX]
+      const hasEverCommitted = Array.isArray(shardChain) && shardChain.length > 1
+      shardStatus = hasEverCommitted ? SHARD_STATUS.faulty : SHARD_STATUS.warming
     } else if (cpuPercentage < CPU_UNDER_UTILIZED_THRESHOLD) {
       shardStatus = SHARD_STATUS.under_utilized
     } else if (cpuPercentage > CPU_OVER_UTILIZED_THRESHOLD) {

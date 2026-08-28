@@ -24,9 +24,9 @@ class MessagePool {
   // pushes the message for a block hash into the list
   addMessage(message) {
     if (!(message.blockHash in this.list)) {
-      return;
+      this.list[message.blockHash] = []
     }
-    this.list[message.blockHash].push(message);
+    this.list[message.blockHash].push(message)
   }
 
   // checks if the message already exists

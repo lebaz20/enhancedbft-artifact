@@ -97,9 +97,19 @@ function loadConfig() {
     ? JSON.parse(process.env.VERIFICATION_SOURCE_SUBSETS)
     : []
 
+  // STRICT_BLOCK_THRESHOLD (default 0/off): when 1, disable both sub-threshold
+  // fast-paths in p2pserver.js so enhanced only proposes blocks when the pool
+  // reaches TRANSACTION_THRESHOLD — matching RapidChain's fire-only-when-full
+  // policy. Purely for apples-to-apples benchmarking; leaves partial-pool
+  // transactions uncommitted at test end, same as RapidChain.
+  const STRICT_BLOCK_THRESHOLD = process.env.STRICT_BLOCK_THRESHOLD
+    ? parseInt(process.env.STRICT_BLOCK_THRESHOLD, 10) === 1
+    : false
+
   const config = {
     TRANSACTION_THRESHOLD,
     BASE_TRANSACTION_THRESHOLD,
+    STRICT_BLOCK_THRESHOLD,
     DRAIN_BATCH_SIZE,
     POOL_CAPACITY,
     NUMBER_OF_NODES_PER_SHARD,

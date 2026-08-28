@@ -10,7 +10,8 @@ const MESSAGE_TYPE = {
   committee_block_to_core: 'COMMITTEE_BLOCK_TO_CORE',
   block_from_core: 'BLOCK_FROM_CORE',
   rate_to_core: 'RATE_TO_CORE',
-  config_from_core: 'CONFIG_FROM_CORE'
+  config_from_core: 'CONFIG_FROM_CORE',
+  new_view: 'NEW_VIEW'
 }
 
 module.exports = MESSAGE_TYPE

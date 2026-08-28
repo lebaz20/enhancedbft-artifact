@@ -8,9 +8,28 @@ const { NUMBER_OF_NODES, DEFAULT_TTL, NUMBER_OF_NODES_PER_SHARD } = config.get()
 class IDAGossip {
   constructor() {
     this.fileChunks = new Map() // Store received chunks
+    this._chunkTimestamps = new Map()
     this.socketGossipNodes // Connected nodes (all network peers)
     this.socketGossipPeers // Connected peers
     this.socketGossipCore // Connected Core
+    // Evict stale chunks every 20s (cutoff=25s) to prevent chunk accumulation OOM
+    setInterval(() => {
+      const cutoff = Date.now() - 25000
+      for (const [key, ts] of this._chunkTimestamps) {
+        if (ts < cutoff) {
+          this.fileChunks.delete(key)
+          this._chunkTimestamps.delete(key)
+        }
+      }
+      if (this.fileChunks.size > 3000) {
+        const sorted = [...this._chunkTimestamps.entries()].sort((a, b) => a[1] - b[1])
+        const toEvict = sorted.slice(0, Math.floor(sorted.length / 2))
+        for (const [key] of toEvict) {
+          this.fileChunks.delete(key)
+          this._chunkTimestamps.delete(key)
+        }
+      }
+    }, 20000).unref()
   }
 
   setNodeSockets(sockets) {
@@ -127,16 +146,23 @@ class IDAGossip {
       })
     }
 
-    // Add redundant chunks for fault tolerance
-    for (let index = requiredChunks; index < totalChunks; index++) {
-      const randomIndex = Math.floor(Math.random() * requiredChunks)
+    // Add redundant chunks for fault tolerance — each redundant chunk is a copy
+    // of a data chunk but carries a UNIQUE index starting at requiredChunks so
+    // it is stored and used as a distinct erasure-coded shard.  The receiver
+    // accepts any requiredChunks distinct indices for reconstruction.
+    for (let redundantIdx = 0; redundantIdx < totalChunks - requiredChunks; redundantIdx++) {
+      const sourceIdx = redundantIdx % requiredChunks
       chunks.push({
         id: uuidv1(),
-        index: randomIndex,
-        data: chunks[randomIndex].data, // Simple redundancy
-        totalChunks: requiredChunks,
+        index: requiredChunks + redundantIdx,
+        data: chunks[sourceIdx].data,
+        totalChunks,
         fileHash
       })
+    }
+    // Also update data chunks to advertise the real totalChunks (data + parity)
+    for (let i = 0; i < requiredChunks; i++) {
+      chunks[i].totalChunks = totalChunks
     }
 
     return chunks
@@ -349,6 +375,7 @@ class IDAGossip {
       const chunkKey = `${chunk.fileHash}-${chunk.index}`
       if (!this.fileChunks.has(chunkKey)) {
         this.fileChunks.set(chunkKey, chunk)
+        this._chunkTimestamps.set(chunkKey, Date.now())
 
         if (shouldGossip) {
           // Continue gossiping to other peers
@@ -389,13 +416,29 @@ class IDAGossip {
       return JSON.parse(reconstructedBuffer.toString('utf8'))
     }
 
-    const chunks = Array.from(this.fileChunks.values())
-      .filter((chunk) => chunk.fileHash === fileHash)
-      .sort((a, b) => a.index - b.index)
+    const allChunks = Array.from(this.fileChunks.values()).filter(
+      (chunk) => chunk.fileHash === fileHash
+    )
 
-    if (chunks.length >= totalChunks) {
-      // Take only the required chunks for reconstruction
-      const requiredChunks = chunks.slice(0, totalChunks)
+    // We need all indices 0..requiredChunks-1 to reconstruct (data chunks only).
+    // requiredChunks is totalChunks - parity count; for our 1.5× scheme parity
+    // count = totalChunks - floor(totalChunks/1.5) ≈ totalChunks/3. We derive
+    // requiredChunks as the count of chunks with index < totalChunks that map to
+    // the data region (index < floor(totalChunks * 2/3)).
+    const dataChunks = allChunks.filter((c) => c.index < totalChunks).sort((a, b) => a.index - b.index)
+    // Find how many unique sequential data-region indices we have starting from 0
+    const requiredCount = Math.ceil(totalChunks / 1.5) // = original requiredChunks
+    const byIndex = new Map(dataChunks.map((c) => [c.index, c]))
+    // Check we have all indices 0..requiredCount-1
+    const dataSequential = []
+    for (let i = 0; i < requiredCount; i++) {
+      if (!byIndex.has(i)) break
+      dataSequential.push(byIndex.get(i))
+    }
+
+    if (dataSequential.length >= requiredCount) {
+      // Take only the required data chunks for reconstruction
+      const requiredChunks = dataSequential.slice(0, requiredCount)
       const reconstructedBuffer = Buffer.concat(
         requiredChunks.map((chunk) => Buffer.from(chunk.data, 'base64'))
       )
@@ -417,7 +460,7 @@ class IDAGossip {
             keysToDelete.push(key)
           }
         }
-        keysToDelete.forEach((key) => this.fileChunks.delete(key))
+        keysToDelete.forEach((key) => { this.fileChunks.delete(key); this._chunkTimestamps.delete(key) })
 
         return data
       }

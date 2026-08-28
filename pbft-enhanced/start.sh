@@ -30,7 +30,7 @@ NUMBER_OF_NODES=${NUMBER_OF_NODES:-4}
 NUMBER_OF_FAULTY_NODES=${NUMBER_OF_FAULTY_NODES:-0}
 NUMBER_OF_NODES_PER_SHARD=${NUMBER_OF_NODES_PER_SHARD:-4}
 SHOULD_REDIRECT_FROM_FAULTY_NODES=${SHOULD_REDIRECT_FROM_FAULTY_NODES:-1}
-ENABLE_SHARD_MERGE=${ENABLE_SHARD_MERGE:-0}
+ENABLE_SHARD_MERGE=${ENABLE_SHARD_MERGE:-1}
 TRANSACTION_THRESHOLD=${TRANSACTION_THRESHOLD:-5}
 CPU_LIMIT=${CPU_LIMIT:-0.1}
 DEFAULT_TTL=${DEFAULT_TTL:-6}
@@ -57,11 +57,54 @@ echo -e "${GREEN}✓ Configuration generated${NC}\n"
 echo -e "${BLUE}Step 3: Deploying to Kubernetes...${NC}"
 echo "[$(date '+%Y-%m-%d %H:%M:%S')] Deleting existing Kubernetes resources..." | tee -a server.log
 kubectl delete -f kubeConfig.yml --ignore-not-found --grace-period=0 --force 2>&1 | tee -a server.log || true
-echo "[$(date '+%Y-%m-%d %H:%M:%S')] Applying Kubernetes configuration..." | tee -a server.log
-APPLIED=$(kubectl apply --server-side --force-conflicts -f kubeConfig.yml 2>&1) || true
-APPLIED_COUNT=$(echo "$APPLIED" | wc -l | tr -d ' ')
-echo "$APPLIED" >> server.log
-echo -e "  Applied ${APPLIED_COUNT} resources"
+echo "[$(date '+%Y-%m-%d %H:%M:%S')] Applying Kubernetes configuration (batched)..." | tee -a server.log
+# Batched apply: split multi-doc YAML by pod ordinal into groups of $BATCH_SIZE
+# so pods come online in waves instead of all at t=0. Applied identically in
+# pbft-rapidchain/start.sh so the two systems share identical scheduling plumbing.
+# Rationale: at NPS=100 a single-batch apply produces a synchronized outbound
+# WebSocket burst across all pods that saturates the Node.js event loop; the
+# mesh reports `shardSize:3` per pod (out of 100) and consensus never reaches
+# quorum. Staggering the pods' start times spreads the inbound-connect load.
+BATCH_SIZE="${STARTUP_BATCH_SIZE:-20}"
+BATCH_WAIT_SEC="${STARTUP_BATCH_WAIT_SEC:-15}"
+BATCH_DIR=$(mktemp -d -t kube-batches-XXXXXX)
+trap "rm -rf $BATCH_DIR" EXIT INT TERM
+python3 - "$BATCH_SIZE" "$BATCH_DIR" << 'PYEOF'
+import re, os, sys
+batch_size = int(sys.argv[1])
+batch_dir = sys.argv[2]
+with open('kubeConfig.yml') as f:
+    docs = [d for d in f.read().split('\n---') if d.strip()]
+batches = {}
+for doc in docs:
+    m = re.search(r'name:\s*p2p-server-(\d+)', doc)
+    if m:
+        batch = m.group(1) and (int(m.group(1)) // batch_size) + 1
+    else:
+        batch = 0  # core-server + non-p2p resources → apply first
+    batches.setdefault(batch, []).append(doc)
+for i, b in enumerate(sorted(batches)):
+    fname = os.path.join(batch_dir, f"batch-{i:03d}.yml")
+    with open(fname, 'w') as f:
+        f.write('\n---\n'.join(batches[b]) + '\n')
+    print(f"  batch {i}: {len(batches[b])} docs → {os.path.basename(fname)}")
+PYEOF
+TOTAL_APPLIED=0
+for BATCH_FILE in "$BATCH_DIR"/batch-*.yml; do
+    _BATCH_NAME=$(basename "$BATCH_FILE")
+    echo "[$(date '+%Y-%m-%d %H:%M:%S')] Applying $_BATCH_NAME..." | tee -a server.log
+    _BATCH_OUT=$(kubectl apply --server-side --force-conflicts -f "$BATCH_FILE" 2>&1) || true
+    _BATCH_COUNT=$(echo "$_BATCH_OUT" | wc -l | tr -d ' ')
+    TOTAL_APPLIED=$((TOTAL_APPLIED + _BATCH_COUNT))
+    echo "$_BATCH_OUT" >> server.log
+    # Don't wait after the last batch — Step 4 will poll readiness immediately.
+    if [ "$BATCH_FILE" != "$(ls "$BATCH_DIR"/batch-*.yml | tail -1)" ]; then
+        echo "  waiting ${BATCH_WAIT_SEC}s before next batch..." | tee -a server.log
+        sleep "$BATCH_WAIT_SEC"
+    fi
+done
+APPLIED_COUNT=$TOTAL_APPLIED
+echo -e "  Applied ${APPLIED_COUNT} resources across $(ls "$BATCH_DIR"/batch-*.yml | wc -l | tr -d ' ') batches"
 echo -e "${GREEN}✓ Deployed to Kubernetes${NC}\n"
 echo "[$(date '+%Y-%m-%d %H:%M:%S')] Kubernetes deployment complete" | tee -a server.log
 
@@ -181,7 +224,13 @@ for subset, nodes in by_shard.items():
     if healthy_pod_indices and dead_pod_indices:
         break
 
-all_indices = healthy_pod_indices + dead_pod_indices
+# Cap diagnostic streams to 3 pods per role. At NPS=100, all 100 pods
+# streaming via `kubectl logs -f` opens N concurrent SPDY connections to
+# the k3s API server, which saturates a c6i.large master (SSH banner
+# exchange times out for the entire test window). 3 pods per role gives
+# enough diagnostic signal without overwhelming the control plane.
+_MAX_PER_ROLE = 3
+all_indices = healthy_pod_indices[:_MAX_PER_ROLE] + dead_pod_indices[:_MAX_PER_ROLE]
 print(" ".join(f"p2p-server-{i}" for i in all_indices))
 PYEOF
 )

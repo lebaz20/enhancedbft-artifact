@@ -16,6 +16,7 @@ class TransactionPool {
     this.transactionsCreatedAt = {}
     this.committeeTransactions = { unassigned: [] }
     this.committeeTransactionIds = new Set() // O(1) existence index for committee transactions
+    this.committeeTransactionsCreatedAt = {}
     this.reassignmentTimers = {}
     // Committed TX IDs — prevents TXs from being re-proposed after the
     // safety-reassignment timer moves them back to unassigned.
@@ -25,19 +26,34 @@ class TransactionPool {
     this.ratePerMin = {}
   }
 
-  // pushes transactions in the list
+  // pushes transactions in the list; silently drops when the unassigned pool
+  // would exceed MAX_POOL_DEPTH to prevent memory explosion on broken shards
+  // where blocks never commit and gossip fills the pool indefinitely.
   addTransaction(transaction, isCommittee = false) {
+    const MAX_POOL_DEPTH = TRANSACTION_THRESHOLD * 20
     if (isCommittee) {
       if (!this.committeeTransactions) {
         this.committeeTransactions = { unassigned: [] }
       }
+      if (this.committeeTransactions.unassigned.length >= MAX_POOL_DEPTH) return
       this.committeeTransactions.unassigned.push(transaction)
       this.committeeTransactionIds.add(transaction.id)
     } else {
+      if (this.transactions.unassigned.length >= MAX_POOL_DEPTH) return
       this.transactions.unassigned.push(transaction)
       this.transactionIds.add(transaction.id)
       RateUtility.updateRatePerMin(this.ratePerMin, transaction.createdAt)
     }
+  }
+
+  // True when the pool is at absolute capacity — callers should drop the TX
+  // without verifying or gossiping, but must NOT mark it seen in transactionIds
+  // so it can re-enter the pool once a block commit drains space.
+  isAtMaxDepth(isCommittee = false) {
+    const MAX_POOL_DEPTH = TRANSACTION_THRESHOLD * 20
+    return isCommittee
+      ? (this.committeeTransactions?.unassigned.length ?? 0) >= MAX_POOL_DEPTH
+      : this.transactions.unassigned.length >= MAX_POOL_DEPTH
   }
 
   // assign block transactions to the block via block hash
@@ -109,8 +125,10 @@ class TransactionPool {
 
   // get inflight blocks
   getInflightBlocks(block = undefined, isCommittee = false) {
-    // unassigned is the only key we have in case no inbound transactions
-    let inflightBlocks = Object.keys(isCommittee ? this.committeeTransactions : this.transactions)
+    // 'unassigned' is the permanent pool key — all other keys are block-hash buckets
+    let inflightBlocks = Object.keys(
+      isCommittee ? this.committeeTransactions : this.transactions
+    ).filter((k) => k !== 'unassigned')
     if (block?.hash) {
       inflightBlocks = inflightBlocks.filter((hash) => hash !== block.hash)
     }

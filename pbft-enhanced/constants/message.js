@@ -12,6 +12,7 @@ const MESSAGE_TYPE = {
   rate_to_core: 'RATE_TO_CORE',
   config_from_core: 'CONFIG_FROM_CORE',
   merge_shard: 'MERGE_SHARD',
+  new_view: 'NEW_VIEW',
   handshake: 'HANDSHAKE'
 }
 

@@ -40,13 +40,12 @@ function loadConfig() {
   // improve performance by using a subset of nodes in the network
   const NUMBER_OF_FAULTY_NODES = process.env.NUMBER_OF_FAULTY_NODES || 0
 
-  // Minimum number of positive votes required for the message/block to be valid
-  // Standard PBFT safety threshold: 2f+1 where f = floor((n-1)/3)
-  // This tolerates up to floor((n-1)/3) faulty nodes per shard.
-  // The naive formula 2*(n/3) gives 5.33 for n=8 (requires 6 votes) which is
-  // stricter than necessary — shards with 3 faulty out of 8 only have 5 honest
-  // nodes and would never reach consensus even though PBFT allows it.
-  const MIN_APPROVALS = 2 * Math.floor((NUMBER_OF_NODES_PER_SHARD - 1) / 3) + 1
+  // SyncBFT quorum: majority of n nodes (tolerates f < n/2 under synchrony assumption).
+  // Requires network to deliver messages within DELTA_MS — viable on single-region AWS.
+  const MIN_APPROVALS = Math.floor(NUMBER_OF_NODES_PER_SHARD / 2) + 1
+
+  // SyncBFT epoch duration (half-period). Epoch = 2×DELTA_MS.
+  const DELTA_MS = process.env.DELTA_MS ? parseInt(process.env.DELTA_MS, 10) : 2000
 
   // SUBSET INDEX
   const SUBSET_INDEX = process.env.SUBSET_INDEX ?? 'SUBSET1'
@@ -64,6 +63,7 @@ function loadConfig() {
     NUMBER_OF_NODES,
     NUMBER_OF_FAULTY_NODES,
     MIN_APPROVALS,
+    DELTA_MS,
     SUBSET_INDEX,
     NODES_SUBSET,
     CPU_LIMIT,

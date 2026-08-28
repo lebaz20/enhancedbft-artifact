@@ -3,15 +3,36 @@ const config = require('../config')
 const axios = require('axios')
 const { v1: uuidv1 } = require('uuid')
 const isEmpty = require('lodash/isEmpty')
+const reedSolomon = require('./reedSolomon')
 
 const { NUMBER_OF_NODES, DEFAULT_TTL, NUMBER_OF_NODES_PER_SHARD } = config.get()
 
 class IDAGossip {
   constructor() {
     this.fileChunks = new Map() // Store received chunks
+    this._chunkTimestamps = new Map() // key → timestamp for TTL eviction
     this.socketGossipNodes // Connected nodes (all network peers)
     this.socketGossipPeers // Connected peers
     this.socketGossipCore // Connected Core
+    // Evict stale chunks every 20s (cutoff=25s) to prevent IDA chunk accumulation OOM
+    setInterval(() => {
+      const cutoff = Date.now() - 25000
+      for (const [key, ts] of this._chunkTimestamps) {
+        if (ts < cutoff) {
+          this.fileChunks.delete(key)
+          this._chunkTimestamps.delete(key)
+        }
+      }
+      // Hard cap: if still over 3000 entries, evict oldest half
+      if (this.fileChunks.size > 3000) {
+        const sorted = [...this._chunkTimestamps.entries()].sort((a, b) => a[1] - b[1])
+        const toEvict = sorted.slice(0, Math.floor(sorted.length / 2))
+        for (const [key] of toEvict) {
+          this.fileChunks.delete(key)
+          this._chunkTimestamps.delete(key)
+        }
+      }
+    }, 20000).unref()
   }
 
   setNodeSockets(sockets) {
@@ -101,42 +122,63 @@ class IDAGossip {
       //     1-8KB: Good performance for most networks
       //     8-64KB: Acceptable but may cause delays
       //     > 64KB: Risk of fragmentation and timeouts
-      requiredChunks = Math.max(2, Math.ceil(fileSizeKB / 5))
+      // GF(2^8) has 255 non-zero elements; the Vandermonde RS matrix requires
+      // k distinct non-zero field bases, so k must stay below 256.  A 4000-tx
+      // block (~2 MB JSON) would otherwise yield k=400 and cause a singular-
+      // matrix crash during Gaussian elimination.  Cap at 200 for safety margin.
+      requiredChunks = Math.min(200, Math.max(2, Math.ceil(fileSizeKB / 5)))
 
       // Total chunks = required chunks + redundancy (50% more)
       totalChunks = Math.ceil(requiredChunks * 1.5)
     }
 
     const fileHash = nodeCrypto.createHash('sha256').update(fileBuffer).digest('hex')
-    const chunkSize = Math.ceil(fileBuffer.length / requiredChunks)
+    const dataShards = requiredChunks
+    const parityShards = totalChunks - requiredChunks
+    const shardSize = Math.ceil(fileBuffer.length / dataShards)
+    const originalLength = fileBuffer.length
+
+    // Pad the payload up to `shardSize * dataShards` with zeros so every data
+    // shard is the same length (RS requires uniform shard size).
+    const paddedData = new Uint8Array(shardSize * dataShards)
+    paddedData.set(fileBuffer, 0)
+    const dataShardArray = []
+    for (let index = 0; index < dataShards; index++) {
+      dataShardArray.push(paddedData.subarray(index * shardSize, (index + 1) * shardSize))
+    }
+
+    let parityShardArray = []
+    if (parityShards > 0) {
+      parityShardArray = reedSolomon.encodeParity(dataShardArray, parityShards)
+    }
+
     const chunks = []
-
-    // Simple chunking (real IDA would use Reed-Solomon encoding)
-    for (let index = 0; index < requiredChunks; index++) {
-      const start = index * chunkSize
-      const end = Math.min(start + chunkSize, fileBuffer.length)
-
+    for (let index = 0; index < dataShards; index++) {
       chunks.push({
         id: uuidv1(),
-        index: index,
-        data: fileBuffer.subarray(start, end).toString('base64'),
-        totalChunks: requiredChunks,
+        index,
+        data: Buffer.from(dataShardArray[index]).toString('base64'),
+        dataShards,
+        parityShards,
+        shardSize,
+        originalLength,
+        totalChunks: dataShards, // legacy: minimum distinct shards needed
         fileHash
       })
     }
-
-    // Add redundant chunks for fault tolerance
-    for (let index = requiredChunks; index < totalChunks; index++) {
-      const randomIndex = Math.floor(Math.random() * requiredChunks)
+    for (let index = 0; index < parityShards; index++) {
       chunks.push({
         id: uuidv1(),
-        index: randomIndex,
-        data: chunks[randomIndex].data, // Simple redundancy
-        totalChunks: requiredChunks,
+        index: dataShards + index,
+        data: Buffer.from(parityShardArray[index]).toString('base64'),
+        dataShards,
+        parityShards,
+        shardSize,
+        originalLength,
+        totalChunks: dataShards,
         fileHash
       })
     }
-
     return chunks
   }
 
@@ -328,6 +370,7 @@ class IDAGossip {
       const chunkKey = `${chunk.fileHash}-${chunk.index}`
       if (!this.fileChunks.has(chunkKey)) {
         this.fileChunks.set(chunkKey, chunk)
+        this._chunkTimestamps.set(chunkKey, Date.now())
 
         if (shouldGossip) {
           // Continue gossiping to other peers
@@ -348,43 +391,84 @@ class IDAGossip {
     return undefined
   }
 
-  // Try to reconstruct data from chunks
-  tryReconstructData(fileHash, totalChunks) {
-    const chunks = Array.from(this.fileChunks.values())
-      .filter((chunk) => chunk.fileHash === fileHash)
-      .sort((a, b) => a.index - b.index)
+  cleanupChunks(fileHash) {
+    const keysToDelete = []
+    for (const [key, chunk] of this.fileChunks) {
+      if (chunk.fileHash === fileHash) {
+        keysToDelete.push(key)
+      }
+    }
+    keysToDelete.forEach((key) => { this.fileChunks.delete(key); this._chunkTimestamps.delete(key) })
+  }
 
-    if (chunks.length >= totalChunks) {
-      // Take only the required chunks for reconstruction
-      const requiredChunks = chunks.slice(0, totalChunks)
-      const reconstructedBuffer = Buffer.concat(
-        requiredChunks.map((chunk) => Buffer.from(chunk.data, 'base64'))
-      )
+  // Try to reconstruct data from chunks. Any `dataShards` distinct-index shards
+  // (data or parity) are sufficient thanks to Reed-Solomon.
+  tryReconstructData(fileHash /*, legacyTotalChunks */) {
+    const allChunks = Array.from(this.fileChunks.values()).filter(
+      (chunk) => chunk.fileHash === fileHash
+    )
+    if (allChunks.length === 0) return undefined
 
-      // Verify file integrity
+    // Small-payload bypass path: a single unfragmented chunk.
+    if (allChunks[0].totalChunks === 1 && allChunks[0].parityShards === undefined) {
+      const buffer = Buffer.from(allChunks[0].data, 'base64')
       const reconstructedHash = nodeCrypto
         .createHash('sha256')
-        .update(reconstructedBuffer)
+        .update(buffer)
         .digest('hex')
+      if (reconstructedHash !== fileHash) return undefined
+      const data = JSON.parse(buffer.toString('utf8'))
+      this.cleanupChunks(fileHash)
+      return data
+    }
 
-      if (reconstructedHash === fileHash) {
-        const jsonString = reconstructedBuffer.toString('utf8')
-        const data = JSON.parse(jsonString)
+    const { dataShards, parityShards, shardSize, originalLength } = allChunks[0]
+    const totalShards = dataShards + parityShards
 
-        // Clean up: remove all chunks for this file after successful reconstruction
-        const keysToDelete = []
-        for (const [key, chunk] of this.fileChunks) {
-          if (chunk.fileHash === fileHash) {
-            keysToDelete.push(key)
-          }
-        }
-        keysToDelete.forEach((key) => this.fileChunks.delete(key))
+    // Deduplicate by index; gossip may deliver the same shard more than once.
+    const byIndex = new Map()
+    for (const chunk of allChunks) {
+      if (chunk.index < totalShards && !byIndex.has(chunk.index)) {
+        byIndex.set(chunk.index, chunk)
+      }
+    }
+    if (byIndex.size < dataShards) return undefined
 
-        return data
+    const shards = new Array(totalShards).fill(null)
+    for (const [index, chunk] of byIndex) {
+      const buf = Buffer.from(chunk.data, 'base64')
+      if (buf.length !== shardSize) continue // ignore malformed
+      shards[index] = new Uint8Array(buf)
+    }
+
+    if (parityShards > 0) {
+      try {
+        reedSolomon.reconstruct(shards, dataShards, parityShards)
+      } catch {
+        // Corrupted/mismatched shards: hand back nothing and let more chunks arrive.
+        return undefined
+      }
+    } else {
+      for (let index = 0; index < dataShards; index++) {
+        if (shards[index] === null) return undefined
       }
     }
 
-    return undefined
+    // Concatenate data shards, then trim the zero padding back to originalLength.
+    const reconstructedBuffer = Buffer.alloc(shardSize * dataShards)
+    for (let index = 0; index < dataShards; index++) {
+      reconstructedBuffer.set(shards[index], index * shardSize)
+    }
+    const trimmed = reconstructedBuffer.subarray(0, originalLength)
+    const reconstructedHash = nodeCrypto
+      .createHash('sha256')
+      .update(trimmed)
+      .digest('hex')
+    if (reconstructedHash !== fileHash) return undefined
+
+    const data = JSON.parse(trimmed.toString('utf8'))
+    this.cleanupChunks(fileHash)
+    return data
   }
 }
 

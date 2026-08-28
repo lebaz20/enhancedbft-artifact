@@ -44,6 +44,7 @@ class P2pserver {
     // A rotation only applies once MIN_APPROVALS distinct validator votes
     // arrive, so all shard nodes advance to the same view simultaneously.
     this._viewChangeVotes = new Map()
+    this._seenNewViews = new Set()
     // EMA backlog pressure: smoothed estimate of how many full BASE-sized blocks are
     // waiting in the unassigned pool.  Updated every time initiateBlockCreation fires.
     // Used for both adaptive block-size scaling and dynamic timeout shortening so all
@@ -67,6 +68,8 @@ class P2pserver {
     this._avgRoundMs = 2000
     // (no pending verification queue — verification TXs bypass the threshold ceiling)
   }
+
+  get avgRoundMs() { return this._avgRoundMs }
 
   listen() {
     const server = new WebSocket.Server({ port: P2P_PORT })
@@ -136,10 +139,17 @@ class P2pserver {
   }
 
   // connects to the peers passed in command line
-  async connectToPeers(nodes) {
+  async connectToPeers(nodes, jitterMs) {
     await Promise.all(
       nodes.map((peer) => this.waitForWebServer(peer.replace('ws', 'http').replace(':5', ':3')))
     )
+    // Startup jitter: spread each pod's outbound WS burst across STARTUP_JITTER_MS
+    // so the Node.js event loop doesn't saturate on ~N concurrent WS upgrades at
+    // large NUMBER_OF_NODES_PER_SHARD. Matches pbft-rapidchain's jitter so the
+    // two systems share identical transport plumbing.
+    // Post-merge calls pass a smaller jitterMs (2s) — peers are already running
+    // and we only connect to ~10 new nodes, so no event-loop saturation risk.
+    const STARTUP_JITTER_MS = jitterMs ?? Number(process.env.STARTUP_JITTER_MS || 15000)
     nodes.forEach((peer) => {
       const peerPort = peer.split(':')[2]
       const connectPeer = () => {
@@ -168,7 +178,8 @@ class P2pserver {
           this.messageHandler(socket, false)
         })
       }
-      connectPeer()
+      // Initial jitter only — reconnects use fixed PEER_RECONNECT_DELAY_MS.
+      setTimeout(connectPeer, Math.floor(Math.random() * STARTUP_JITTER_MS))
     })
   }
 
@@ -306,6 +317,19 @@ class P2pserver {
     })
   }
 
+  broadcastNewView(senderPort, targetView) {
+    this.idaGossip.sendToShardPeers({
+      message: {
+        type: MESSAGE_TYPE.new_view,
+        port: P2P_PORT,
+        newView: { targetView }
+      },
+      chunkKey: 'newView',
+      senderPort,
+      consensusMessage: false
+    })
+  }
+
   // broadcasts block to core
   broadcastBlockToCore(block) {
     this.idaGossip.sendToCore({
@@ -335,8 +359,19 @@ class P2pserver {
 
   _handleTransaction(data) {
     const _exists = this.transactionPool.transactionExists(data.transaction)
+    if (_exists) {
+      logger.debug(
+        P2P_PORT,
+        `TX_DUPLICATE_REJECTED id=${data.transaction.id?.slice(0, 8)} shard=${SUBSET_INDEX}` +
+          ` seenIndex=${this.transactionPool.transactionIds.size}`
+      )
+      return
+    }
+    // Pool at absolute capacity: drop without verifying or gossiping to prevent the
+    // gossip storm where every shard node re-verifies and re-broadcasts the same TX
+    // indefinitely. TX is NOT marked seen so it can re-enter once a block commit drains space.
+    if (this.transactionPool.isAtMaxDepth()) return
     if (
-      !_exists &&
       this.transactionPool.verifyTransaction(data.transaction) &&
       this.validators.isValidValidator(data.transaction.from)
     ) {
@@ -351,12 +386,6 @@ class P2pserver {
       )
       this.broadcastTransaction(data.port, data.transaction)
       this.initiateBlockCreation(data.port)
-    } else if (_exists) {
-      logger.debug(
-        P2P_PORT,
-        `TX_DUPLICATE_REJECTED id=${data.transaction.id?.slice(0, 8)} shard=${SUBSET_INDEX}` +
-          ` seenIndex=${this.transactionPool.transactionIds.size}`
-      )
     }
   }
 
@@ -376,6 +405,7 @@ class P2pserver {
     const toForward = []
     let _duplicateCount = 0
     for (const transaction of data.transactions) {
+      if (this.transactionPool.isAtMaxDepth()) break
       if (
         !this.transactionPool.transactionExists(transaction) &&
         this.transactionPool.verifyTransaction(transaction) &&
@@ -413,13 +443,13 @@ class P2pserver {
     const { block, previousBlock, blocksCount, viewOffset = 0 } = data.data
     // Sync view offset forward so we validate against the same proposer.
     if (viewOffset > (this._viewOffset || 0)) this._viewOffset = viewOffset
-    // Proposer is working — cancel the view-change countdown
-    clearTimeout(this._blockCreationTimeout)
-    this._blockCreationTimeout = null
     if (
       !this.blockPool.existingBlock(block) &&
       this.blockchain.isValidBlock(block, blocksCount, previousBlock, viewOffset)
     ) {
+      // Proposer is working — cancel the view-change countdown only after validation succeeds
+      clearTimeout(this._blockCreationTimeout)
+      this._blockCreationTimeout = null
       logger.log(
         P2P_PORT,
         `PRE_PREPARE RECEIVED shard=${SUBSET_INDEX} hash=${block.hash.slice(0, 8)}` +
@@ -431,6 +461,9 @@ class P2pserver {
       this.broadcastPrePrepare(data.port, block, blocksCount, previousBlock, viewOffset)
 
       if (block?.hash) {
+        // Non-proposer nodes record when they first see the proposal so they also
+        // update _avgRoundMs at commit. ||= keeps the proposer's earlier timestamp.
+        this._blockProposedAt[block.hash] = this._blockProposedAt[block.hash] || Date.now()
         const prepare = this.preparePool.prepare(block, this.wallet)
         this.broadcastPrepare(data.port, prepare)
       }
@@ -522,6 +555,14 @@ class P2pserver {
             this.wallet
           )
           this.broadcastRoundChange(data.port, message)
+          // Free PBFT pool memory — prevents unbounded growth across blocks
+          const _h = data.commit.blockHash
+          delete this.preparePool.list[_h]
+          delete this.commitPool.list[_h]
+          delete this.messagePool.list[_h]
+          this.blockPool._blockMap.delete(_h)
+          const _bi = this.blockPool.blocks.findIndex((b) => b.hash === _h)
+          if (_bi !== -1) this.blockPool.blocks.splice(_bi, 1)
         } else {
           logger.error(
             P2P_PORT,
@@ -554,15 +595,20 @@ class P2pserver {
     const votes = this._viewChangeVotes.get(targetView)
     if (votes.has(publicKey)) return // deduplicate
     votes.add(publicKey)
+    // Prune stale views to prevent unbounded growth on broken shards
+    const currentOffset = this._viewOffset || 0
+    for (const v of this._viewChangeVotes.keys()) {
+      if (v < currentOffset - 2) this._viewChangeVotes.delete(v)
+    }
     // Relay so all shard peers receive this vote
     this.broadcastViewChange(data.port, data.viewChange)
     // Quorum reached and this view is ahead of where we are — rotate atomically
     if (votes.size >= config.get().MIN_APPROVALS && targetView > (this._viewOffset || 0)) {
       this._viewOffset = targetView
-      // Reset both epoch flags so initiateBlockCreation (called immediately below)
-      // can fire another vote right away if the NEW proposer at this view is also
-      // faulty — eliminates the 10 s timeout wait for consecutive faulty proposers.
-      this._poolWasFullThisEpoch = false
+      // Only reset the inactivity flag. Do NOT reset _poolWasFullThisEpoch — that
+      // flag stays true until a block is committed, preventing a pool-full vote
+      // cascade where all honest nodes immediately vote for view N+1 before the
+      // new honest proposer at view N can distribute its block (~500 ms IDA delay).
       this._inactivityViewRotated = false
       // Return all TX that are assigned to the abandoned block back to the
       // unassigned pool immediately — new proposer can pick them up at once
@@ -574,8 +620,27 @@ class P2pserver {
           ` unassignedAfterRelease=${this.transactionPool.transactions.unassigned.length}` +
           ` inflightAfterRelease=${this.transactionPool.getInflightBlocks().length}`
       )
+      // Broadcast new-view so stale nodes jump directly to targetView
+      this.broadcastNewView(P2P_PORT, targetView)
       this.initiateBlockCreation(P2P_PORT, false)
     }
+  }
+
+  _handleNewView(data) {
+    const { targetView } = data.newView
+    if (targetView <= (this._viewOffset || 0)) return
+    const key = `s-${targetView}`
+    if (this._seenNewViews.has(key)) return
+    this._seenNewViews.add(key)
+    if (this._seenNewViews.size > 50) {
+      const oldest = this._seenNewViews.values().next().value
+      this._seenNewViews.delete(oldest)
+    }
+    this._viewOffset = targetView
+    this._inactivityViewRotated = false
+    this.transactionPool.releaseAssigned()
+    logger.log(P2P_PORT, `NEW VIEW (catch-up) shard=${SUBSET_INDEX} — jumping to view ${targetView}`)
+    this.initiateBlockCreation(P2P_PORT, false)
   }
 
   _handleRoundChange(data) {
@@ -658,10 +723,20 @@ class P2pserver {
 
   _handleConfigFromCore(data, isCore) {
     if (isCore === true) {
+      const prevRedirect = config.get().REDIRECT_TO_URL
       data.config.forEach((item) => {
         config.set(item.key, item.value)
       })
       logger.log(P2P_PORT, `CONFIG UPDATE FOR #${SUBSET_INDEX}:`, JSON.stringify(data.config))
+      // If REDIRECT_TO_URL just transitioned from non-empty → empty, this node
+      // is now part of the merged shard — kick off block creation immediately.
+      const newRedirect = config.get().REDIRECT_TO_URL
+      const wasRedirecting = Array.isArray(prevRedirect) && prevRedirect.length > 0
+      const nowDirect = !Array.isArray(newRedirect) || newRedirect.length === 0
+      if (wasRedirecting && nowDirect) {
+        logger.log(P2P_PORT, `CONFIG: redirect cleared → kickstarting PBFT for merged shard`)
+        setTimeout(() => this.initiateBlockCreation(P2P_PORT, false), 500)
+      }
     }
   }
 
@@ -689,6 +764,23 @@ class P2pserver {
     config.set('NUMBER_OF_NODES_PER_SHARD', mergedNodesSubset.length)
     config.set('MIN_APPROVALS', minApprovals)
     config.set('SUBSET_INDEX', mergedShardIndex)
+
+    // Reset all PBFT state for a clean start in the merged shard.
+    // Broken-shard nodes accumulated stale view-change votes (never reaching
+    // quorum), a stale _avgRoundMs driven by timeout-fires (≈ 25 s), and a
+    // non-zero _viewOffset from failed rotation attempts.  Carrying any of
+    // these over would confuse proposer election and view-change accounting.
+    this._avgRoundMs = 2000
+    this._viewOffset = 0
+    this._poolWasFullThisEpoch = false
+    this._inactivityViewRotated = false
+    this._viewChangeVotes = new Map()
+    this._seenNewViews = new Set()
+    this._blockProposedAt = {}
+    if (this._blockCreationTimeout) {
+      clearTimeout(this._blockCreationTimeout)
+      this._blockCreationTimeout = null
+    }
     // Update verification ring so merged shards verify each other.
     if (verificationSourceSubsets) {
       VERIFICATION_SOURCE_SUBSETS.length = 0
@@ -724,10 +816,17 @@ class P2pserver {
       return !existingPorts.has(port)
     })
     if (newPeers.length > 0) {
-      this.connectToPeers(newPeers)
+      this.connectToPeers(newPeers, 2000)
     }
 
     logger.log(P2P_PORT, `MERGE_SHARD applied: now in shard ${mergedShardIndex}`)
+
+    // Kick-start block creation in the merged shard. The TX pool already holds
+    // transactions that accumulated while this shard was broken — without an
+    // explicit trigger the proposer would wait for the next incoming TX before
+    // it tries to propose, wasting seconds of productive consensus time.
+    // Delay slightly so the new peer WebSocket connections can open first.
+    setTimeout(() => this.initiateBlockCreation(P2P_PORT, false), 2000)
   }
 
   messageHandler(socket, isCore = false) {
@@ -877,13 +976,14 @@ class P2pserver {
     this.initiateBlockCreation(P2P_PORT, false)
   }
 
-  // Cast a view-change vote when this node is not the current proposer,
-  // the pool-full path has not already rotated this epoch, and this node
-  // has not yet broadcast its vote.  The offset only changes once
-  // MIN_APPROVALS votes arrive in _handleViewChange so all shard peers
-  // rotate atomically to the same view.
+  // Cast a view-change vote when this node is not the current proposer and
+  // has not yet broadcast its inactivity vote this epoch.  The offset only
+  // changes once MIN_APPROVALS votes arrive in _handleViewChange so all shard
+  // peers rotate atomically to the same view.  _poolWasFullThisEpoch is
+  // intentionally NOT checked here — inactivity requires genuine TX silence
+  // so there is no cascade risk unlike the pool-full vote path.
   _handleInactivityTimeout(isProposer) {
-    if (!isProposer && !this._poolWasFullThisEpoch && !this._inactivityViewRotated) {
+    if (!isProposer && !this._inactivityViewRotated) {
       this._inactivityViewRotated = true
       const targetView = (this._viewOffset || 0) + 1
       if (!this._viewChangeVotes.has(targetView)) this._viewChangeVotes.set(targetView, new Set())
@@ -899,7 +999,10 @@ class P2pserver {
     // Sub-threshold drain: if this node is the proposer and ready, create a
     // block with whatever TX are available instead of waiting for view-change
     // quorum that can never produce a block (threshold will never be reached).
-    if (isProposer && this._canProposeBlock()) {
+    // STRICT_BLOCK_THRESHOLD skips this so enhanced never emits a sub-threshold
+    // block — matches RapidChain's fire-only-when-full policy for benchmarks.
+    const { STRICT_BLOCK_THRESHOLD: _strictInactivity } = config.get()
+    if (!_strictInactivity && isProposer && this._canProposeBlock()) {
       logger.log(
         P2P_PORT,
         `PROPOSING BLOCK shard=${SUBSET_INDEX} txCount=${this.transactionPool.transactions.unassigned.length} path=inactivity viewOffset=${this._viewOffset || 0}`
@@ -961,9 +1064,11 @@ class P2pserver {
       this.blockchain.getProposer(undefined, this._viewOffset || 0).proposer ===
       this.wallet.getPublicKey()
     const unassigned = this.transactionPool.transactions.unassigned.length
-    const { TRANSACTION_THRESHOLD: _th } = config.get()
+    const { TRANSACTION_THRESHOLD: _th, STRICT_BLOCK_THRESHOLD: _strict } = config.get()
     // Propose immediately when draining OR when pool has a meaningful payload.
-    const shouldProposeNow = isDraining || unassigned >= Math.ceil(_th / 4)
+    // STRICT mode: disable both fast-paths — enhanced only proposes when pool
+    // is truly full (matches RapidChain for tx-per-block parity in benchmarks).
+    const shouldProposeNow = _strict ? false : (isDraining || unassigned >= Math.ceil(_th / 4))
 
     if (shouldProposeNow && isProposer && this._canProposeBlock()) {
       logger.log(
@@ -1186,7 +1291,7 @@ class P2pserver {
   async parseMessage(data, isCore) {
     logger.debug(P2P_PORT, 'RECEIVED', data.type, data.port)
 
-    if (IS_FAULTY && ![MESSAGE_TYPE.transaction, MESSAGE_TYPE.transactions].includes(data.type)) {
+    if (IS_FAULTY) {
       return
     }
 
@@ -1212,14 +1317,14 @@ class P2pserver {
       case MESSAGE_TYPE.view_change:
         this._handleViewChange(data)
         break
+      case MESSAGE_TYPE.new_view:
+        this._handleNewView(data)
+        break
       case MESSAGE_TYPE.block_from_core:
         await this._handleBlockFromCore(data, isCore)
         break
       case MESSAGE_TYPE.config_from_core:
         this._handleConfigFromCore(data, isCore)
-        break
-      case MESSAGE_TYPE.merge_shard:
-        this._handleMergeShard(data)
         break
     }
   }

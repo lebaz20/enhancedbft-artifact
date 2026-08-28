@@ -25,6 +25,12 @@ describe('SHARD_STATUS', () => {
     expect(SHARD_STATUS.faulty).toBe('FAULTY')
   })
 
+  it('should have warming status', () => {
+    expect(SHARD_STATUS.warming).toBeDefined()
+    expect(typeof SHARD_STATUS.warming).toBe('string')
+    expect(SHARD_STATUS.warming).toBe('WARMING')
+  })
+
   it('should have all unique values', () => {
     const values = Object.values(SHARD_STATUS)
     const uniqueValues = new Set(values)
@@ -32,6 +38,6 @@ describe('SHARD_STATUS', () => {
   })
 
   it('should have correct number of statuses', () => {
-    expect(Object.keys(SHARD_STATUS).length).toBe(4)
+    expect(Object.keys(SHARD_STATUS).length).toBe(5)
   })
 })

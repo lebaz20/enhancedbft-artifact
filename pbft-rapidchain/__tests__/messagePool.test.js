@@ -92,7 +92,7 @@ describe('MessagePool', () => {
       expect(messagePool.list[block.hash][1]).toBe(message2)
     })
 
-    it('should not add message if block hash not in list', () => {
+    it('should initialize bucket and add message for unknown block hash', () => {
       const message = {
         publicKey: wallet.getPublicKey(),
         message: 'INITIATE NEW ROUND',
@@ -103,7 +103,8 @@ describe('MessagePool', () => {
 
       messagePool.addMessage(message)
 
-      expect(messagePool.list['non-existing-hash']).toBeUndefined()
+      expect(messagePool.list['non-existing-hash']).toHaveLength(1)
+      expect(messagePool.list['non-existing-hash'][0].publicKey).toBe(wallet.getPublicKey())
     })
 
     it('should add multiple messages for same block', () => {

@@ -127,7 +127,8 @@ app.get('/stats', async (request, response) => {
   const stats = {
     total: blockchain.getTotal(),
     rate,
-    isFaulty: IS_FAULTY
+    isFaulty: IS_FAULTY,
+    avgRoundMs: p2pserver.avgRoundMs
   }
   logger.log(`REQUEST STATS FOR #${SUBSET_INDEX}:`, JSON.stringify(stats))
   response.json(stats)
@@ -141,6 +142,13 @@ app.get('/health', (request, response) => {
 // creates transactions for the sent data
 app.post('/transaction', async (request, response) => {
   try {
+    // Faulty nodes are fully isolated — they do not accept, process, or relay
+    // any transactions. Clients that hit a faulty node port get 503 and must
+    // retry on a different node (models true Byzantine isolation).
+    if (config.get().IS_FAULTY) {
+      return response.status(503).json({ ok: false, code: 'FAULTY_NODE' })
+    }
+
     const isRedirect = request.body.isRedirect === true
     const data = request.body.transactions ? request.body.transactions : [request.body]
 
