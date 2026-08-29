@@ -1,0 +1,558 @@
+[2026-08-25 01:08:10] [1;33mNPS=32 (≥32): using conservative params — threshold=4000, threads=500, stabilize=900s, memory=2048MiB[0m
+[2026-08-25 01:08:10] [1;33m  PBFT at NPS=32 is beyond its practical regime; treat results as exploratory.[0m
+[2026-08-25 01:08:10] [0;34m========================================[0m
+[2026-08-25 01:08:10] [0;34mPBFT-Enhanced Performance Test[0m
+[2026-08-25 01:08:10] [0;34m========================================[0m
+[2026-08-25 01:08:10] Nodes: 96
+[2026-08-25 01:08:10] Transaction Threshold: 4000
+[2026-08-25 01:08:10] JMeter Threads: 500
+[2026-08-25 01:08:10] Test Duration: 300s
+[2026-08-25 01:08:10] [0;34m========================================[0m
+
+[2026-08-25 01:08:10] [0;34mStep 1: Starting blockchain (using start.sh)...[0m
+[0;34m========================================[0m
+[0;34mStarting PBFT-Enhanced Blockchain[0m
+[0;34m========================================[0m
+
+[0;34mStep 1: Building Docker images...[0m
+[0;32m✓ Docker images built[0m
+
+[0;34mStep 2: Generating configuration...[0m
+  Nodes: 96
+  Transaction Threshold: 4000
+  Faulty Nodes: 31
+  CPU Limit: 1.70
+  Default TTL: 6
+[LOG] 43,90,44,77,66,22,37,80,26,62,64,78,32,53,68,48,85,29,95,40,45,41,35,91,31,72,38,8,14,49,81,59,92,23,11,55,30,71,33,7,76,28,2,47,39,50,13,94,83,79,57,86,34,1,0,16,36,18,69,24,60,3,88,9,6,82,93,74,63,17,89,20,58,56,15,54,27,25,10,4,19,73,65,52,21,12,75,51,5,70,84,46,61,42,67,87 43,90,44,77,66,22,37,80,26,62,64,92,23,11,55,30,71,33,7,76,28,2,6,82,93,74,63,17,89,20,58
+[LOG] Healthy subset indices: SUBSET3
+[LOG] Subset PBFT nodes: 5044,5091,5045,5078,5067,5023,5038,5081,5027,5063,5065,5079,5033,5054,5069,5049,5086,5030,5096,5041,5046,5042,5036,5092,5032,5073,5039,5009,5015,5050,5082,5060
+[LOG] Subset PBFT nodes: 5093,5024,5012,5056,5031,5072,5034,5008,5077,5029,5003,5048,5040,5051,5014,5095,5084,5080,5058,5087,5035,5002,5001,5017,5037,5019,5070,5025,5061,5004,5089,5010
+[LOG] Subset PBFT nodes: 5007,5083,5094,5075,5064,5018,5090,5021,5059,5057,5016,5055,5028,5026,5011,5005,5020,5074,5066,5053,5022,5013,5076,5052,5006,5071,5085,5047,5062,5043,5068,5088
+[0;32m✓ Configuration generated[0m
+
+[0;34mStep 3: Deploying to Kubernetes...[0m
+[2026-08-25 01:08:10] Deleting existing Kubernetes resources...
+Warning: Immediate deletion does not wait for confirmation that the running resource has been terminated. The resource may continue to run on the cluster indefinitely.
+[2026-08-25 01:08:47] Applying Kubernetes configuration (batched)...
+  batch 0: 2 docs → batch-000.yml
+  batch 1: 40 docs → batch-001.yml
+  batch 2: 40 docs → batch-002.yml
+  batch 3: 40 docs → batch-003.yml
+  batch 4: 40 docs → batch-004.yml
+  batch 5: 32 docs → batch-005.yml
+[2026-08-25 01:08:47] Applying batch-000.yml...
+  waiting 15s before next batch...
+[2026-08-25 01:09:02] Applying batch-001.yml...
+  waiting 15s before next batch...
+[2026-08-25 01:09:18] Applying batch-002.yml...
+  waiting 15s before next batch...
+[2026-08-25 01:09:33] Applying batch-003.yml...
+  waiting 15s before next batch...
+[2026-08-25 01:09:49] Applying batch-004.yml...
+  waiting 15s before next batch...
+[2026-08-25 01:10:05] Applying batch-005.yml...
+  Applied 194 resources across 6 batches
+[0;32m✓ Deployed to Kubernetes[0m
+
+[2026-08-25 01:10:05] Kubernetes deployment complete
+[0;34mStep 4: Waiting for pods to be ready...[0m
+[2026-08-25 01:10:05] Waiting for all 97 pods to be Running...
+  Waiting... 2s — Running: 81/97 (83%) | Pending=0 Creating=0NAME            READY   STATUS    RESTARTS   AGE
+core-server     1/1     Running   0          81s
+p2p-server-0    1/1     Running   0          66s
+p2p-server-1    1/1     Running   0          66s
+p2p-server-10   1/1     Running   0          65s
+p2p-server-11   1/1     Running   0          65s
+p2p-server-12   1/1     Running   0          65s
+p2p-server-13   1/1     Running   0          65s
+p2p-server-14   1/1     Running   0          65s
+p2p-server-15   1/1     Running   0          65s
+p2p-server-16   1/1     Running   0          65s
+p2p-server-17   1/1     Running   0          65s
+p2p-server-18   1/1     Running   0          65s
+p2p-server-19   1/1     Running   0          65s
+p2p-server-2    1/1     Running   0          65s
+p2p-server-20   1/1     Running   0          50s
+p2p-server-21   1/1     Running   0          50s
+p2p-server-22   1/1     Running   0          50s
+p2p-server-23   1/1     Running   0          50s
+p2p-server-24   1/1     Running   0          50s
+p2p-server-25   1/1     Running   0          50s
+p2p-server-26   1/1     Running   0          50s
+p2p-server-27   1/1     Running   0          50s
+p2p-server-28   1/1     Running   0          50s
+p2p-server-29   1/1     Running   0          50s
+p2p-server-3    1/1     Running   0          65s
+p2p-server-30   1/1     Running   0          50s
+p2p-server-31   1/1     Running   0          50s
+p2p-server-32   1/1     Running   0          50s
+p2p-server-33   1/1     Running   0          50s
+p2p-server-34   1/1     Running   0          50s
+p2p-server-35   1/1     Running   0          50s
+p2p-server-36   1/1     Running   0          50s
+p2p-server-37   1/1     Running   0          50s
+p2p-server-38   1/1     Running   0          50s
+p2p-server-39   1/1     Running   0          50s
+p2p-server-4    1/1     Running   0          65s
+p2p-server-40   1/1     Running   0          34s
+p2p-server-41   1/1     Running   0          34s
+p2p-server-42   1/1     Running   0          34s
+p2p-server-43   1/1     Running   0          34s
+p2p-server-44   1/1     Running   0          34s
+p2p-server-45   1/1     Running   0          34s
+p2p-server-46   1/1     Running   0          34s
+p2p-server-47   1/1     Running   0          34s
+p2p-server-48   1/1     Running   0          34s
+p2p-server-49   1/1     Running   0          34s
+p2p-server-5    1/1     Running   0          65s
+p2p-server-50   1/1     Running   0          34s
+p2p-server-51   1/1     Running   0          34s
+p2p-server-52   1/1     Running   0          34s
+p2p-server-53   1/1     Running   0          34s
+p2p-server-54   1/1     Running   0          34s
+p2p-server-55   1/1     Running   0          34s
+p2p-server-56   1/1     Running   0          34s
+p2p-server-57   1/1     Running   0          34s
+p2p-server-58   1/1     Running   0          34s
+p2p-server-59   1/1     Running   0          34s
+p2p-server-6    1/1     Running   0          65s
+p2p-server-60   1/1     Running   0          19s
+p2p-server-61   1/1     Running   0          19s
+p2p-server-62   1/1     Running   0          19s
+p2p-server-63   1/1     Running   0          19s
+p2p-server-64   1/1     Running   0          19s
+p2p-server-65   1/1     Running   0          19s
+p2p-server-66   1/1     Running   0          19s
+p2p-server-67   1/1     Running   0          19s
+p2p-server-68   1/1     Running   0          19s
+p2p-server-69   1/1     Running   0          19s
+p2p-server-7    1/1     Running   0          65s
+p2p-server-70   1/1     Running   0          19s
+p2p-server-71   1/1     Running   0          19s
+p2p-server-72   1/1     Running   0          19s
+p2p-server-73   1/1     Running   0          19s
+p2p-server-74   1/1     Running   0          19s
+p2p-server-75   1/1     Running   0          19s
+p2p-server-76   1/1     Running   0          19s
+p2p-server-77   1/1     Running   0          19s
+p2p-server-78   1/1     Running   0          18s
+p2p-server-79   1/1     Running   0          18s
+p2p-server-8    1/1     Running   0          65s
+p2p-server-80   0/1     Running   0          3s
+p2p-server-81   0/1     Running   0          3s
+p2p-server-82   0/1     Running   0          3s
+p2p-server-83   0/1     Running   0          3s
+p2p-server-84   0/1     Running   0          3s
+p2p-server-85   0/1     Running   0          3s
+p2p-server-86   0/1     Running   0          3s
+p2p-server-87   0/1     Running   0          3s
+p2p-server-88   0/1     Running   0          3s
+p2p-server-89   0/1     Running   0          3s
+p2p-server-9    1/1     Running   0          65s
+p2p-server-90   0/1     Running   0          3s
+p2p-server-91   0/1     Running   0          3s
+p2p-server-92   0/1     Running   0          3s
+p2p-server-93   0/1     Running   0          3s
+p2p-server-94   0/1     Running   0          3s
+p2p-server-95   0/1     Running   0          3s
+[0;32mAll 97/97 pods running[0m
+
+[2026-08-25 01:10:08] All 97 pods ready
+[0;32mStep 5: Skipping port forwarding (hostNetwork mode)[0m
+
+[0;34m========================================[0m
+[0;32mBlockchain is running![0m
+[0;34m========================================[0m
+Diagnostic log streaming to server.log (core + healthy shard + dead shard)
+
+  Pods: core-server p2p-server-0 p2p-server-1 p2p-server-2
+
+[2026-08-25 01:10:08] [0;32m✓ Blockchain deployed and ready[0m
+
+[2026-08-25 01:10:08] [0;34mStep 2: Waiting for all nodes to be ready...[0m
+[2026-08-25 01:10:19] [Health] Ready: 80/96 (83%) | Need: all 96 | 10s
+[2026-08-25 01:10:19] [0;32m✓ All 96/96 nodes are ready (100%)[0m
+
+[2026-08-25 01:10:19] [0;34mSetting up socat forwarders (multi-EC2 hostNetwork bridge)...[0m
+[2026-08-25 01:10:35]   [0;32m✓ 96/96 socat forwarders active[0m
+[2026-08-25 01:10:35] [0;34mStep 2b: Waiting for P2P mesh to stabilize (1/1 healthy shards needed)...[0m
+[2026-08-25 01:10:36] [0;32m✓ P2P mesh stabilized: 5 healthy shards (need 1)[0m
+[2026-08-25 01:10:36] Skipping port-forwards (hostNetwork mode — pods bind directly to host ports)
+[2026-08-25 01:10:37] Diagnostic log streaming: core-server p2p-server-0 p2p-server-1 p2p-server-2
+[2026-08-25 01:10:37] [0;34mStep 3: Running JMeter performance test...[0m
+[2026-08-25 01:10:37]   Duration: 300s (active load: 300s + ramp-down: 0s)
+[2026-08-25 01:10:37]   Threads: 500
+[2026-08-25 01:10:37]   Ramp-up: 5s
+[2026-08-25 01:10:37]   Ramp-down: 0s
+
+WARN StatusConsoleListener The use of package scanning to locate plugins is deprecated and will be removed in a future release
+WARN StatusConsoleListener The use of package scanning to locate plugins is deprecated and will be removed in a future release
+WARN StatusConsoleListener The use of package scanning to locate plugins is deprecated and will be removed in a future release
+WARN StatusConsoleListener The use of package scanning to locate plugins is deprecated and will be removed in a future release
+Aug 25, 2026 1:10:38 AM java.util.prefs.FileSystemPreferences$1 run
+INFO: Created user preferences directory.
+Creating summariser <summary>
+Created the tree successfully using Test Plan.jmx
+Starting standalone test @ 2026 Aug 25 01:10:38 UTC (1787620238479)
+Waiting for possible Shutdown/StopTestNow/HeapDump/ThreadDump message on port 4445
+summary +   1908 in 00:00:21 =   89.0/s Avg:  3756 Min:     2 Max: 10011 Err:   416 (21.80%) Active: 500 Started: 500 Finished: 0
+summary +   3226 in 00:00:30 =  107.5/s Avg:  4544 Min:     2 Max: 10021 Err:  1322 (40.98%) Active: 500 Started: 500 Finished: 0
+summary =   5134 in 00:00:51 =   99.8/s Avg:  4251 Min:     2 Max: 10021 Err:  1738 (33.85%)
+summary +   3215 in 00:00:30 =  107.2/s Avg:  4427 Min:     1 Max: 10013 Err:  1327 (41.28%) Active: 500 Started: 500 Finished: 0
+summary =   8349 in 00:01:21 =  102.5/s Avg:  4319 Min:     1 Max: 10021 Err:  3065 (36.71%)
+summary +   3196 in 00:00:30 =  106.5/s Avg:  4517 Min:     1 Max: 10014 Err:  1352 (42.30%) Active: 500 Started: 500 Finished: 0
+summary =  11545 in 00:01:51 =  103.6/s Avg:  4374 Min:     1 Max: 10021 Err:  4417 (38.26%)
+summary +   2876 in 00:00:30 =   95.9/s Avg:  5301 Min:     1 Max: 11026 Err:  1310 (45.55%) Active: 500 Started: 500 Finished: 0
+summary =  14421 in 00:02:21 =  102.0/s Avg:  4559 Min:     1 Max: 11026 Err:  5727 (39.71%)
+[2026-08-25 01:13:08] [0;31m⚠ OOMKill detected: p2p-server-13 — last 50 lines saved to oomkill-events-20260825_010810.txt[0m
+[2026-08-25 01:13:08] [0;31m⚠ OOMKill detected: p2p-server-19 — last 50 lines saved to oomkill-events-20260825_010810.txt[0m
+[2026-08-25 01:13:09] [0;31m⚠ OOMKill detected: p2p-server-3 — last 50 lines saved to oomkill-events-20260825_010810.txt[0m
+[2026-08-25 01:13:09] [0;31m⚠ OOMKill detected: p2p-server-35 — last 50 lines saved to oomkill-events-20260825_010810.txt[0m
+[2026-08-25 01:13:09] [0;31m⚠ OOMKill detected: p2p-server-53 — last 50 lines saved to oomkill-events-20260825_010810.txt[0m
+[2026-08-25 01:13:09] [0;31m⚠ OOMKill detected: p2p-server-78 — last 50 lines saved to oomkill-events-20260825_010810.txt[0m
+[2026-08-25 01:13:09] [0;31m⚠ OOMKill detected: p2p-server-90 — last 50 lines saved to oomkill-events-20260825_010810.txt[0m
+summary +   3009 in 00:00:30 =  100.2/s Avg:  4831 Min:     0 Max: 11084 Err:  1287 (42.77%) Active: 500 Started: 500 Finished: 0
+summary =  17430 in 00:02:51 =  101.6/s Avg:  4606 Min:     0 Max: 11084 Err:  7014 (40.24%)
+[2026-08-25 01:13:40] [0;31m⚠ OOMKill detected: p2p-server-0 — last 50 lines saved to oomkill-events-20260825_010810.txt[0m
+[2026-08-25 01:13:40] [0;31m⚠ OOMKill detected: p2p-server-10 — last 50 lines saved to oomkill-events-20260825_010810.txt[0m
+[2026-08-25 01:13:40] [0;31m⚠ OOMKill detected: p2p-server-11 — last 50 lines saved to oomkill-events-20260825_010810.txt[0m
+[2026-08-25 01:13:41] [0;31m⚠ OOMKill detected: p2p-server-15 — last 50 lines saved to oomkill-events-20260825_010810.txt[0m
+[2026-08-25 01:13:41] [0;31m⚠ OOMKill detected: p2p-server-16 — last 50 lines saved to oomkill-events-20260825_010810.txt[0m
+[2026-08-25 01:13:41] [0;31m⚠ OOMKill detected: p2p-server-18 — last 50 lines saved to oomkill-events-20260825_010810.txt[0m
+[2026-08-25 01:13:41] [0;31m⚠ OOMKill detected: p2p-server-2 — last 50 lines saved to oomkill-events-20260825_010810.txt[0m
+[2026-08-25 01:13:41] [0;31m⚠ OOMKill detected: p2p-server-23 — last 50 lines saved to oomkill-events-20260825_010810.txt[0m
+[2026-08-25 01:13:42] [0;31m⚠ OOMKill detected: p2p-server-24 — last 50 lines saved to oomkill-events-20260825_010810.txt[0m
+[2026-08-25 01:13:42] [0;31m⚠ OOMKill detected: p2p-server-26 — last 50 lines saved to oomkill-events-20260825_010810.txt[0m
+[2026-08-25 01:13:42] [0;31m⚠ OOMKill detected: p2p-server-4 — last 50 lines saved to oomkill-events-20260825_010810.txt[0m
+[2026-08-25 01:13:42] [0;31m⚠ OOMKill detected: p2p-server-52 — last 50 lines saved to oomkill-events-20260825_010810.txt[0m
+[2026-08-25 01:13:43] [0;31m⚠ OOMKill detected: p2p-server-8 — last 50 lines saved to oomkill-events-20260825_010810.txt[0m
+[2026-08-25 01:13:43] [0;31m⚠ OOMKill detected: p2p-server-83 — last 50 lines saved to oomkill-events-20260825_010810.txt[0m
+[2026-08-25 01:13:43] [0;31m⚠ OOMKill detected: p2p-server-85 — last 50 lines saved to oomkill-events-20260825_010810.txt[0m
+[2026-08-25 01:13:43] [0;31m⚠ OOMKill detected: p2p-server-87 — last 50 lines saved to oomkill-events-20260825_010810.txt[0m
+[2026-08-25 01:13:43] [0;31m⚠ OOMKill detected: p2p-server-88 — last 50 lines saved to oomkill-events-20260825_010810.txt[0m
+[2026-08-25 01:13:44] [0;31m⚠ OOMKill detected: p2p-server-92 — last 50 lines saved to oomkill-events-20260825_010810.txt[0m
+summary +   2354 in 00:00:30 =   78.4/s Avg:  6269 Min:     0 Max: 11084 Err:  1255 (53.31%) Active: 500 Started: 500 Finished: 0
+summary =  19784 in 00:03:21 =   98.2/s Avg:  4804 Min:     0 Max: 11084 Err:  8269 (41.80%)
+[2026-08-25 01:14:14] [0;31m⚠ OOMKill detected: p2p-server-14 — last 50 lines saved to oomkill-events-20260825_010810.txt[0m
+[2026-08-25 01:14:14] [0;31m⚠ OOMKill detected: p2p-server-17 — last 50 lines saved to oomkill-events-20260825_010810.txt[0m
+[2026-08-25 01:14:15] [0;31m⚠ OOMKill detected: p2p-server-20 — last 50 lines saved to oomkill-events-20260825_010810.txt[0m
+[2026-08-25 01:14:15] [0;31m⚠ OOMKill detected: p2p-server-21 — last 50 lines saved to oomkill-events-20260825_010810.txt[0m
+[2026-08-25 01:14:15] [0;31m⚠ OOMKill detected: p2p-server-22 — last 50 lines saved to oomkill-events-20260825_010810.txt[0m
+[2026-08-25 01:14:15] [0;31m⚠ OOMKill detected: p2p-server-25 — last 50 lines saved to oomkill-events-20260825_010810.txt[0m
+[2026-08-25 01:14:15] [0;31m⚠ OOMKill detected: p2p-server-27 — last 50 lines saved to oomkill-events-20260825_010810.txt[0m
+[2026-08-25 01:14:16] [0;31m⚠ OOMKill detected: p2p-server-28 — last 50 lines saved to oomkill-events-20260825_010810.txt[0m
+[2026-08-25 01:14:16] [0;31m⚠ OOMKill detected: p2p-server-29 — last 50 lines saved to oomkill-events-20260825_010810.txt[0m
+[2026-08-25 01:14:16] [0;31m⚠ OOMKill detected: p2p-server-30 — last 50 lines saved to oomkill-events-20260825_010810.txt[0m
+[2026-08-25 01:14:16] [0;31m⚠ OOMKill detected: p2p-server-34 — last 50 lines saved to oomkill-events-20260825_010810.txt[0m
+[2026-08-25 01:14:16] [0;31m⚠ OOMKill detected: p2p-server-36 — last 50 lines saved to oomkill-events-20260825_010810.txt[0m
+[2026-08-25 01:14:17] [0;31m⚠ OOMKill detected: p2p-server-37 — last 50 lines saved to oomkill-events-20260825_010810.txt[0m
+[2026-08-25 01:14:17] [0;31m⚠ OOMKill detected: p2p-server-39 — last 50 lines saved to oomkill-events-20260825_010810.txt[0m
+[2026-08-25 01:14:17] [0;31m⚠ OOMKill detected: p2p-server-42 — last 50 lines saved to oomkill-events-20260825_010810.txt[0m
+[2026-08-25 01:14:17] [0;31m⚠ OOMKill detected: p2p-server-43 — last 50 lines saved to oomkill-events-20260825_010810.txt[0m
+[2026-08-25 01:14:18] [0;31m⚠ OOMKill detected: p2p-server-45 — last 50 lines saved to oomkill-events-20260825_010810.txt[0m
+[2026-08-25 01:14:18] [0;31m⚠ OOMKill detected: p2p-server-46 — last 50 lines saved to oomkill-events-20260825_010810.txt[0m
+[2026-08-25 01:14:18] [0;31m⚠ OOMKill detected: p2p-server-50 — last 50 lines saved to oomkill-events-20260825_010810.txt[0m
+[2026-08-25 01:14:18] [0;31m⚠ OOMKill detected: p2p-server-51 — last 50 lines saved to oomkill-events-20260825_010810.txt[0m
+[2026-08-25 01:14:18] [0;31m⚠ OOMKill detected: p2p-server-55 — last 50 lines saved to oomkill-events-20260825_010810.txt[0m
+[2026-08-25 01:14:19] [0;31m⚠ OOMKill detected: p2p-server-56 — last 50 lines saved to oomkill-events-20260825_010810.txt[0m
+[2026-08-25 01:14:19] [0;31m⚠ OOMKill detected: p2p-server-57 — last 50 lines saved to oomkill-events-20260825_010810.txt[0m
+[2026-08-25 01:14:19] [0;31m⚠ OOMKill detected: p2p-server-58 — last 50 lines saved to oomkill-events-20260825_010810.txt[0m
+[2026-08-25 01:14:19] [0;31m⚠ OOMKill detected: p2p-server-59 — last 50 lines saved to oomkill-events-20260825_010810.txt[0m
+[2026-08-25 01:14:19] [0;31m⚠ OOMKill detected: p2p-server-61 — last 50 lines saved to oomkill-events-20260825_010810.txt[0m
+[2026-08-25 01:14:20] [0;31m⚠ OOMKill detected: p2p-server-62 — last 50 lines saved to oomkill-events-20260825_010810.txt[0m
+[2026-08-25 01:14:20] [0;31m⚠ OOMKill detected: p2p-server-67 — last 50 lines saved to oomkill-events-20260825_010810.txt[0m
+[2026-08-25 01:14:20] [0;31m⚠ OOMKill detected: p2p-server-71 — last 50 lines saved to oomkill-events-20260825_010810.txt[0m
+[2026-08-25 01:14:20] [0;31m⚠ OOMKill detected: p2p-server-73 — last 50 lines saved to oomkill-events-20260825_010810.txt[0m
+[2026-08-25 01:14:21] [0;31m⚠ OOMKill detected: p2p-server-74 — last 50 lines saved to oomkill-events-20260825_010810.txt[0m
+[2026-08-25 01:14:21] [0;31m⚠ OOMKill detected: p2p-server-76 — last 50 lines saved to oomkill-events-20260825_010810.txt[0m
+[2026-08-25 01:14:21] [0;31m⚠ OOMKill detected: p2p-server-77 — last 50 lines saved to oomkill-events-20260825_010810.txt[0m
+[2026-08-25 01:14:21] [0;31m⚠ OOMKill detected: p2p-server-82 — last 50 lines saved to oomkill-events-20260825_010810.txt[0m
+[2026-08-25 01:14:21] [0;31m⚠ OOMKill detected: p2p-server-84 — last 50 lines saved to oomkill-events-20260825_010810.txt[0m
+[2026-08-25 01:14:22] [0;31m⚠ OOMKill detected: p2p-server-89 — last 50 lines saved to oomkill-events-20260825_010810.txt[0m
+[2026-08-25 01:14:22] [0;31m⚠ OOMKill detected: p2p-server-94 — last 50 lines saved to oomkill-events-20260825_010810.txt[0m
+[2026-08-25 01:14:22] [0;31m⚠ OOMKill detected: p2p-server-95 — last 50 lines saved to oomkill-events-20260825_010810.txt[0m
+summary +   3490 in 00:00:30 =  116.5/s Avg:  4206 Min:     0 Max: 10013 Err:  1542 (44.18%) Active: 500 Started: 500 Finished: 0
+summary =  23274 in 00:03:51 =  100.6/s Avg:  4714 Min:     0 Max: 11084 Err:  9811 (42.15%)
+[2026-08-25 01:14:53] [0;31m⚠ OOMKill detected: p2p-server-32 — last 50 lines saved to oomkill-events-20260825_010810.txt[0m
+[2026-08-25 01:14:53] [0;31m⚠ OOMKill detected: p2p-server-33 — last 50 lines saved to oomkill-events-20260825_010810.txt[0m
+[2026-08-25 01:14:53] [0;31m⚠ OOMKill detected: p2p-server-38 — last 50 lines saved to oomkill-events-20260825_010810.txt[0m
+[2026-08-25 01:14:53] [0;31m⚠ OOMKill detected: p2p-server-40 — last 50 lines saved to oomkill-events-20260825_010810.txt[0m
+[2026-08-25 01:14:53] [0;31m⚠ OOMKill detected: p2p-server-41 — last 50 lines saved to oomkill-events-20260825_010810.txt[0m
+[2026-08-25 01:14:54] [0;31m⚠ OOMKill detected: p2p-server-44 — last 50 lines saved to oomkill-events-20260825_010810.txt[0m
+[2026-08-25 01:14:54] [0;31m⚠ OOMKill detected: p2p-server-47 — last 50 lines saved to oomkill-events-20260825_010810.txt[0m
+[2026-08-25 01:14:54] [0;31m⚠ OOMKill detected: p2p-server-48 — last 50 lines saved to oomkill-events-20260825_010810.txt[0m
+[2026-08-25 01:14:54] [0;31m⚠ OOMKill detected: p2p-server-49 — last 50 lines saved to oomkill-events-20260825_010810.txt[0m
+[2026-08-25 01:14:54] [0;31m⚠ OOMKill detected: p2p-server-54 — last 50 lines saved to oomkill-events-20260825_010810.txt[0m
+[2026-08-25 01:14:55] [0;31m⚠ OOMKill detected: p2p-server-63 — last 50 lines saved to oomkill-events-20260825_010810.txt[0m
+[2026-08-25 01:14:55] [0;31m⚠ OOMKill detected: p2p-server-64 — last 50 lines saved to oomkill-events-20260825_010810.txt[0m
+[2026-08-25 01:14:55] [0;31m⚠ OOMKill detected: p2p-server-65 — last 50 lines saved to oomkill-events-20260825_010810.txt[0m
+[2026-08-25 01:14:55] [0;31m⚠ OOMKill detected: p2p-server-66 — last 50 lines saved to oomkill-events-20260825_010810.txt[0m
+[2026-08-25 01:14:56] [0;31m⚠ OOMKill detected: p2p-server-68 — last 50 lines saved to oomkill-events-20260825_010810.txt[0m
+[2026-08-25 01:14:56] [0;31m⚠ OOMKill detected: p2p-server-69 — last 50 lines saved to oomkill-events-20260825_010810.txt[0m
+[2026-08-25 01:14:56] [0;31m⚠ OOMKill detected: p2p-server-70 — last 50 lines saved to oomkill-events-20260825_010810.txt[0m
+[2026-08-25 01:14:56] [0;31m⚠ OOMKill detected: p2p-server-72 — last 50 lines saved to oomkill-events-20260825_010810.txt[0m
+[2026-08-25 01:14:57] [0;31m⚠ OOMKill detected: p2p-server-75 — last 50 lines saved to oomkill-events-20260825_010810.txt[0m
+[2026-08-25 01:14:57] [0;31m⚠ OOMKill detected: p2p-server-79 — last 50 lines saved to oomkill-events-20260825_010810.txt[0m
+[2026-08-25 01:14:57] [0;31m⚠ OOMKill detected: p2p-server-80 — last 50 lines saved to oomkill-events-20260825_010810.txt[0m
+[2026-08-25 01:14:57] [0;31m⚠ OOMKill detected: p2p-server-86 — last 50 lines saved to oomkill-events-20260825_010810.txt[0m
+[2026-08-25 01:14:57] [0;31m⚠ OOMKill detected: p2p-server-93 — last 50 lines saved to oomkill-events-20260825_010810.txt[0m
+summary +   3719 in 00:00:30 =  124.0/s Avg:  3920 Min:     0 Max: 11087 Err:  1293 (34.77%) Active: 500 Started: 500 Finished: 0
+summary =  26993 in 00:04:21 =  103.2/s Avg:  4605 Min:     0 Max: 11087 Err: 11104 (41.14%)
+[2026-08-25 01:15:28] [0;31m⚠ OOMKill detected: p2p-server-31 — last 50 lines saved to oomkill-events-20260825_010810.txt[0m
+[2026-08-25 01:15:28] [0;31m⚠ OOMKill detected: p2p-server-60 — last 50 lines saved to oomkill-events-20260825_010810.txt[0m
+[2026-08-25 01:15:28] [0;31m⚠ OOMKill detected: p2p-server-91 — last 50 lines saved to oomkill-events-20260825_010810.txt[0m
+summary +   3912 in 00:00:30 =  130.4/s Avg:  3489 Min:     0 Max: 11084 Err:  1691 (43.23%) Active: 500 Started: 500 Finished: 0
+summary =  30905 in 00:04:51 =  106.0/s Avg:  4463 Min:     0 Max: 11087 Err: 12795 (41.40%)
+summary +   1378 in 00:00:19 =   73.1/s Avg:  6116 Min:     0 Max: 11072 Err:   810 (58.78%) Active: 0 Started: 500 Finished: 500
+summary =  32283 in 00:05:10 =  104.0/s Avg:  4534 Min:     0 Max: 11087 Err: 13605 (42.14%)
+Tidying up ...    @ 2026 Aug 25 01:15:48 UTC (1787620548875)
+... end of run
+[2026-08-25 01:15:52] [0;32m✓ JMeter test completed[0m
+[2026-08-25 01:15:52] Intermediate JMeter stats saved: pbft-enhanced-20260825_010810-partial.csv
+
+[2026-08-25 01:15:52] [0;34mWaiting for transaction pool to drain...[0m
+[2026-08-25 01:15:52] Drain timeout: 180s (nodes=96, broken_shards=2)
+[2026-08-25 01:15:59] [0;31m⚠ OOMKill detected: p2p-server-12 — last 50 lines saved to oomkill-events-20260825_010810.txt[0m
+[2026-08-25 01:15:59] [0;31m⚠ OOMKill detected: p2p-server-81 — last 50 lines saved to oomkill-events-20260825_010810.txt[0m
+  Drain wait 5s — unassigned: 7453  Drain wait 10s — unassigned: 7576  Drain wait 15s — unassigned: 7606  Drain wait 20s — unassigned: 7611  Drain wait 25s — unassigned: 6896  Drain wait 30s — unassigned: 6994  Drain wait 35s — unassigned: 6994  Drain wait 40s — unassigned: 6995  Drain wait 45s — unassigned: 6995  Drain wait 50s — unassigned: -1  Drain wait 55s — unassigned: 5541  Drain wait 60s — unassigned: 7343  Drain wait 65s — unassigned: 7610  Drain wait 70s — unassigned: 7610  Drain wait 75s — unassigned: 7610  Drain wait 80s — unassigned: 7610  Drain wait 85s — unassigned: 7610
+[2026-08-25 01:18:19] [1;33mPool stalled at 7610 unassigned (not decreasing for 30s) — stopping drain wait[0m
+[2026-08-25 01:18:19] [0;34mStep 4: Collecting blockchain statistics...[0m
+[2026-08-25 01:18:46] [0;32m✓ Statistics collected[0m
+
+[2026-08-25 01:18:46] [0;34mStep 5: Parsing JMeter results...[0m
+[2026-08-25 01:18:46] [0;32m✓ Results parsed[0m
+
+[2026-08-25 01:18:46] [0;34m========================================[0m
+[2026-08-25 01:18:46] [0;34mPerformance Test Complete![0m
+[2026-08-25 01:18:46] [0;34m========================================[0m
+[2026-08-25 01:18:46] Results saved to:
+[2026-08-25 01:18:46]   - Summary: performance-results/pbft-enhanced-20260825_010810-summary.txt
+[2026-08-25 01:18:46]   - Stats: performance-results/pbft-enhanced-20260825_010810-stats.csv
+[2026-08-25 01:18:46]   - Raw data: performance-results/pbft-enhanced-20260825_010810.jtl
+[2026-08-25 01:18:46]   - HTML Report: performance-results/pbft-enhanced-20260825_010810-report/index.html
+
+[2026-08-25 01:18:46] [0;32mQuick Stats:[0m
+Metric,Value
+Total Samples,32283
+Average Response Time (ms),4534
+Success Rate (%),57.85
+Throughput (req/s),107.61
+Transactions Fired by Test,32283
+Total Blocks Created,0
+Transactions in Blocks,0
+Verification Transactions in Blocks,0
+Unassigned Transactions,0
+Verification Unassigned Transactions,0
+Drain Rate (%),0
+Median Round Time (ms),0.0
+Number of Nodes Used,96
+Nodes Per Shard,32
+Faulty Nodes,31
+Nodes Responded,0
+[2026-08-25 01:18:46] [0;34m========================================[0m
+[2026-08-25 01:18:46] 
+[1;33mCleaning up...[0m
+[2026-08-25 01:18:46] Pod states at cleanup:
+     16 CrashLoopBackOff
+      8 OOMKilled
+     73 Running
+[2026-08-25 01:18:47] Pod log harvest saved: performance-results/pod-logs-harvest-20260825_010810.txt
+[2026-08-25 01:18:47] Deleting Kubernetes resources...
+Warning: Immediate deletion does not wait for confirmation that the running resource has been terminated. The resource may continue to run on the cluster indefinitely.
+pod "p2p-server-0" force deleted from default namespace
+service "p2p-server-0" force deleted from default namespace
+pod "p2p-server-1" force deleted from default namespace
+service "p2p-server-1" force deleted from default namespace
+pod "p2p-server-2" force deleted from default namespace
+service "p2p-server-2" force deleted from default namespace
+pod "p2p-server-3" force deleted from default namespace
+service "p2p-server-3" force deleted from default namespace
+pod "p2p-server-4" force deleted from default namespace
+service "p2p-server-4" force deleted from default namespace
+pod "p2p-server-5" force deleted from default namespace
+service "p2p-server-5" force deleted from default namespace
+pod "p2p-server-6" force deleted from default namespace
+service "p2p-server-6" force deleted from default namespace
+pod "p2p-server-7" force deleted from default namespace
+service "p2p-server-7" force deleted from default namespace
+pod "p2p-server-8" force deleted from default namespace
+service "p2p-server-8" force deleted from default namespace
+pod "p2p-server-9" force deleted from default namespace
+service "p2p-server-9" force deleted from default namespace
+pod "p2p-server-10" force deleted from default namespace
+service "p2p-server-10" force deleted from default namespace
+pod "p2p-server-11" force deleted from default namespace
+service "p2p-server-11" force deleted from default namespace
+pod "p2p-server-12" force deleted from default namespace
+service "p2p-server-12" force deleted from default namespace
+pod "p2p-server-13" force deleted from default namespace
+service "p2p-server-13" force deleted from default namespace
+pod "p2p-server-14" force deleted from default namespace
+service "p2p-server-14" force deleted from default namespace
+pod "p2p-server-15" force deleted from default namespace
+service "p2p-server-15" force deleted from default namespace
+pod "p2p-server-16" force deleted from default namespace
+service "p2p-server-16" force deleted from default namespace
+pod "p2p-server-17" force deleted from default namespace
+service "p2p-server-17" force deleted from default namespace
+pod "p2p-server-18" force deleted from default namespace
+service "p2p-server-18" force deleted from default namespace
+pod "p2p-server-19" force deleted from default namespace
+service "p2p-server-19" force deleted from default namespace
+pod "p2p-server-20" force deleted from default namespace
+service "p2p-server-20" force deleted from default namespace
+pod "p2p-server-21" force deleted from default namespace
+service "p2p-server-21" force deleted from default namespace
+pod "p2p-server-22" force deleted from default namespace
+service "p2p-server-22" force deleted from default namespace
+pod "p2p-server-23" force deleted from default namespace
+service "p2p-server-23" force deleted from default namespace
+pod "p2p-server-24" force deleted from default namespace
+service "p2p-server-24" force deleted from default namespace
+pod "p2p-server-25" force deleted from default namespace
+service "p2p-server-25" force deleted from default namespace
+pod "p2p-server-26" force deleted from default namespace
+service "p2p-server-26" force deleted from default namespace
+pod "p2p-server-27" force deleted from default namespace
+service "p2p-server-27" force deleted from default namespace
+pod "p2p-server-28" force deleted from default namespace
+service "p2p-server-28" force deleted from default namespace
+pod "p2p-server-29" force deleted from default namespace
+service "p2p-server-29" force deleted from default namespace
+pod "p2p-server-30" force deleted from default namespace
+service "p2p-server-30" force deleted from default namespace
+pod "p2p-server-31" force deleted from default namespace
+service "p2p-server-31" force deleted from default namespace
+pod "p2p-server-32" force deleted from default namespace
+service "p2p-server-32" force deleted from default namespace
+pod "p2p-server-33" force deleted from default namespace
+service "p2p-server-33" force deleted from default namespace
+pod "p2p-server-34" force deleted from default namespace
+service "p2p-server-34" force deleted from default namespace
+pod "p2p-server-35" force deleted from default namespace
+service "p2p-server-35" force deleted from default namespace
+pod "p2p-server-36" force deleted from default namespace
+service "p2p-server-36" force deleted from default namespace
+pod "p2p-server-37" force deleted from default namespace
+service "p2p-server-37" force deleted from default namespace
+pod "p2p-server-38" force deleted from default namespace
+service "p2p-server-38" force deleted from default namespace
+pod "p2p-server-39" force deleted from default namespace
+service "p2p-server-39" force deleted from default namespace
+pod "p2p-server-40" force deleted from default namespace
+service "p2p-server-40" force deleted from default namespace
+pod "p2p-server-41" force deleted from default namespace
+service "p2p-server-41" force deleted from default namespace
+pod "p2p-server-42" force deleted from default namespace
+service "p2p-server-42" force deleted from default namespace
+pod "p2p-server-43" force deleted from default namespace
+service "p2p-server-43" force deleted from default namespace
+pod "p2p-server-44" force deleted from default namespace
+service "p2p-server-44" force deleted from default namespace
+pod "p2p-server-45" force deleted from default namespace
+service "p2p-server-45" force deleted from default namespace
+pod "p2p-server-46" force deleted from default namespace
+service "p2p-server-46" force deleted from default namespace
+pod "p2p-server-47" force deleted from default namespace
+service "p2p-server-47" force deleted from default namespace
+pod "p2p-server-48" force deleted from default namespace
+service "p2p-server-48" force deleted from default namespace
+pod "p2p-server-49" force deleted from default namespace
+service "p2p-server-49" force deleted from default namespace
+pod "p2p-server-50" force deleted from default namespace
+service "p2p-server-50" force deleted from default namespace
+pod "p2p-server-51" force deleted from default namespace
+service "p2p-server-51" force deleted from default namespace
+pod "p2p-server-52" force deleted from default namespace
+service "p2p-server-52" force deleted from default namespace
+pod "p2p-server-53" force deleted from default namespace
+service "p2p-server-53" force deleted from default namespace
+pod "p2p-server-54" force deleted from default namespace
+service "p2p-server-54" force deleted from default namespace
+pod "p2p-server-55" force deleted from default namespace
+service "p2p-server-55" force deleted from default namespace
+pod "p2p-server-56" force deleted from default namespace
+service "p2p-server-56" force deleted from default namespace
+pod "p2p-server-57" force deleted from default namespace
+service "p2p-server-57" force deleted from default namespace
+pod "p2p-server-58" force deleted from default namespace
+service "p2p-server-58" force deleted from default namespace
+pod "p2p-server-59" force deleted from default namespace
+service "p2p-server-59" force deleted from default namespace
+pod "p2p-server-60" force deleted from default namespace
+service "p2p-server-60" force deleted from default namespace
+pod "p2p-server-61" force deleted from default namespace
+service "p2p-server-61" force deleted from default namespace
+pod "p2p-server-62" force deleted from default namespace
+service "p2p-server-62" force deleted from default namespace
+pod "p2p-server-63" force deleted from default namespace
+service "p2p-server-63" force deleted from default namespace
+pod "p2p-server-64" force deleted from default namespace
+service "p2p-server-64" force deleted from default namespace
+pod "p2p-server-65" force deleted from default namespace
+service "p2p-server-65" force deleted from default namespace
+pod "p2p-server-66" force deleted from default namespace
+service "p2p-server-66" force deleted from default namespace
+pod "p2p-server-67" force deleted from default namespace
+service "p2p-server-67" force deleted from default namespace
+pod "p2p-server-68" force deleted from default namespace
+service "p2p-server-68" force deleted from default namespace
+pod "p2p-server-69" force deleted from default namespace
+service "p2p-server-69" force deleted from default namespace
+pod "p2p-server-70" force deleted from default namespace
+service "p2p-server-70" force deleted from default namespace
+pod "p2p-server-71" force deleted from default namespace
+service "p2p-server-71" force deleted from default namespace
+pod "p2p-server-72" force deleted from default namespace
+service "p2p-server-72" force deleted from default namespace
+pod "p2p-server-73" force deleted from default namespace
+service "p2p-server-73" force deleted from default namespace
+pod "p2p-server-74" force deleted from default namespace
+service "p2p-server-74" force deleted from default namespace
+pod "p2p-server-75" force deleted from default namespace
+service "p2p-server-75" force deleted from default namespace
+pod "p2p-server-76" force deleted from default namespace
+service "p2p-server-76" force deleted from default namespace
+pod "p2p-server-77" force deleted from default namespace
+service "p2p-server-77" force deleted from default namespace
+pod "p2p-server-78" force deleted from default namespace
+service "p2p-server-78" force deleted from default namespace
+pod "p2p-server-79" force deleted from default namespace
+service "p2p-server-79" force deleted from default namespace
+pod "p2p-server-80" force deleted from default namespace
+service "p2p-server-80" force deleted from default namespace
+pod "p2p-server-81" force deleted from default namespace
+service "p2p-server-81" force deleted from default namespace
+pod "p2p-server-82" force deleted from default namespace
+service "p2p-server-82" force deleted from default namespace
+pod "p2p-server-83" force deleted from default namespace
+service "p2p-server-83" force deleted from default namespace
+pod "p2p-server-84" force deleted from default namespace
+service "p2p-server-84" force deleted from default namespace
+pod "p2p-server-85" force deleted from default namespace
+service "p2p-server-85" force deleted from default namespace
+pod "p2p-server-86" force deleted from default namespace
+service "p2p-server-86" force deleted from default namespace
+pod "p2p-server-87" force deleted from default namespace
+service "p2p-server-87" force deleted from default namespace
+pod "p2p-server-88" force deleted from default namespace
+service "p2p-server-88" force deleted from default namespace
+pod "p2p-server-89" force deleted from default namespace
+service "p2p-server-89" force deleted from default namespace
+pod "p2p-server-90" force deleted from default namespace
+service "p2p-server-90" force deleted from default namespace
+pod "p2p-server-91" force deleted from default namespace
+service "p2p-server-91" force deleted from default namespace
+pod "p2p-server-92" force deleted from default namespace
+service "p2p-server-92" force deleted from default namespace
+pod "p2p-server-93" force deleted from default namespace
+service "p2p-server-93" force deleted from default namespace
+pod "p2p-server-94" force deleted from default namespace
+service "p2p-server-94" force deleted from default namespace
+pod "p2p-server-95" force deleted from default namespace
+service "p2p-server-95" force deleted from default namespace
+pod "core-server" force deleted from default namespace
+service "core-server" force deleted from default namespace
+[2026-08-25 01:19:26] Waiting for pods to fully terminate...
+[2026-08-25 01:19:26] [0;32m✓ All blockchain pods removed[0m
+[2026-08-25 01:19:26] [0;32mCleanup complete[0m

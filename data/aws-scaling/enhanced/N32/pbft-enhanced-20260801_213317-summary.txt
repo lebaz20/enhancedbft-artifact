@@ -1,0 +1,71 @@
+PBFT-Enhanced Performance Test Results
+========================================
+Timestamp: 20260801_213317
+Configuration:
+  - Number of Nodes: 32
+  - Transaction Threshold: 4000
+  - Faulty Nodes: 0
+  - CPU Limit: 0.85
+
+JMeter Configuration:
+  - Threads: 500
+  - Ramp-up: 5s
+  - Ramp-down: 0s
+  - Duration: 300s (active: 300s)
+  - Target Throughput: 60000 req/s
+
+Blockchain Statistics (By Shard):
+========================================
+Shard SUBSET1 (max across shard nodes):
+----------------------------------------
+  Normal Blocks Created: 6
+  Verification Blocks Created: 0
+  Normal Transactions in Blocks: 22118
+  Verification Transactions in Blocks: 0
+  Unassigned Transactions: 0
+  Verification Unassigned Transactions: 0
+
+Shard SUBSET2 (max across shard nodes):
+----------------------------------------
+  Normal Blocks Created: 6
+  Verification Blocks Created: 0
+  Normal Transactions in Blocks: 23870
+  Verification Transactions in Blocks: 0
+  Unassigned Transactions: 0
+  Verification Unassigned Transactions: 0
+
+Shard SUBSET3 (max across shard nodes):
+----------------------------------------
+  Normal Blocks Created: 5
+  Verification Blocks Created: 0
+  Normal Transactions in Blocks: 20000
+  Verification Transactions in Blocks: 0
+  Unassigned Transactions: 6242
+  Verification Unassigned Transactions: 0
+
+Shard SUBSET4 (max across shard nodes):
+----------------------------------------
+  Normal Blocks Created: 6
+  Verification Blocks Created: 0
+  Normal Transactions in Blocks: 23287
+  Verification Transactions in Blocks: 0
+  Unassigned Transactions: 0
+  Verification Unassigned Transactions: 0
+
+========================================
+TOTAL (All Shards):
+========================================
+Total Normal Blocks Created: 23
+Total Transactions in Blocks: 89275
+Total Verification Transactions in Blocks: 0
+Total Unassigned Transactions: 6242
+Total Verification Unassigned Transactions: 0
+Nodes Responded: 29
+Nodes Total: 32
+WARNING: 3 node(s) did not respond
+
+UNASSIGNED TRANSACTION REASONS:
+  - Transaction pool not full (threshold: 4000)
+  - Consensus not reached for pending blocks
+  - Block creation in progress
+  - Test duration ended before block finalization

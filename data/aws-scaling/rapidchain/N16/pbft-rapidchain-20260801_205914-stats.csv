@@ -1,0 +1,18 @@
+Metric,Value
+Total Samples,72088
+Average Response Time (ms),1740
+Success Rate (%),88.26
+Throughput (req/s),240.29
+Transactions Fired by Test,72088
+Total Blocks Created,11
+Transactions in Blocks,44000
+Unassigned Transactions,21124
+Drain Rate (%),61.03
+Avg Transactions per Block,4000.00
+Total Test Elapsed (s),373
+Blockchain TX Rate (tx/s),117.96
+Effective TX Rate (tx/s),72.00
+Number of Nodes Used,16
+Nodes Per Shard,4
+Faulty Nodes,0
+Nodes Responded,15

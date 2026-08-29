@@ -1,0 +1,53 @@
+PBFT-Enhanced Performance Test Results
+========================================
+Timestamp: 20260801_234244
+Configuration:
+  - Number of Nodes: 64
+  - Transaction Threshold: 4000
+  - Faulty Nodes: 0
+  - CPU Limit: 1.20
+
+JMeter Configuration:
+  - Threads: 500
+  - Ramp-up: 5s
+  - Ramp-down: 0s
+  - Duration: 300s (active: 300s)
+  - Target Throughput: 60000 req/s
+
+Blockchain Statistics (By Shard):
+========================================
+Shard SUBSET1 (max across shard nodes):
+----------------------------------------
+  Normal Blocks Created: 5
+  Verification Blocks Created: 0
+  Normal Transactions in Blocks: 3392
+  Verification Transactions in Blocks: 0
+  Unassigned Transactions: 68
+  Verification Unassigned Transactions: 0
+
+Shard SUBSET3 (max across shard nodes):
+----------------------------------------
+  Normal Blocks Created: 4
+  Verification Blocks Created: 0
+  Normal Transactions in Blocks: 4390
+  Verification Transactions in Blocks: 0
+  Unassigned Transactions: 50
+  Verification Unassigned Transactions: 0
+
+========================================
+TOTAL (All Shards):
+========================================
+Total Normal Blocks Created: 9
+Total Transactions in Blocks: 7782
+Total Verification Transactions in Blocks: 0
+Total Unassigned Transactions: 118
+Total Verification Unassigned Transactions: 0
+Nodes Responded: 25
+Nodes Total: 64
+WARNING: 39 node(s) did not respond
+
+UNASSIGNED TRANSACTION REASONS:
+  - Transaction pool not full (threshold: 4000)
+  - Consensus not reached for pending blocks
+  - Block creation in progress
+  - Test duration ended before block finalization

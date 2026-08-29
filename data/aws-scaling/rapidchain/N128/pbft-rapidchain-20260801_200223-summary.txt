@@ -1,0 +1,69 @@
+PBFT-RapidChain Performance Test Results
+==========================================
+Timestamp: 20260801_200223
+Configuration:
+  - Number of Nodes: 128
+  - Transaction Threshold: 4000
+  - Block Threshold: 1
+  - Committee Shard: 1
+  - Faulty Nodes: 0
+  - CPU Limit: 1.50
+
+JMeter Configuration:
+  - Threads: 500
+  - Ramp-up: 5s
+  - Ramp-down: 0s
+  - Duration: 300s (active: 300s)
+  - Target Throughput: 60000 req/s
+
+Total Transactions Fired by Test: 0
+
+Blockchain Statistics (By Shard):
+==========================================
+Shard SUBSET1 (max across shard nodes):
+----------------------------------------
+  Blocks Created: 0
+  Transactions in Blocks: 0
+  Unassigned Transactions: 0
+
+Shard SUBSET2 (max across shard nodes):
+----------------------------------------
+  Blocks Created: 0
+  Transactions in Blocks: 0
+  Unassigned Transactions: 0
+
+Shard SUBSET3 (max across shard nodes):
+----------------------------------------
+  Blocks Created: 0
+  Transactions in Blocks: 0
+  Unassigned Transactions: 0
+
+Shard SUBSET4 (max across shard nodes):
+----------------------------------------
+  Blocks Created: 0
+  Transactions in Blocks: 0
+  Unassigned Transactions: 0
+
+Shard SUBSET5 (max across shard nodes):
+----------------------------------------
+  Blocks Created: 0
+  Transactions in Blocks: 0
+  Unassigned Transactions: 0
+
+==========================================
+TOTAL (All Shards):
+==========================================
+Total Blocks Created: 0
+Total Transactions in Blocks: 0
+Total Unassigned Transactions: 0
+Nodes Responded: 49
+Nodes Total: 128
+WARNING: 79 node(s) did not respond — stats may be incomplete
+
+UNASSIGNED TRANSACTION REASONS:
+  - Transaction pool not full (threshold: 4000) — includes inflight (assigned-to-block) transactions
+  - Block pool not full (block threshold: 1)
+  - Waiting for committee validation
+  - Consensus not reached for pending blocks
+  - Block creation in progress
+  - Test duration ended before block finalization

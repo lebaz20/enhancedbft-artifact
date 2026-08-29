@@ -1,0 +1,193 @@
+[2026-08-01 21:50:18] [0;34m========================================[0m
+[2026-08-01 21:50:18] [0;34mPBFT-RapidChain Performance Test[0m
+[2026-08-01 21:50:18] [0;34m========================================[0m
+[2026-08-01 21:50:18] Nodes: 32
+[2026-08-01 21:50:18] Transaction Threshold: 4000
+[2026-08-01 21:50:18] Block Threshold: 1
+[2026-08-01 21:50:18] Committee Shard: 1
+[2026-08-01 21:50:18] JMeter Threads: 500
+[2026-08-01 21:50:18] Test Duration: 300s
+[2026-08-01 21:50:18] [0;34m========================================[0m
+
+[2026-08-01 21:50:18] [0;34mStep 1: Starting blockchain (using start.sh)...[0m
+[0;34m========================================[0m
+[0;34mStarting PBFT-RapidChain Blockchain[0m
+[0;34m========================================[0m
+
+[0;34mStep 1: Building Docker images...[0m
+[0;32m✓ Docker images built[0m
+
+[0;34mStep 2: Generating configuration...[0m
+  Nodes: 32
+  Transaction Threshold: 4000
+  Block Threshold: 1
+  Committee Shard: 1
+  Faulty Nodes: 0
+  CPU Limit: 0.85
+  Default TTL: 6
+[LOG] 14,28,4,1,30,26,11,7,20,16,9,25,6,2,12,21,23,13,5,29,0,22,15,17,24,19,18,8,31,10,27,3 
+[LOG] Subset PBFT nodes: 5015,5029,5005,5002,5031,5027,5012,5008
+[LOG] Subset PBFT nodes: 5021,5017,5010,5026,5007,5003,5013,5022
+[LOG] Subset PBFT nodes: 5024,5014,5006,5030,5001,5023,5016,5018
+[LOG] Subset PBFT nodes: 5025,5020,5019,5009,5032,5011,5028,5004
+[0;32m✓ Configuration generated[0m
+
+[0;34mStep 3: Deploying to Kubernetes...[0m
+[2026-08-01 21:50:19] Deleting existing Kubernetes resources...
+Warning: Immediate deletion does not wait for confirmation that the running resource has been terminated. The resource may continue to run on the cluster indefinitely.
+[2026-08-01 21:50:30] Applying Kubernetes configuration (batched)...
+  batch 0: 2 docs → batch-000.yml
+  batch 1: 40 docs → batch-001.yml
+  batch 2: 24 docs → batch-002.yml
+[2026-08-01 21:50:30] Applying batch-000.yml...
+  waiting 15s before next batch...
+[2026-08-01 21:50:45] Applying batch-001.yml...
+  waiting 15s before next batch...
+[2026-08-01 21:51:01] Applying batch-002.yml...
+  Applied 66 resources across 3 batches
+[0;32m✓ Deployed to Kubernetes[0m
+
+[2026-08-01 21:51:02] Kubernetes deployment complete
+[0;34mStep 4: Waiting for pods to be ready...[0m
+[2026-08-01 21:51:02] Waiting for all 33 pods to be Running...
+  Waiting... 2s — Running: 21/33 (63%) | Pending=0 Creating=0NAME            READY   STATUS    RESTARTS   AGE
+core-server     1/1     Running   0          35s
+p2p-server-0    1/1     Running   0          19s
+p2p-server-1    1/1     Running   0          19s
+p2p-server-10   1/1     Running   0          19s
+p2p-server-11   1/1     Running   0          19s
+p2p-server-12   1/1     Running   0          19s
+p2p-server-13   1/1     Running   0          19s
+p2p-server-14   1/1     Running   0          19s
+p2p-server-15   1/1     Running   0          19s
+p2p-server-16   1/1     Running   0          19s
+p2p-server-17   1/1     Running   0          19s
+p2p-server-18   1/1     Running   0          19s
+p2p-server-19   1/1     Running   0          19s
+p2p-server-2    1/1     Running   0          19s
+p2p-server-20   0/1     Running   0          4s
+p2p-server-21   0/1     Running   0          4s
+p2p-server-22   0/1     Running   0          4s
+p2p-server-23   0/1     Running   0          4s
+p2p-server-24   0/1     Running   0          4s
+p2p-server-25   0/1     Running   0          4s
+p2p-server-26   0/1     Running   0          4s
+p2p-server-27   0/1     Running   0          4s
+p2p-server-28   0/1     Running   0          4s
+p2p-server-29   0/1     Running   0          4s
+p2p-server-3    1/1     Running   0          19s
+p2p-server-30   0/1     Running   0          3s
+p2p-server-31   0/1     Running   0          3s
+p2p-server-4    1/1     Running   0          19s
+p2p-server-5    1/1     Running   0          19s
+p2p-server-6    1/1     Running   0          19s
+p2p-server-7    1/1     Running   0          19s
+p2p-server-8    1/1     Running   0          19s
+p2p-server-9    1/1     Running   0          19s
+[0;32mAll 33/33 pods running[0m
+
+[2026-08-01 21:51:05] All 33 pods ready
+[0;32mStep 5: Skipping port forwarding (hostNetwork mode)[0m
+
+[0;34m========================================[0m
+[0;32mBlockchain is running![0m
+[0;34m========================================[0m
+Diagnostic log streaming to server.log (core + healthy shard + dead shard)
+
+  Pods: core-server p2p-server-0 p2p-server-5 p2p-server-13 p2p-server-15 p2p-server-17 p2p-server-22 p2p-server-23
+
+[2026-08-01 21:51:05] [0;32m✓ Blockchain deployed and ready[0m
+
+[2026-08-01 21:51:05] [0;34mStep 2: Waiting for all nodes to be ready...[0m
+[2026-08-01 21:51:16] [Health] Ready: 20/32 (62%) | Need: all 32 | 10s
+[2026-08-01 21:51:17] [0;32m✓ All 32/32 nodes are ready (100%)[0m
+
+[2026-08-01 21:51:17] [0;34mSetting up socat forwarders (multi-EC2 hostNetwork bridge)...[0m
+[2026-08-01 21:51:25]   [0;32m✓ 31/32 socat forwarders active[0m
+[2026-08-01 21:51:25] Skipping port-forwards (hostNetwork mode — pods bind directly to host ports)
+[2026-08-01 21:51:26] Diagnostic log streaming: core-server p2p-server-0 p2p-server-5 p2p-server-13
+[2026-08-01 21:51:26] [0;34mStep 3: Running JMeter performance test...[0m
+[2026-08-01 21:51:26]   Duration: 300s (active load: 300s + ramp-down: 0s)
+[2026-08-01 21:51:26]   Threads: 500
+[2026-08-01 21:51:26]   Ramp-up: 5s
+[2026-08-01 21:51:26]   Ramp-down: 0s
+
+WARN StatusConsoleListener The use of package scanning to locate plugins is deprecated and will be removed in a future release
+WARN StatusConsoleListener The use of package scanning to locate plugins is deprecated and will be removed in a future release
+WARN StatusConsoleListener The use of package scanning to locate plugins is deprecated and will be removed in a future release
+WARN StatusConsoleListener The use of package scanning to locate plugins is deprecated and will be removed in a future release
+Aug 01, 2026 9:51:28 PM java.util.prefs.FileSystemPreferences$1 run
+INFO: Created user preferences directory.
+Creating summariser <summary>
+Created the tree successfully using Test Plan.jmx
+Starting standalone test @ 2026 Aug 1 21:51:28 UTC (1785621088711)
+Waiting for possible Shutdown/StopTestNow/HeapDump/ThreadDump message on port 4445
+summary +    114 in 00:00:01 =   95.0/s Avg:   178 Min:    16 Max:   547 Err:     0 (0.00%) Active: 115 Started: 115 Finished: 0
+summary +  14243 in 00:00:30 =  474.6/s Avg:   452 Min:     1 Max: 10235 Err:   295 (2.07%) Active: 500 Started: 500 Finished: 0
+summary =  14357 in 00:00:31 =  460.0/s Avg:   449 Min:     1 Max: 10235 Err:   295 (2.05%)
+summary +  14433 in 00:00:30 =  481.3/s Avg:   646 Min:     1 Max: 10232 Err:   656 (4.55%) Active: 500 Started: 500 Finished: 0
+summary =  28790 in 00:01:01 =  470.4/s Avg:   548 Min:     1 Max: 10235 Err:   951 (3.30%)
+summary +  13834 in 00:00:30 =  461.1/s Avg:   762 Min:     1 Max: 14207 Err:   718 (5.19%) Active: 500 Started: 500 Finished: 0
+summary =  42624 in 00:01:31 =  467.4/s Avg:   617 Min:     1 Max: 14207 Err:  1669 (3.92%)
+summary +  12377 in 00:00:30 =  412.5/s Avg:   881 Min:     1 Max: 14175 Err:   657 (5.31%) Active: 500 Started: 500 Finished: 0
+summary =  55001 in 00:02:01 =  453.8/s Avg:   677 Min:     1 Max: 14207 Err:  2326 (4.23%)
+summary +   8399 in 00:00:30 =  280.0/s Avg:  1371 Min:     1 Max: 13119 Err:   733 (8.73%) Active: 500 Started: 500 Finished: 0
+summary =  63400 in 00:02:31 =  419.3/s Avg:   769 Min:     1 Max: 14207 Err:  3059 (4.82%)
+summary +   6369 in 00:00:30 =  212.3/s Avg:  1939 Min:     1 Max: 14200 Err:  1236 (19.41%) Active: 500 Started: 500 Finished: 0
+summary =  69769 in 00:03:01 =  385.0/s Avg:   876 Min:     1 Max: 14207 Err:  4295 (6.16%)
+summary +   6375 in 00:00:30 =  212.5/s Avg:  2009 Min:     0 Max: 14169 Err:  1184 (18.57%) Active: 500 Started: 500 Finished: 0
+summary =  76144 in 00:03:31 =  360.5/s Avg:   970 Min:     0 Max: 14207 Err:  5479 (7.20%)
+summary +   4382 in 00:00:30 =  146.1/s Avg:  3137 Min:     1 Max: 10091 Err:  1240 (28.30%) Active: 500 Started: 500 Finished: 0
+summary =  80526 in 00:04:01 =  333.9/s Avg:  1088 Min:     0 Max: 14207 Err:  6719 (8.34%)
+summary +   2684 in 00:00:31 =   86.1/s Avg:  3055 Min:     1 Max: 10276 Err:   684 (25.48%) Active: 500 Started: 500 Finished: 0
+summary =  83210 in 00:04:32 =  305.5/s Avg:  1152 Min:     0 Max: 14207 Err:  7403 (8.90%)
+summary +   1290 in 00:01:04 =   20.1/s Avg: 24826 Min:     2 Max: 76229 Err:   793 (61.47%) Active: 9 Started: 500 Finished: 491
+summary =  84500 in 00:05:37 =  251.0/s Avg:  1513 Min:     0 Max: 76229 Err:  8196 (9.70%)
+summary +      8 in 00:00:00 =   45.7/s Avg: 39392 Min: 10096 Max: 43694 Err:     8 (100.00%) Active: 0 Started: 500 Finished: 500
+summary =  84508 in 00:05:37 =  250.9/s Avg:  1517 Min:     0 Max: 76229 Err:  8204 (9.71%)
+Tidying up ...    @ 2026 Aug 1 21:57:05 UTC (1785621425576)
+... end of run
+[2026-08-01 21:57:16] [0;32m✓ JMeter test completed[0m
+
+[2026-08-01 21:57:16] [0;34mWaiting for transaction pool to drain...[0m
+  Drain wait 5s — unassigned: 11067  Drain wait 10s — unassigned: 11067  Drain wait 15s — unassigned: 11067  Drain wait 20s — unassigned: 11067
+[2026-08-01 21:58:17] [1;33mPool stalled at 11067 unassigned (±50 for 15s) — stopping drain wait[0m
+[2026-08-01 21:58:17] [0;34mStep 4: Collecting blockchain statistics...[0m
+[2026-08-01 22:30:20] [0;32m✓ Statistics collected[0m
+
+[2026-08-01 22:30:20] [0;34mStep 5: Parsing JMeter results...[0m
+[2026-08-01 22:30:21] [0;32m✓ Results parsed[0m
+
+[2026-08-01 22:30:21] [0;34m========================================[0m
+[2026-08-01 22:30:21] [0;34mPerformance Test Complete![0m
+[2026-08-01 22:30:21] [0;34m========================================[0m
+[2026-08-01 22:30:21] Results saved to:
+[2026-08-01 22:30:21]   - Summary: performance-results/pbft-rapidchain-20260801_215018-summary.txt
+[2026-08-01 22:30:21]   - Stats: performance-results/pbft-rapidchain-20260801_215018-stats.csv
+[2026-08-01 22:30:21]   - Raw data: performance-results/pbft-rapidchain-20260801_215018.jtl
+[2026-08-01 22:30:21]   - HTML Report: performance-results/pbft-rapidchain-20260801_215018-report/index.html
+
+[2026-08-01 22:30:21] [0;32mQuick Stats:[0m
+Metric,Value
+Total Samples,84508
+Average Response Time (ms),1517
+Success Rate (%),90.29
+Throughput (req/s),281.69
+Transactions Fired by Test,84508
+Total Blocks Created,8
+Transactions in Blocks,32000
+Unassigned Transactions,20730
+Drain Rate (%),37.86
+Avg Transactions per Block,4000.00
+Total Test Elapsed (s),411
+Blockchain TX Rate (tx/s),77.85
+Effective TX Rate (tx/s),29.48
+Number of Nodes Used,32
+Nodes Per Shard,8
+Faulty Nodes,0
+Nodes Responded,31
+[2026-08-01 22:30:21] [0;34m========================================[0m
+[2026-08-01 22:30:21] 
+[1;33mCleaning up...[0m
+[2026-08-01 22:30:21] Pod states at cleanup:
+[2026-08-01 22:30:23] Dumping per-pod logs (post-hoc, sequential)...

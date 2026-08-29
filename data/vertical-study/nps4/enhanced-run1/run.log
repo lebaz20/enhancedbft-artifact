@@ -1,0 +1,215 @@
+[2026-08-28 14:05:55] [0;34m========================================[0m
+[2026-08-28 14:05:55] [0;34mPBFT-Enhanced Performance Test[0m
+[2026-08-28 14:05:55] [0;34m========================================[0m
+[2026-08-28 14:05:55] Nodes: 16
+[2026-08-28 14:05:55] Transaction Threshold: 200
+[2026-08-28 14:05:55] JMeter Threads: 150
+[2026-08-28 14:05:55] Test Duration: 300s
+[2026-08-28 14:05:55] [0;34m========================================[0m
+
+[2026-08-28 14:05:55] [0;34mStep 1: Starting blockchain (using start.sh)...[0m
+[0;34m========================================[0m
+[0;34mStarting PBFT-Enhanced Blockchain[0m
+[0;34m========================================[0m
+
+[0;34mStep 1: Building Docker images...[0m
+[0;32m✓ Docker images built[0m
+
+[0;34mStep 2: Generating configuration...[0m
+  Nodes: 16
+  Transaction Threshold: 200
+  Faulty Nodes: 0
+  CPU Limit: 0.60
+  Default TTL: 6
+[LOG] 11,12,7,10,4,5,1,2,14,13,6,3,8,15,0,9 
+[LOG] Healthy subset indices: SUBSET1,SUBSET2,SUBSET3,SUBSET4
+[LOG] Subset PBFT nodes: 5012,5013,5008,5011
+[LOG] Subset PBFT nodes: 5005,5006,5002,5003
+[LOG] Subset PBFT nodes: 5015,5014,5007,5004
+[LOG] Subset PBFT nodes: 5009,5016,5001,5010
+[0;32m✓ Configuration generated[0m
+
+[0;34mStep 3: Deploying to Kubernetes...[0m
+[2026-08-28 14:05:55] Deleting existing Kubernetes resources...
+Warning: Immediate deletion does not wait for confirmation that the running resource has been terminated. The resource may continue to run on the cluster indefinitely.
+[2026-08-28 14:06:00] Applying Kubernetes configuration (batched)...
+  batch 0: 2 docs → batch-000.yml
+  batch 1: 32 docs → batch-001.yml
+[2026-08-28 14:06:00] Applying batch-000.yml...
+  waiting 15s before next batch...
+[2026-08-28 14:06:15] Applying batch-001.yml...
+  Applied 34 resources across 2 batches
+[0;32m✓ Deployed to Kubernetes[0m
+
+[2026-08-28 14:06:16] Kubernetes deployment complete
+[0;34mStep 4: Waiting for pods to be ready...[0m
+[2026-08-28 14:06:16] Waiting for all 17 pods to be Running...
+  Waiting... 2s — Running: 1/17 (5%) | Pending=0 Creating=0NAME            READY   STATUS    RESTARTS   AGE
+core-server     1/1     Running   0          19s
+p2p-server-0    0/1     Running   0          3s
+p2p-server-1    0/1     Running   0          3s
+p2p-server-10   0/1     Running   0          3s
+p2p-server-11   0/1     Running   0          3s
+p2p-server-12   0/1     Running   0          3s
+p2p-server-13   0/1     Running   0          3s
+p2p-server-14   0/1     Running   0          3s
+p2p-server-15   0/1     Running   0          3s
+p2p-server-2    0/1     Running   0          3s
+p2p-server-3    0/1     Running   0          3s
+p2p-server-4    0/1     Running   0          3s
+p2p-server-5    0/1     Running   0          3s
+p2p-server-6    0/1     Running   0          3s
+p2p-server-7    0/1     Running   0          3s
+p2p-server-8    0/1     Running   0          3s
+p2p-server-9    0/1     Running   0          3s
+[0;32mAll 17/17 pods running[0m
+
+[2026-08-28 14:06:19] All 17 pods ready
+[0;32mStep 5: Skipping port forwarding (hostNetwork mode)[0m
+
+[0;34m========================================[0m
+[0;32mBlockchain is running![0m
+[0;34m========================================[0m
+Diagnostic log streaming to server.log (core + healthy shard + dead shard)
+
+  Pods: core-server p2p-server-0 p2p-server-8 p2p-server-9
+
+[2026-08-28 14:06:19] [0;32m✓ Blockchain deployed and ready[0m
+
+[2026-08-28 14:06:19] [0;34mStep 2: Waiting for all nodes to be ready...[0m
+[2026-08-28 14:06:30] [Health] Ready: 0/16 (0%) | Need: all 16 | 10s
+[2026-08-28 14:06:30] [0;32m✓ All 16/16 nodes are ready (100%)[0m
+
+[2026-08-28 14:06:30] [0;34mSetting up socat forwarders (multi-EC2 hostNetwork bridge)...[0m
+[2026-08-28 14:06:36]   [0;32m✓ 16/16 socat forwarders active[0m
+[2026-08-28 14:06:36] Skipping port-forwards (hostNetwork mode — pods bind directly to host ports)
+[2026-08-28 14:06:37] Diagnostic log streaming: core-server p2p-server-0 p2p-server-8 p2p-server-9
+[2026-08-28 14:06:37] [0;34mStep 3: Running JMeter performance test...[0m
+[2026-08-28 14:06:37]   Duration: 300s (active load: 300s + ramp-down: 0s)
+[2026-08-28 14:06:37]   Threads: 150
+[2026-08-28 14:06:37]   Ramp-up: 5s
+[2026-08-28 14:06:37]   Ramp-down: 0s
+
+WARN StatusConsoleListener The use of package scanning to locate plugins is deprecated and will be removed in a future release
+WARN StatusConsoleListener The use of package scanning to locate plugins is deprecated and will be removed in a future release
+WARN StatusConsoleListener The use of package scanning to locate plugins is deprecated and will be removed in a future release
+WARN StatusConsoleListener The use of package scanning to locate plugins is deprecated and will be removed in a future release
+Aug 28, 2026 2:06:38 PM java.util.prefs.FileSystemPreferences$1 run
+INFO: Created user preferences directory.
+Creating summariser <summary>
+Created the tree successfully using Test Plan.jmx
+Starting standalone test @ 2026 Aug 28 14:06:39 UTC (1787925999539)
+Waiting for possible Shutdown/StopTestNow/HeapDump/ThreadDump message on port 4445
+summary +   5329 in 00:00:20 =  261.3/s Avg:   385 Min:     1 Max:  5624 Err:     0 (0.00%) Active: 150 Started: 150 Finished: 0
+summary +   8458 in 00:00:30 =  282.1/s Avg:   443 Min:     1 Max:  5003 Err:     0 (0.00%) Active: 150 Started: 150 Finished: 0
+summary =  13787 in 00:00:50 =  273.7/s Avg:   421 Min:     1 Max:  5624 Err:     0 (0.00%)
+summary +   9224 in 00:00:30 =  307.5/s Avg:   389 Min:     1 Max:  4956 Err:     0 (0.00%) Active: 150 Started: 150 Finished: 0
+summary =  23011 in 00:01:20 =  286.3/s Avg:   408 Min:     1 Max:  5624 Err:     0 (0.00%)
+summary +  10521 in 00:00:30 =  350.7/s Avg:   329 Min:     0 Max:  4623 Err:     0 (0.00%) Active: 150 Started: 150 Finished: 0
+summary =  33532 in 00:01:50 =  303.8/s Avg:   383 Min:     0 Max:  5624 Err:     0 (0.00%)
+summary +  14036 in 00:00:30 =  467.9/s Avg:   203 Min:     0 Max:  3346 Err:     0 (0.00%) Active: 150 Started: 150 Finished: 0
+summary =  47568 in 00:02:20 =  338.9/s Avg:   330 Min:     0 Max:  5624 Err:     0 (0.00%)
+summary +  14657 in 00:00:30 =  488.6/s Avg:   180 Min:     0 Max:  2667 Err:     0 (0.00%) Active: 150 Started: 150 Finished: 0
+summary =  62225 in 00:02:50 =  365.2/s Avg:   295 Min:     0 Max:  5624 Err:     0 (0.00%)
+summary +  14383 in 00:00:30 =  479.4/s Avg:   184 Min:     0 Max:  2834 Err:     0 (0.00%) Active: 150 Started: 150 Finished: 0
+summary =  76608 in 00:03:20 =  382.3/s Avg:   274 Min:     0 Max:  5624 Err:     0 (0.00%)
+summary +  14522 in 00:00:30 =  484.0/s Avg:   184 Min:     0 Max:  2856 Err:     0 (0.00%) Active: 150 Started: 150 Finished: 0
+summary =  91130 in 00:03:50 =  395.6/s Avg:   260 Min:     0 Max:  5624 Err:     0 (0.00%)
+summary +  14368 in 00:00:30 =  479.1/s Avg:   187 Min:     0 Max:  3407 Err:     0 (0.00%) Active: 150 Started: 150 Finished: 0
+summary = 105498 in 00:04:20 =  405.2/s Avg:   250 Min:     0 Max:  5624 Err:     0 (0.00%)
+summary +  13770 in 00:00:30 =  458.8/s Avg:   200 Min:     0 Max:  4987 Err:     0 (0.00%) Active: 150 Started: 150 Finished: 0
+summary = 119268 in 00:04:50 =  410.7/s Avg:   244 Min:     0 Max:  5624 Err:     0 (0.00%)
+summary +   4669 in 00:00:11 =  431.2/s Avg:   211 Min:     0 Max:  3159 Err:     0 (0.00%) Active: 0 Started: 150 Finished: 150
+summary = 123937 in 00:05:01 =  411.5/s Avg:   243 Min:     0 Max:  5624 Err:     0 (0.00%)
+Tidying up ...    @ 2026 Aug 28 14:11:40 UTC (1787926300840)
+... end of run
+[2026-08-28 14:11:47] [0;32m✓ JMeter test completed[0m
+[2026-08-28 14:11:47] Intermediate JMeter stats saved: pbft-enhanced-20260828_140555-partial.csv
+
+[2026-08-28 14:11:47] [0;34mWaiting for transaction pool to drain...[0m
+[2026-08-28 14:11:47] Drain timeout: 90s (nodes=16, broken_shards=0)
+  Drain wait 5s — unassigned: 8191  Drain wait 10s — unassigned: 8191  Drain wait 15s — unassigned: 8382  Drain wait 20s — unassigned: 8382  Drain wait 25s — unassigned: 8382  Drain wait 30s — unassigned: 8382  Drain wait 35s — unassigned: 8382
+[2026-08-28 14:12:23] [1;33mPool stalled at 8382 unassigned (not decreasing for 30s) — stopping drain wait[0m
+[2026-08-28 14:12:23] [0;34mStep 4: Collecting blockchain statistics...[0m
+[2026-08-28 14:12:23] [0;32m✓ Statistics collected[0m
+
+[2026-08-28 14:12:23] [0;34mStep 5: Parsing JMeter results...[0m
+[2026-08-28 14:12:23] [0;32m✓ Results parsed[0m
+
+[2026-08-28 14:12:23] [0;34m========================================[0m
+[2026-08-28 14:12:23] [0;34mPerformance Test Complete![0m
+[2026-08-28 14:12:23] [0;34m========================================[0m
+[2026-08-28 14:12:23] Results saved to:
+[2026-08-28 14:12:23]   - Summary: performance-results/pbft-enhanced-20260828_140555-summary.txt
+[2026-08-28 14:12:23]   - Stats: performance-results/pbft-enhanced-20260828_140555-stats.csv
+[2026-08-28 14:12:23]   - Raw data: performance-results/pbft-enhanced-20260828_140555.jtl
+[2026-08-28 14:12:23]   - HTML Report: performance-results/pbft-enhanced-20260828_140555-report/index.html
+
+[2026-08-28 14:12:23] [0;32mQuick Stats:[0m
+Metric,Value
+Total Samples,123937
+Average Response Time (ms),243
+Success Rate (%),100.00
+Throughput (req/s),413.12
+Transactions Fired by Test,123937
+Total Blocks Created,207
+Transactions in Blocks,38650
+Verification Transactions in Blocks,13
+Unassigned Transactions,12191
+Verification Unassigned Transactions,6
+Drain Rate (%),31.18
+Avg Transactions per Block,186.71
+Total Test Elapsed (s),346
+Blockchain TX Rate (tx/s),111.70
+Effective TX Rate (tx/s),34.83
+Per-Shard TX Rate (tx/s),27.92
+Median Round Time (ms),177.0
+Number of Nodes Used,16
+Nodes Per Shard,4
+Faulty Nodes,0
+Nodes Responded,16
+[2026-08-28 14:12:23] [0;34m========================================[0m
+[2026-08-28 14:12:23] 
+[1;33mCleaning up...[0m
+[2026-08-28 14:12:23] Pod states at cleanup:
+     17 Running
+[2026-08-28 14:12:24] Pod log harvest saved: performance-results/pod-logs-harvest-20260828_140555.txt
+[2026-08-28 14:12:24] Deleting Kubernetes resources...
+Warning: Immediate deletion does not wait for confirmation that the running resource has been terminated. The resource may continue to run on the cluster indefinitely.
+pod "p2p-server-0" force deleted from default namespace
+service "p2p-server-0" force deleted from default namespace
+pod "p2p-server-1" force deleted from default namespace
+service "p2p-server-1" force deleted from default namespace
+pod "p2p-server-2" force deleted from default namespace
+service "p2p-server-2" force deleted from default namespace
+pod "p2p-server-3" force deleted from default namespace
+service "p2p-server-3" force deleted from default namespace
+pod "p2p-server-4" force deleted from default namespace
+service "p2p-server-4" force deleted from default namespace
+pod "p2p-server-5" force deleted from default namespace
+service "p2p-server-5" force deleted from default namespace
+pod "p2p-server-6" force deleted from default namespace
+service "p2p-server-6" force deleted from default namespace
+pod "p2p-server-7" force deleted from default namespace
+service "p2p-server-7" force deleted from default namespace
+pod "p2p-server-8" force deleted from default namespace
+service "p2p-server-8" force deleted from default namespace
+pod "p2p-server-9" force deleted from default namespace
+service "p2p-server-9" force deleted from default namespace
+pod "p2p-server-10" force deleted from default namespace
+service "p2p-server-10" force deleted from default namespace
+pod "p2p-server-11" force deleted from default namespace
+service "p2p-server-11" force deleted from default namespace
+pod "p2p-server-12" force deleted from default namespace
+service "p2p-server-12" force deleted from default namespace
+pod "p2p-server-13" force deleted from default namespace
+service "p2p-server-13" force deleted from default namespace
+pod "p2p-server-14" force deleted from default namespace
+service "p2p-server-14" force deleted from default namespace
+pod "p2p-server-15" force deleted from default namespace
+service "p2p-server-15" force deleted from default namespace
+pod "core-server" force deleted from default namespace
+service "core-server" force deleted from default namespace
+[2026-08-28 14:12:30] Waiting for pods to fully terminate...
+[2026-08-28 14:12:30] [0;32m✓ All blockchain pods removed[0m
+[2026-08-28 14:12:30] [0;32mCleanup complete[0m

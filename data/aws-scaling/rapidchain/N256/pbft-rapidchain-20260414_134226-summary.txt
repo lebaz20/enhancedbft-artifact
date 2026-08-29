@@ -1,0 +1,423 @@
+PBFT-RapidChain Performance Test Results
+==========================================
+Timestamp: 20260414_134226
+Configuration:
+  - Number of Nodes: 256
+  - Transaction Threshold: 100
+  - Block Threshold: 22
+  - Committee Shard: 1
+  - Faulty Nodes: 85
+  - CPU Limit: 0.2
+
+JMeter Configuration:
+  - Threads: 440
+  - Ramp-up: 5s
+  - Ramp-down: 30s
+  - Duration: 100s (active: 70s)
+  - Target Throughput: 44000 req/s
+
+Total Transactions Fired by Test: 0
+
+Blockchain Statistics (By Shard):
+==========================================
+Shard SUBSET1 (max across shard nodes):
+----------------------------------------
+  Blocks Created: 0
+  Transactions in Blocks: 0
+  Unassigned Transactions: 419
+
+Shard SUBSET10 (max across shard nodes):
+----------------------------------------
+  Blocks Created: 0
+  Transactions in Blocks: 0
+  Unassigned Transactions: 799
+
+Shard SUBSET11 (max across shard nodes):
+----------------------------------------
+  Blocks Created: 0
+  Transactions in Blocks: 0
+  Unassigned Transactions: 158
+
+Shard SUBSET12 (max across shard nodes):
+----------------------------------------
+  Blocks Created: 0
+  Transactions in Blocks: 0
+  Unassigned Transactions: 294
+
+Shard SUBSET13 (max across shard nodes):
+----------------------------------------
+  Blocks Created: 0
+  Transactions in Blocks: 0
+  Unassigned Transactions: 208
+
+Shard SUBSET14 (max across shard nodes):
+----------------------------------------
+  Blocks Created: 0
+  Transactions in Blocks: 0
+  Unassigned Transactions: 420
+
+Shard SUBSET15 (max across shard nodes):
+----------------------------------------
+  Blocks Created: 0
+  Transactions in Blocks: 0
+  Unassigned Transactions: 167
+
+Shard SUBSET16 (max across shard nodes):
+----------------------------------------
+  Blocks Created: 0
+  Transactions in Blocks: 0
+  Unassigned Transactions: 707
+
+Shard SUBSET17 (max across shard nodes):
+----------------------------------------
+  Blocks Created: 0
+  Transactions in Blocks: 0
+  Unassigned Transactions: 379
+
+Shard SUBSET18 (max across shard nodes):
+----------------------------------------
+  Blocks Created: 0
+  Transactions in Blocks: 0
+  Unassigned Transactions: 584
+
+Shard SUBSET19 (max across shard nodes):
+----------------------------------------
+  Blocks Created: 0
+  Transactions in Blocks: 0
+  Unassigned Transactions: 798
+
+Shard SUBSET2 (max across shard nodes):
+----------------------------------------
+  Blocks Created: 0
+  Transactions in Blocks: 0
+  Unassigned Transactions: 252
+
+Shard SUBSET20 (max across shard nodes):
+----------------------------------------
+  Blocks Created: 0
+  Transactions in Blocks: 0
+  Unassigned Transactions: 406
+
+Shard SUBSET21 (max across shard nodes):
+----------------------------------------
+  Blocks Created: 0
+  Transactions in Blocks: 0
+  Unassigned Transactions: 504
+
+Shard SUBSET22 (max across shard nodes):
+----------------------------------------
+  Blocks Created: 0
+  Transactions in Blocks: 0
+  Unassigned Transactions: 673
+
+Shard SUBSET23 (max across shard nodes):
+----------------------------------------
+  Blocks Created: 0
+  Transactions in Blocks: 0
+  Unassigned Transactions: 504
+
+Shard SUBSET24 (max across shard nodes):
+----------------------------------------
+  Blocks Created: 0
+  Transactions in Blocks: 0
+  Unassigned Transactions: 214
+
+Shard SUBSET25 (max across shard nodes):
+----------------------------------------
+  Blocks Created: 0
+  Transactions in Blocks: 0
+  Unassigned Transactions: 375
+
+Shard SUBSET26 (max across shard nodes):
+----------------------------------------
+  Blocks Created: 0
+  Transactions in Blocks: 0
+  Unassigned Transactions: 252
+
+Shard SUBSET27 (max across shard nodes):
+----------------------------------------
+  Blocks Created: 0
+  Transactions in Blocks: 0
+  Unassigned Transactions: 295
+
+Shard SUBSET28 (max across shard nodes):
+----------------------------------------
+  Blocks Created: 0
+  Transactions in Blocks: 0
+  Unassigned Transactions: 674
+
+Shard SUBSET29 (max across shard nodes):
+----------------------------------------
+  Blocks Created: 0
+  Transactions in Blocks: 0
+  Unassigned Transactions: 210
+
+Shard SUBSET3 (max across shard nodes):
+----------------------------------------
+  Blocks Created: 0
+  Transactions in Blocks: 0
+  Unassigned Transactions: 290
+
+Shard SUBSET30 (max across shard nodes):
+----------------------------------------
+  Blocks Created: 0
+  Transactions in Blocks: 0
+  Unassigned Transactions: 504
+
+Shard SUBSET31 (max across shard nodes):
+----------------------------------------
+  Blocks Created: 0
+  Transactions in Blocks: 0
+  Unassigned Transactions: 252
+
+Shard SUBSET32 (max across shard nodes):
+----------------------------------------
+  Blocks Created: 0
+  Transactions in Blocks: 0
+  Unassigned Transactions: 577
+
+Shard SUBSET33 (max across shard nodes):
+----------------------------------------
+  Blocks Created: 0
+  Transactions in Blocks: 0
+  Unassigned Transactions: 462
+
+Shard SUBSET34 (max across shard nodes):
+----------------------------------------
+  Blocks Created: 0
+  Transactions in Blocks: 0
+  Unassigned Transactions: 700
+
+Shard SUBSET35 (max across shard nodes):
+----------------------------------------
+  Blocks Created: 0
+  Transactions in Blocks: 0
+  Unassigned Transactions: 506
+
+Shard SUBSET36 (max across shard nodes):
+----------------------------------------
+  Blocks Created: 0
+  Transactions in Blocks: 0
+  Unassigned Transactions: 463
+
+Shard SUBSET37 (max across shard nodes):
+----------------------------------------
+  Blocks Created: 0
+  Transactions in Blocks: 0
+  Unassigned Transactions: 337
+
+Shard SUBSET38 (max across shard nodes):
+----------------------------------------
+  Blocks Created: 0
+  Transactions in Blocks: 0
+  Unassigned Transactions: 712
+
+Shard SUBSET39 (max across shard nodes):
+----------------------------------------
+  Blocks Created: 0
+  Transactions in Blocks: 0
+  Unassigned Transactions: 421
+
+Shard SUBSET4 (max across shard nodes):
+----------------------------------------
+  Blocks Created: 0
+  Transactions in Blocks: 0
+  Unassigned Transactions: 505
+
+Shard SUBSET40 (max across shard nodes):
+----------------------------------------
+  Blocks Created: 0
+  Transactions in Blocks: 0
+  Unassigned Transactions: 287
+
+Shard SUBSET41 (max across shard nodes):
+----------------------------------------
+  Blocks Created: 0
+  Transactions in Blocks: 0
+  Unassigned Transactions: 546
+
+Shard SUBSET42 (max across shard nodes):
+----------------------------------------
+  Blocks Created: 0
+  Transactions in Blocks: 0
+  Unassigned Transactions: 337
+
+Shard SUBSET43 (max across shard nodes):
+----------------------------------------
+  Blocks Created: 0
+  Transactions in Blocks: 0
+  Unassigned Transactions: 756
+
+Shard SUBSET44 (max across shard nodes):
+----------------------------------------
+  Blocks Created: 10
+  Transactions in Blocks: 1000
+  Unassigned Transactions: 50
+
+Shard SUBSET45 (max across shard nodes):
+----------------------------------------
+  Blocks Created: 0
+  Transactions in Blocks: 0
+  Unassigned Transactions: 549
+
+Shard SUBSET46 (max across shard nodes):
+----------------------------------------
+  Blocks Created: 9
+  Transactions in Blocks: 900
+  Unassigned Transactions: 24
+
+Shard SUBSET47 (max across shard nodes):
+----------------------------------------
+  Blocks Created: 9
+  Transactions in Blocks: 900
+  Unassigned Transactions: 14
+
+Shard SUBSET48 (max across shard nodes):
+----------------------------------------
+  Blocks Created: 5
+  Transactions in Blocks: 500
+  Unassigned Transactions: 3
+
+Shard SUBSET49 (max across shard nodes):
+----------------------------------------
+  Blocks Created: 6
+  Transactions in Blocks: 600
+  Unassigned Transactions: 33
+
+Shard SUBSET5 (max across shard nodes):
+----------------------------------------
+  Blocks Created: 0
+  Transactions in Blocks: 0
+  Unassigned Transactions: 799
+
+Shard SUBSET50 (max across shard nodes):
+----------------------------------------
+  Blocks Created: 7
+  Transactions in Blocks: 700
+  Unassigned Transactions: 631
+
+Shard SUBSET51 (max across shard nodes):
+----------------------------------------
+  Blocks Created: 18
+  Transactions in Blocks: 1800
+  Unassigned Transactions: 120
+
+Shard SUBSET52 (max across shard nodes):
+----------------------------------------
+  Blocks Created: 8
+  Transactions in Blocks: 800
+  Unassigned Transactions: 18
+
+Shard SUBSET53 (max across shard nodes):
+----------------------------------------
+  Blocks Created: 1
+  Transactions in Blocks: 100
+  Unassigned Transactions: 1092
+
+Shard SUBSET54 (max across shard nodes):
+----------------------------------------
+  Blocks Created: 10
+  Transactions in Blocks: 1000
+  Unassigned Transactions: 10
+
+Shard SUBSET55 (max across shard nodes):
+----------------------------------------
+  Blocks Created: 6
+  Transactions in Blocks: 600
+  Unassigned Transactions: 109
+
+Shard SUBSET56 (max across shard nodes):
+----------------------------------------
+  Blocks Created: 12
+  Transactions in Blocks: 1200
+  Unassigned Transactions: 495
+
+Shard SUBSET57 (max across shard nodes):
+----------------------------------------
+  Blocks Created: 9
+  Transactions in Blocks: 900
+  Unassigned Transactions: 24
+
+Shard SUBSET58 (max across shard nodes):
+----------------------------------------
+  Blocks Created: 11
+  Transactions in Blocks: 1100
+  Unassigned Transactions: 76
+
+Shard SUBSET59 (max across shard nodes):
+----------------------------------------
+  Blocks Created: 8
+  Transactions in Blocks: 800
+  Unassigned Transactions: 27
+
+Shard SUBSET6 (max across shard nodes):
+----------------------------------------
+  Blocks Created: 0
+  Transactions in Blocks: 0
+  Unassigned Transactions: 584
+
+Shard SUBSET60 (max across shard nodes):
+----------------------------------------
+  Blocks Created: 6
+  Transactions in Blocks: 600
+  Unassigned Transactions: 72
+
+Shard SUBSET61 (max across shard nodes):
+----------------------------------------
+  Blocks Created: 10
+  Transactions in Blocks: 1000
+  Unassigned Transactions: 17
+
+Shard SUBSET62 (max across shard nodes):
+----------------------------------------
+  Blocks Created: 9
+  Transactions in Blocks: 900
+  Unassigned Transactions: 66
+
+Shard SUBSET63 (max across shard nodes):
+----------------------------------------
+  Blocks Created: 9
+  Transactions in Blocks: 900
+  Unassigned Transactions: 66
+
+Shard SUBSET64 (max across shard nodes):
+----------------------------------------
+  Blocks Created: 11
+  Transactions in Blocks: 1100
+  Unassigned Transactions: 36
+
+Shard SUBSET7 (max across shard nodes):
+----------------------------------------
+  Blocks Created: 0
+  Transactions in Blocks: 0
+  Unassigned Transactions: 85
+
+Shard SUBSET8 (max across shard nodes):
+----------------------------------------
+  Blocks Created: 0
+  Transactions in Blocks: 0
+  Unassigned Transactions: 330
+
+Shard SUBSET9 (max across shard nodes):
+----------------------------------------
+  Blocks Created: 0
+  Transactions in Blocks: 0
+  Unassigned Transactions: 630
+
+==========================================
+TOTAL (All Shards):
+==========================================
+Total Blocks Created: 174
+Total Transactions in Blocks: 17400
+Total Unassigned Transactions: 22907
+Nodes Responded: 171
+Nodes Total: 256
+WARNING: 85 node(s) did not respond — stats may be incomplete
+
+UNASSIGNED TRANSACTION REASONS:
+  - Transaction pool not full (threshold: 100) — includes inflight (assigned-to-block) transactions
+  - Block pool not full (block threshold: 22)
+  - Waiting for committee validation
+  - Consensus not reached for pending blocks
+  - Block creation in progress
+  - Test duration ended before block finalization

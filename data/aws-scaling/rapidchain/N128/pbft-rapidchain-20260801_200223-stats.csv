@@ -1,0 +1,14 @@
+Metric,Value
+Total Samples,78898
+Average Response Time (ms),1560
+Success Rate (%),84.65
+Throughput (req/s),262.99
+Transactions Fired by Test,78898
+Total Blocks Created,0
+Transactions in Blocks,0
+Unassigned Transactions,0
+Drain Rate (%),0
+Number of Nodes Used,128
+Nodes Per Shard,25
+Faulty Nodes,0
+Nodes Responded,49
